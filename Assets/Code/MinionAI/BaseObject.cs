@@ -8,6 +8,7 @@ public class BaseObject : MonoBehaviour
 {
     public float thisUnitHealth = 1;
     public unitSide thisUnitSide = 0;
+    public unitType thisUnitType = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -43,9 +44,17 @@ public class BaseObject : MonoBehaviour
         // instantiate vfx
 
         // destroy this unit at the very end
+        if (this.thisUnitType == 0) {
+
+        }
+        else
+        {
+
+        }
         Object.Destroy(this.gameObject);
     }
 }
 
 public enum damageType { standard, fire, water, air, earth }
 public enum unitSide { player, shadow }
+public enum unitType { tower, melee, ranged, siege }

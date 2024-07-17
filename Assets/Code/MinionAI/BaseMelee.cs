@@ -7,20 +7,22 @@ public class BaseMelee : BaseUnit
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Vector3 direction = transform.TransformDirection(this.thisUnitSide == unitSide.player? Vector3.right: Vector3.left) * range;
+        Vector3 direction = transform.TransformDirection(this.thisUnitSide == unitSide.player ? Vector3.right : Vector3.left) * range;
         Gizmos.DrawRay(transform.position, direction);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        foreach (BaseObject currentObject in FindObjectsOfType<BaseObject>()){
+        BaseObject[] allObjects = FindObjectsOfType<BaseObject>();
+        foreach (BaseObject currentObject in allObjects)
+        {
             if (currentObject != null && currentObject != this && currentObject.thisUnitSide != this.thisUnitSide)
             {
                 if (this.closestTarget == null)
@@ -48,8 +50,11 @@ public class BaseMelee : BaseUnit
             this.attackTimer += Time.deltaTime;
             if (this.attackTimer > this.attackEveryX)
             {
-                this.attackTimer = 0;
-                this.closestTarget.TakeDamage(1);
+                if (closestTarget != null)
+                {
+                    this.attackTimer = 0;
+                    this.closestTarget.TakeDamage(1);
+                }
             }
         }
     }
