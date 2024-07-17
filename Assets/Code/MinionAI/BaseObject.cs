@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -22,11 +23,27 @@ public class BaseObject : MonoBehaviour
 
     public void TakeDamage(int damage, damageType typeOfDamage = 0)
     {
-        if (typeOfDamage == damageType.standard) {
+        if (typeOfDamage == damageType.standard)
+        {
             thisUnitHealth -= damage;
         }
         else if (typeOfDamage == damageType.fire) { }
-        else return;
+        else return; // ignore other damage types temporarily
+
+        if (this.thisUnitHealth <= 0) {
+            HandleDeath();
+        }
+    }
+
+    // virtual to allow override
+    protected virtual void HandleDeath()
+    {
+        // play sounds
+        // play animations
+        // instantiate vfx
+
+        // destroy this unit at the very end
+        Object.Destroy(this.gameObject);
     }
 }
 

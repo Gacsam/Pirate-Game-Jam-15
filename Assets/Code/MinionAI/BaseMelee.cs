@@ -23,18 +23,18 @@ public class BaseMelee : BaseUnit
         foreach (BaseObject currentObject in FindObjectsOfType<BaseObject>()){
             if (currentObject != null && currentObject != this && currentObject.thisUnitSide != this.thisUnitSide)
             {
-                if (closestTarget == null)
+                if (this.closestTarget == null)
                 {
-                    this.closestTarget = currentObject.gameObject;
+                    this.closestTarget = currentObject;
                 }
-                closestTargetDistance = Vector3.Distance(this.gameObject.transform.position, this.closestTarget.transform.position);
-                if (currentObject.gameObject != closestTarget)
+                this.closestTargetDistance = Vector3.Distance(this.gameObject.transform.position, this.closestTarget.transform.position);
+                if (currentObject != this.closestTarget)
                 {
                     float distanceToObject = Vector3.Distance(this.gameObject.transform.position, currentObject.gameObject.transform.position);
 
-                    if (distanceToObject < closestTargetDistance)
+                    if (distanceToObject < this.closestTargetDistance)
                     {
-                        this.closestTarget = currentObject.gameObject;
+                        this.closestTarget = currentObject;
                     }
                 }
             }
@@ -42,6 +42,15 @@ public class BaseMelee : BaseUnit
         if (this.closestTargetDistance > range)
         {
             moveTowardsOppositeTower();
+        }
+        else
+        {
+            this.attackTimer += Time.deltaTime;
+            if (this.attackTimer > this.attackEveryX)
+            {
+                this.attackTimer = 0;
+                this.closestTarget.TakeDamage(1);
+            }
         }
     }
 }

@@ -5,9 +5,11 @@ using UnityEngine;
 public class BaseUnit : BaseObject
 {
     public float speed = 1;
-    public GameObject closestTarget = null;
-    public float closestTargetDistance = 9999;
+    protected BaseObject closestTarget = null;
+    protected float closestTargetDistance = 9999;
     public int range = 5;
+    protected float attackTimer = 0;
+    public float attackEveryX = 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,13 +22,6 @@ public class BaseUnit : BaseObject
     }
 
     public void moveTowardsOppositeTower() {
-        if (thisUnitSide == unitSide.player)
-        {
-            this.gameObject.transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        else
-        {
-            this.gameObject.transform.position += Vector3.left * speed * Time.deltaTime;
-        }
+        this.gameObject.transform.position += (thisUnitSide == unitSide.player? Vector3.right : Vector3.left) * speed * Time.deltaTime;
     }
 }
