@@ -47,9 +47,11 @@ public class BaseObject : MonoBehaviour
         if (this.thisUnitType == 0) {
 
         }
-        else
-        {
 
+        // if enemy && melee || ranged
+        else if (thisUnitSide == unitSide.shadow  && (thisUnitType == unitType.melee || thisUnitType == unitType.ranged))
+        {
+            ItemDrop.DropItem();
         }
         Object.Destroy(this.gameObject);
     }

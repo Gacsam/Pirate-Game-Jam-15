@@ -13,6 +13,7 @@ public class BaseMelee : BaseUnit
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
+        // move
         Vector3 direction = transform.TransformDirection(this.thisUnitSide == unitSide.player ? Vector3.right : Vector3.left) * range;
         Gizmos.DrawRay(transform.position, direction);
     }
@@ -21,6 +22,8 @@ public class BaseMelee : BaseUnit
     private void Update()
     {
         BaseObject[] allObjects = FindObjectsOfType<BaseObject>();
+
+        // find closest target
         foreach (BaseObject currentObject in allObjects)
         {
             if (currentObject != null && currentObject != this && currentObject.thisUnitSide != this.thisUnitSide)
@@ -41,10 +44,14 @@ public class BaseMelee : BaseUnit
                 }
             }
         }
+
+        // march !!!
         if (this.closestTargetDistance > range)
         {
             moveTowardsOppositeTower();
         }
+
+        // attack
         else
         {
             this.attackTimer += Time.deltaTime;
