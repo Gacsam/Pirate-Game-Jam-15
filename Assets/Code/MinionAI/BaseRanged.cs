@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseMelee : BaseUnit
+public class BaseRanged : BaseUnit
 {
     // Start is called before the first frame update
     void Start()
     {
-        // Melee unit so range is equal to melee
-        attackRange = distanceForMeleeCombat;
-        this.thisUnitType = unitType.melee;
+        this.thisUnitType = unitType.ranged;
     }
 
     public override void FightMelee()
@@ -21,7 +19,8 @@ public class BaseMelee : BaseUnit
             if (closestTarget != null)
             {
                 this.attackTimer = 0;
-                this.closestTarget.TakeDamage(this.baseDamage);
+                // Deal less damage as the ranged unit is stuck in melee, reduce by -X? Halve it?
+                this.closestTarget.TakeDamage(this.baseDamage / 2);
             }
         }
     }
@@ -29,6 +28,15 @@ public class BaseMelee : BaseUnit
     // This shouldn't be possible so throw a system error (fAnTaStIc suggestion VStudio)
     public override void FightRanged()
     {
-        throw new System.NotImplementedException();
+        // Add animations etc
+        this.attackTimer += Time.deltaTime;
+        if (this.attackTimer > this.attackEveryX)
+        {
+            if (closestTarget != null)
+            {
+                this.attackTimer = 0;
+                this.closestTarget.TakeDamage(this.baseDamage);
+            }
+        }
     }
 }
