@@ -24,6 +24,9 @@ public class Inventory : MonoBehaviour
     // update TMP (Gold)
     public void UpdateGold(){goldTMP.text = "Gold: " + gold.ToString();}
 
+    // used by shadow tower (we want same income)
+    public int GetIncome(){return income;}
+
     // could just access the public variables but this allows you to pass in enums :D
     public void AddInventory(itemType item){
         if(item == itemType.gold){gold++;}
