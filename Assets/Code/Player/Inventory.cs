@@ -9,6 +9,7 @@ public class Inventory : MonoBehaviour
     public int earth = 0;
 
 
+    // could just access the public variables but this allows you to pass in enums :D
     public void AddInventory(itemType item){
         if(item == itemType.gold){gold++;}
         else if(item == itemType.fire){fire++;}

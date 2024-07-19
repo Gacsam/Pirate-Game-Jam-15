@@ -6,7 +6,7 @@ public class ItemDrop : MonoBehaviour
     public static void DropItem(){
 
         // get player inventory
-        Inventory playerInventory = GameObject.Find("Player").GetComponent<Inventory>();
+        Inventory playerInventory = GameObject.Find("Player Tower").GetComponent<Inventory>();
 
         // random drop
         int amountOfItems = System.Enum.GetValues(typeof(itemType)).Length;
