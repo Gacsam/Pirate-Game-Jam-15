@@ -32,9 +32,4 @@ public class BaseMelee : BaseUnit
         throw new System.NotImplementedException();
     }
 
-    // This shouldn't be possible so throw a system error (fAnTaStIc suggestion VStudio)
-    public override void FightRanged()
-    {
-        throw new System.NotImplementedException();
-    }
 }

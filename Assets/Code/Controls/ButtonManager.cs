@@ -5,6 +5,7 @@ using UnityEngine;
 public class ButtonManager : MonoBehaviour
 {
     // rearrange the buttons
+    // NOT USED CUZ WE ONLY HAVE 1 MINION TYPE WE CAN SPAWN WITH BUTTON
     private GameObject[] buttonArray;
 
     void Start() {
