@@ -15,6 +15,9 @@ public class ItemDrop : MonoBehaviour
         // add to player inventory
         playerInventory.AddInventory(dropedItem);
 
+        // gold drop
+        playerInventory.AddInventory(itemType.gold,20);
+
         // drop with custom amount
         // playerInventory.AddInventory(dropedItem,10);
 
