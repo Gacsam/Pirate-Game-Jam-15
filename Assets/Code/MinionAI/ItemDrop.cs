@@ -5,6 +5,8 @@ public class ItemDrop : MonoBehaviour
 
     public static void DropItem(){
 
+        if(GameObject.Find("Player Tower") == null){return;}
+
         // get player inventory
         Inventory playerInventory = GameObject.Find("Player Tower").GetComponent<Inventory>();
 
