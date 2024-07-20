@@ -103,6 +103,8 @@ public class GameMan : MonoBehaviour
         }
     }
 
+
+
     // returns true/false based on whether unit was spawned, works for either side, maybe could look into 1v1
     // would be a cool thing to work with
     public bool SpawnUnit(UnitSide side, UnitType type)

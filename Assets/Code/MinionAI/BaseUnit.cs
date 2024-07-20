@@ -11,6 +11,18 @@ public abstract class BaseUnit : BaseObject
     public float currencyReward = 1;
     public float unitCost = 10;
 
+    public void Awake()
+    {
+        if(thisUnitSide == UnitSide.Alchemy)
+        {
+            GameMan.Alchemy.AddUnit(this);
+        }
+        else
+        {
+            GameMan.Shadow.AddUnit(this);
+        }
+    }
+
     public override void HandleCombat()
     {
         // Is the unit forced into melee combat

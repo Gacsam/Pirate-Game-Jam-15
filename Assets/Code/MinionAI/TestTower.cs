@@ -27,7 +27,7 @@ public class TestTower : BaseObject
     }
 
     // Hook this up into GameMan
-    public void Awake()
+    public void Start()
     {
         if (thisUnitSide == UnitSide.Alchemy)
         {

@@ -59,6 +59,12 @@ public class OpposingSide
         spawnedUnits.RemoveAt(0);
     }
 
+    // Add newest unit to end of list
+    public void AddUnit(BaseUnit newUnit)
+    {
+        spawnedUnits.Add(newUnit);
+    }
+
     // Add unit to the end of the stack
     public bool CreateNewUnit(UnitType type)
     {
@@ -68,7 +74,6 @@ public class OpposingSide
         // return the gameobject spawned here
         // if gameobject is null, return false for UI stuff / can't spawn
         //if not null, add it to and return true
-        spawnedUnits.Add(null);
         return false;
     }
 }
