@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2403598080476668721}
   - component: {fileID: -3940038748144221507}
   - component: {fileID: -5415002668336914776}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Fire shard
   m_TagString: Untagged
   m_Icon: {fileID: 0}

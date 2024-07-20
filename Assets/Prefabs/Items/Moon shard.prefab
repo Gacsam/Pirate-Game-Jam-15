@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -4217332259445410363}
   - component: {fileID: -5237545066524582870}
   - component: {fileID: -3975133688819306824}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Moon shard
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -33,7 +33,7 @@ public abstract class BaseUnit : BaseObject
         // Multiply direction by colliderSize to create a ray right at edge of character
         Vector3 offset = direction * colliderSize;
         // Create a raycast of X steps where you can't move further
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + offset, direction, distanceForMeleeCombat);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + offset, direction, distanceForMeleeCombat,~LayerMask.GetMask("Ignore Raycast"));
         // If there's nothing in front of us for X distance, say path blocked or nah
         return hit.collider != null;
     }

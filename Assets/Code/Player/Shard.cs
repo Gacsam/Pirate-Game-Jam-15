@@ -34,12 +34,12 @@ public class Shard : MonoBehaviour
 
     }
 
-    // we want to wait 1 frame
+    // we want to wait 2 frame
     // onTrigger runs before Update, so after button is released we need to wait for next frame
-    // Destroy runs before onTrigger hence, we have to wait till end of frame
+    // Destroy runs before onTrigger so once again, we have to wait till next frame
     IEnumerator DestroyNextFrame(){
         yield return new WaitForNextFrameUnit();
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForNextFrameUnit();
         Destroy(gameObject);
     }
 

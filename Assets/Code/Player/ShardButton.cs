@@ -18,13 +18,14 @@ public class ShardButton : MonoBehaviour, IPointerDownHandler
         }
 
         // raycast method not working for some reason so spawn in a prefab (shard) and use on trigger enter on that object to detect collision with minions
-        shard = Instantiate(shardPrefab);
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        shard = Instantiate(shardPrefab,(Vector3)mousePosition,Quaternion.identity);
         shard.GetComponent<Shard>().thisDamageType = thisDamageType;
 
         shardEquiped = true;
 
     }
-    
+
     private void Update() {
         if(!shardEquiped){return;}
 

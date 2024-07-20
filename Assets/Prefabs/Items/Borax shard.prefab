@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 86410792493291058}
   - component: {fileID: -5394585349897595104}
   - component: {fileID: -1155801744901438654}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Borax shard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
