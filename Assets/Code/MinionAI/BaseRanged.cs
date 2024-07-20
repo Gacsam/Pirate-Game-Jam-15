@@ -9,7 +9,7 @@ public class BaseRanged : BaseUnit
     {
         // Ranged unit so range is equal to range
         attackRange = distanceForRangeCombat;
-        this.thisUnitType = UnitType.ranged;
+        this.thisUnitType = UnitType.Ranged;
         attackRange = attackRange * this.transform.localScale.x;
     }
 

@@ -57,7 +57,7 @@ public class GameMan : MonoBehaviour
     // Adding some methods that will allow specific side units and towers to get their values by specific sides
     public static BaseObject GetClosestEnemy(UnitSide side)
     {
-        if (side == UnitSide.alchemy)
+        if (side == UnitSide.Alchemy)
         {
             return Shadow.ClosestUnit;
         }
@@ -69,7 +69,7 @@ public class GameMan : MonoBehaviour
     // Get gold for each side
     public static int GetGold(UnitSide side)
     {
-        if(side == UnitSide.alchemy)
+        if(side == UnitSide.Alchemy)
         {
             return Alchemy.Inventory.gold;
         }
@@ -81,7 +81,7 @@ public class GameMan : MonoBehaviour
     // Modify them by a specific value, includes -values
     public static void ModifyGold(UnitSide side, int gold)
     {
-        if (side == UnitSide.alchemy)
+        if (side == UnitSide.Alchemy)
         {
             Alchemy.Inventory.gold += gold;
         }
@@ -93,7 +93,7 @@ public class GameMan : MonoBehaviour
     // Set them to a specific value
     public static void SetGold(UnitSide side, int gold)
     {
-        if (side == UnitSide.alchemy)
+        if (side == UnitSide.Alchemy)
         {
             Alchemy.Inventory.gold = gold;
         }
@@ -107,7 +107,7 @@ public class GameMan : MonoBehaviour
     // would be a cool thing to work with
     public bool SpawnUnit(UnitSide side, UnitType type)
     {
-        if(side == UnitSide.alchemy)
+        if(side == UnitSide.Alchemy)
         {
             return GameMan.Alchemy.Tower.SpawnUnit(type);
         }

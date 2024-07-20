@@ -29,7 +29,7 @@ public class TestTower : BaseObject
     // Hook this up into GameMan
     public void Start()
     {
-        if (thisUnitSide == UnitSide.alchemy)
+        if (thisUnitSide == UnitSide.Alchemy)
         {
             GameMan.Alchemy.Tower = this.GetComponent<TestTower>();
         }

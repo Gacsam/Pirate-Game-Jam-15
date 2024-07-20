@@ -84,11 +84,21 @@ public abstract class BaseObject : MonoBehaviour
         {
             // if it's the tower send a win/lose message
         }
+        else {
+            if(thisUnitSide == UnitSide.Alchemy)
+            {
+                GameMan.Alchemy.UnitDied();
+            }
+            else
+            {
+                GameMan.Shadow.UnitDied();
+            }
 
         // if enemy && (melee || ranged)
-        else if (thisUnitSide == UnitSide.shadow  && (thisUnitType == UnitType.melee || thisUnitType == UnitType.ranged))
-        {
-            ItemDrop.DropItem();
+        if (thisUnitSide == UnitSide.shadow && (thisUnitType == UnitType.Melee || thisUnitType == UnitType.Ranged))
+            {
+                ItemDrop.DropItem();
+            }
         }
         Object.Destroy(this.gameObject);
     }
@@ -99,14 +109,13 @@ public abstract class BaseObject : MonoBehaviour
         if (GameMan.Instance != null)
         {
             closestTarget = GameMan.GetClosestEnemy(thisUnitSide);
-
         }
     }
 
     public Vector3 GetDirection()
     {
         // Small if/else statement to check for player direction
-        return thisUnitSide == UnitSide.alchemy ? Vector3.right : Vector3.left;
+        return thisUnitSide == UnitSide.Alchemy ? Vector3.right : Vector3.left;
     }   
 
     public float GetSpriteExtents()
@@ -122,5 +131,5 @@ public abstract class BaseObject : MonoBehaviour
     }
 }
 public enum DamageType { standard, fire, arsenic, moon, borax }
-public enum UnitSide { alchemy, shadow }
-public enum UnitType { tower, melee, ranged, siege }
+public enum UnitSide { Alchemy, shadow }
+public enum UnitType { tower, Melee, Ranged, siege }
