@@ -7,6 +7,8 @@ public class BaseRanged : BaseUnit
     // Start is called before the first frame update
     void Start()
     {
+        // Ranged unit so range is equal to range
+        attackRange = distanceForRangeCombat;
         this.thisUnitType = unitType.ranged;
     }
 

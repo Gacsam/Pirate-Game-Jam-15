@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class BaseUnit : BaseObject
 {
     public static float distanceForMeleeCombat = 0.5f;
+    public static float distanceForRangeCombat = 2f;
     public float attackRange = 1;
     public int baseDamage = 2;
     protected bool isPathBlocked = false;

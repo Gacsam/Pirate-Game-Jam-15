@@ -79,7 +79,7 @@ public class BaseObject : MonoBehaviour
                 }
                 // Update the distance to current closest target for comparison
                 this.closestTargetDistance = Mathf.Abs((this.gameObject.transform.position.x + this.GetSpriteHorizontalOffset()) - (this.closestTarget.transform.position.x + this.closestTarget.GetSpriteHorizontalOffset()));
-                Debug.Log(this.closestTargetDistance);
+                // Debug.Log(this.closestTargetDistance);
                 // If the closestTarget is the target of the loop, loop again
                 if (currentObject == this.closestTarget) continue;
                 // Get the distance to the target of the loop
@@ -94,6 +94,6 @@ public class BaseObject : MonoBehaviour
     }
 }
 
-public enum damageType { standard, fire, water, air, earth }
+public enum damageType { standard, fire, arsenic, moon, borax }
 public enum unitSide { player, shadow }
 public enum unitType { tower, melee, ranged, siege }
