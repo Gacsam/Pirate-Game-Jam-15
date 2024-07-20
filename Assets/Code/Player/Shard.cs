@@ -25,8 +25,6 @@ public class Shard : MonoBehaviour
     void OnTriggerStay2D(Collider2D other){
         if(!released){return;}
 
-        Debug.Log("colliding");
-
         // if released on a normal minion then upgrade
         if (other.gameObject.tag == "player normal minion"){
             other.gameObject.GetComponent<UpgradeMinion>().Upgrade(thisDamageType);
@@ -34,12 +32,9 @@ public class Shard : MonoBehaviour
 
     }
 
-    // we want to wait 2 frame
-    // onTrigger runs before Update, so after button is released we need to wait for next frame
-    // Destroy runs before onTrigger so once again, we have to wait till next frame
     IEnumerator DestroyNextFrame(){
-        yield return new WaitForNextFrameUnit();
-        yield return new WaitForNextFrameUnit();
+        yield return new WaitForSeconds(0.1f);
+
         Destroy(gameObject);
     }
 
