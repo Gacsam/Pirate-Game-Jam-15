@@ -55,9 +55,9 @@ public class GameMan : MonoBehaviour
     public static OpposingSide Shadow { get => shadow; set => shadow = value; }
 
     // Adding some methods that will allow specific side units and towers to get their values by specific sides
-    public static BaseObject GetClosestEnemy(unitSide side)
+    public static BaseObject GetClosestEnemy(UnitSide side)
     {
-        if (side == unitSide.alchemy)
+        if (side == UnitSide.alchemy)
         {
             return Shadow.ClosestUnit;
         }
@@ -67,9 +67,9 @@ public class GameMan : MonoBehaviour
         }
     }
     // Get gold for each side
-    public static int GetGold(unitSide side)
+    public static int GetGold(UnitSide side)
     {
-        if(side == unitSide.alchemy)
+        if(side == UnitSide.alchemy)
         {
             return Alchemy.Inventory.gold;
         }
@@ -79,9 +79,9 @@ public class GameMan : MonoBehaviour
         }
     }
     // Modify them by a specific value, includes -values
-    public static void ModifyGold(unitSide side, int gold)
+    public static void ModifyGold(UnitSide side, int gold)
     {
-        if (side == unitSide.alchemy)
+        if (side == UnitSide.alchemy)
         {
             Alchemy.Inventory.gold += gold;
         }
@@ -91,9 +91,9 @@ public class GameMan : MonoBehaviour
         }
     }
     // Set them to a specific value
-    public static void SetGold(unitSide side, int gold)
+    public static void SetGold(UnitSide side, int gold)
     {
-        if (side == unitSide.alchemy)
+        if (side == UnitSide.alchemy)
         {
             Alchemy.Inventory.gold = gold;
         }
@@ -105,9 +105,9 @@ public class GameMan : MonoBehaviour
 
     // returns true/false based on whether unit was spawned, works for either side, maybe could look into 1v1
     // would be a cool thing to work with
-    public bool SpawnUnit(unitSide side, unitType type)
+    public bool SpawnUnit(UnitSide side, UnitType type)
     {
-        if(side == unitSide.alchemy)
+        if(side == UnitSide.alchemy)
         {
             return GameMan.Alchemy.Tower.SpawnUnit(type);
         }

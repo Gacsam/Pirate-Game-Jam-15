@@ -9,8 +9,8 @@ using UnityEngine;
 public abstract class BaseObject : MonoBehaviour
 {
     public float thisUnitHealth = 10;
-    public unitSide thisUnitSide = 0;
-    public unitType thisUnitType = 0;
+    public UnitSide thisUnitSide = 0;
+    public UnitType thisUnitType = 0;
     protected BaseObject closestTarget = null;
     protected float closestTargetDistance = 9999;
     public float attackRange = 3;
@@ -57,13 +57,13 @@ public abstract class BaseObject : MonoBehaviour
         return closestTargetDistance <= attackRange;
     }
 
-    public void TakeDamage(float damage, damageType typeOfDamage = 0)
+    public void TakeDamage(float damage, DamageType typeOfDamage = 0)
     {
-        if (typeOfDamage == damageType.standard)
+        if (typeOfDamage == DamageType.standard)
         {
             thisUnitHealth -= damage;
         }
-        else if (typeOfDamage == damageType.fire) { }
+        else if (typeOfDamage == DamageType.fire) { }
         else return; // ignore other damage types temporarily
 
         if (this.thisUnitHealth <= 0)
@@ -86,7 +86,7 @@ public abstract class BaseObject : MonoBehaviour
         }
 
         // if enemy && (melee || ranged)
-        else if (thisUnitSide == unitSide.shadow  && (thisUnitType == unitType.melee || thisUnitType == unitType.ranged))
+        else if (thisUnitSide == UnitSide.shadow  && (thisUnitType == UnitType.melee || thisUnitType == UnitType.ranged))
         {
             ItemDrop.DropItem();
         }
@@ -98,39 +98,15 @@ public abstract class BaseObject : MonoBehaviour
     {
         if (GameMan.Instance != null)
         {
-<<<<<<< Updated upstream
-            // If the current-loop object exits, and it's not self, and it's not same side
-            if (currentObject != null && currentObject != this && currentObject.thisUnitSide != this.thisUnitSide)
-            {
-                // If we don't have a target yet, set whatever is found first, then loop again
-                if (this.closestTarget == null)
-                {
-                    this.closestTarget = currentObject;
-                    continue;
-                }
-                // Update the distance to current closest target for comparison
-                this.closestTargetDistance = Mathf.Abs((this.gameObject.transform.position.x + this.GetSpriteHorizontalOffset()) - (this.closestTarget.transform.position.x + this.closestTarget.GetSpriteHorizontalOffset()));
-                // Debug.Log(this.closestTargetDistance);
-                // If the closestTarget is the target of the loop, loop again
-                if (currentObject == this.closestTarget) continue;
-                // Get the distance to the target of the loop
-                float distanceToObject = Mathf.Abs((this.gameObject.transform.position.x + this.GetSpriteHorizontalOffset()) - (currentObject.gameObject.transform.position.x + currentObject.GetSpriteHorizontalOffset()));
-                // And compare it to distance of existing closest target, whichever's closest becomes the closestTarget
-                if (distanceToObject < this.closestTargetDistance)
-                {
-                    this.closestTarget = currentObject;
-                }
-            }
-=======
             closestTarget = GameMan.GetClosestEnemy(thisUnitSide);
->>>>>>> Stashed changes
+
         }
     }
 
     public Vector3 GetDirection()
     {
         // Small if/else statement to check for player direction
-        return thisUnitSide == unitSide.alchemy ? Vector3.right : Vector3.left;
+        return thisUnitSide == UnitSide.alchemy ? Vector3.right : Vector3.left;
     }   
 
     public float GetSpriteExtents()
@@ -145,12 +121,6 @@ public abstract class BaseObject : MonoBehaviour
         Gizmos.DrawRay(transform.position + offset, GetDirection() * attackRange);
     }
 }
-
-<<<<<<< Updated upstream
-public enum damageType { standard, fire, arsenic, moon, borax }
-public enum unitSide { player, shadow }
-=======
-public enum damageType { standard, fire, water, air, earth }
-public enum unitSide { alchemy, shadow }
->>>>>>> Stashed changes
-public enum unitType { tower, melee, ranged, siege }
+public enum DamageType { standard, fire, arsenic, moon, borax }
+public enum UnitSide { alchemy, shadow }
+public enum UnitType { tower, melee, ranged, siege }

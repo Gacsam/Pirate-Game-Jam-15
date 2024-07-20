@@ -16,7 +16,7 @@ public class TestTower : BaseObject
     }
 
     // function name to hook up to GameMan
-    public bool SpawnUnit(unitType type)
+    public bool SpawnUnit(UnitType unitType)
     {
         // spawn units and all that stuff based on type
         // such as type == melee then SpawnMeleeMinion()
@@ -27,15 +27,15 @@ public class TestTower : BaseObject
     }
 
     // Hook this up into GameMan
-    public void Awake()
+    public void Start()
     {
-        if (thisUnitSide == unitSide.alchemy)
+        if (thisUnitSide == UnitSide.alchemy)
         {
-            GameMan.Alchemy.Tower = this;
+            GameMan.Alchemy.Tower = this.GetComponent<TestTower>();
         }
         else
         {
-            GameMan.Shadow.Tower = this;
+            GameMan.Shadow.Tower = this.GetComponent<TestTower>();
         }
     }
 }

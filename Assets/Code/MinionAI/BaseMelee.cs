@@ -9,7 +9,7 @@ public class BaseMelee : BaseUnit
     {
         // Melee unit so range is equal to melee
         attackRange = distanceForMeleeCombat;
-        this.thisUnitType = unitType.melee;
+        this.thisUnitType = UnitType.melee;
     }
 
     public override void FightMelee()

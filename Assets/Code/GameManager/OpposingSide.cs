@@ -60,7 +60,7 @@ public class OpposingSide
     }
 
     // Add unit to the end of the stack
-    public bool CreateNewUnit(unitType type)
+    public bool CreateNewUnit(UnitType type)
     {
         // call tower to create an instance of unitType
         // something like Tower.CreateUnit(type)
