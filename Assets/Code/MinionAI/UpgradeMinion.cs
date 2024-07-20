@@ -40,10 +40,7 @@ public class UpgradeMinion : MonoBehaviour
 
     // pointer released when ready to upgrade (UPGADE TIME !!!)
     public void Upgrade(damageType upgradeType){
-        Debug.Log(gameObject.name+" here");
 
-        if(!readyForUpgrade){return;}
-        Debug.Log(gameObject.name+" released");
         if(upgradeType==damageType.fire){Instantiate(fireGuy,transform.position,Quaternion.identity);}
         else if(upgradeType==damageType.borax){Instantiate(boraxGuy,transform.position,Quaternion.identity);}
         else if(upgradeType==damageType.arsenic){Instantiate(arsenicGuy,transform.position,Quaternion.identity);}
