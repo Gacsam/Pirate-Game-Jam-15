@@ -4,25 +4,32 @@ using UnityEngine;
 
 public abstract class BaseUnit : BaseObject
 {
+<<<<<<< Updated upstream
     public static float distanceForMeleeCombat = 0.5f;
     public static float distanceForRangeCombat = 2f;
     public float attackRange = 1;
     public int baseDamage = 2;
+=======
+    public static float distanceForMeleeCombat = 1f;
+>>>>>>> Stashed changes
     protected bool isPathBlocked = false;
     public float walkSpeed = 1;
-    protected float attackTimer = 0;
-    public float attackEveryX = 1;
     public float currencyReward = 1;
+    public float unitCost = 10;
 
-    protected override void FixedUpdate()
+    public override void HandleCombat()
     {
-        // Trigger base class first to get closest target
-        base.FixedUpdate();
-        if (closestTarget != null)
+        // Is the unit forced into melee combat
+        if (closestTargetDistance <= distanceForMeleeCombat)
         {
-            isPathBlocked = CheckPath();
+            FightMelee();
+        }
+        else
+        {
+            FightRanged();
         }
     }
+<<<<<<< Updated upstream
 
     protected bool CheckPath()
     {
@@ -80,11 +87,28 @@ public abstract class BaseUnit : BaseObject
     }
 
     // Abstract class/variable basically means we want this method in every inherited script down the line but can call it from here, or something
+=======
+>>>>>>> Stashed changes
     public abstract void FightMelee();
     public abstract void FightRanged();
 
-    public void moveTowardsOppositeTower()
+
+    public override void MoveTowardsOppositeTower()
     {
-        this.gameObject.transform.position += (thisUnitSide == unitSide.player ? Vector3.right : Vector3.left) * walkSpeed * Time.deltaTime;
+        // Check if ally unit isn't blocking the path
+        if (IsPathClear())
+        {
+            this.gameObject.transform.position += GetDirection() * walkSpeed * Time.deltaTime;
+        }
+    }
+
+    protected bool IsPathClear()
+    {
+        // Multiply direction by horizontal offset to create a ray right at edge of character
+        Vector3 offset = GetDirection() * this.GetComponent<Collider2D>().bounds.extents.x;
+        // Create a raycast of X steps where you can't move further
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + offset, GetDirection(), distanceForMeleeCombat);
+        // If there's nothing in front of us for X distance, say path blocked or nah
+        return hit.collider == null;
     }
 }

@@ -21,12 +21,12 @@ public class BaseMelee : BaseUnit
             if (closestTarget != null)
             {
                 this.attackTimer = 0;
-                this.closestTarget.TakeDamage(this.baseDamage);
+                GameMan.GetClosestEnemy(thisUnitSide).TakeDamage(this.baseDamage);
             }
         }
     }
 
-    // This shouldn't be possible so throw a system error (fAnTaStIc suggestion VStudio)
+    // This shouldn't be possible so throw a system error (FaNtAsTiC suggestion VStudio)
     public override void FightRanged()
     {
         throw new System.NotImplementedException();
