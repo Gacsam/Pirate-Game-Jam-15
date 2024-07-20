@@ -27,15 +27,15 @@ public class TestTower : BaseObject
     }
 
     // Hook this up into GameMan
-    public void Start()
+    public void Awake()
     {
         if (thisUnitSide == UnitSide.Alchemy)
         {
-            GameMan.Alchemy.Tower = this.GetComponent<TestTower>();
+            GameMan.Alchemy.Tower = this;
         }
         else
         {
-            GameMan.Shadow.Tower = this.GetComponent<TestTower>();
+            GameMan.Shadow.Tower = this;
         }
     }
 }

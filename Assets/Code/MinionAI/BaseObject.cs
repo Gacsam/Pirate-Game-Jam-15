@@ -26,7 +26,6 @@ public abstract class BaseObject : MonoBehaviour
             this.AddComponent<BoxCollider2D>();
         }
     }
-
     public void Update()
     {
         // If we have a target which should always be true
@@ -43,6 +42,16 @@ public abstract class BaseObject : MonoBehaviour
             }
         }
     }
+
+    // Every physics frame, refresh the closest enemy
+    public void FixedUpdate()
+    {
+        if (GameMan.Instance != null)
+        {
+            closestTarget = GameMan.GetClosestEnemy(thisUnitSide);
+        }
+    }
+
     // Abstract class/variable basically means we want this method in every inherited script down the line, or something
     // Allows us to call the functions all the way from down here without having to run some checks twice etc
     public abstract void HandleCombat();
@@ -101,15 +110,6 @@ public abstract class BaseObject : MonoBehaviour
             }
         }
         Object.Destroy(this.gameObject);
-    }
-
-    // Every physics frame, refresh the closest enemy
-    public void FixedUpdate()
-    {
-        if (GameMan.Instance != null)
-        {
-            closestTarget = GameMan.GetClosestEnemy(thisUnitSide);
-        }
     }
 
     public Vector3 GetDirection()

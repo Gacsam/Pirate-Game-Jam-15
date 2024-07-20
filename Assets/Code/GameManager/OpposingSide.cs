@@ -40,7 +40,7 @@ public class OpposingSide
         get
         {
             // return null if nothing exists, this should be a game over for one of the sides
-            if(spawnedUnits == null && Tower == null) return null;
+            if(spawnedUnits.Count == 0 && Tower == null) return null;
 
             if (spawnedUnits.Count > 0)
             {
