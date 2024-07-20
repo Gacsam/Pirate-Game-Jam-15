@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 84640211}
   - component: {fileID: 84640213}
   m_Layer: 5
-  m_Name: Fire shard
+  m_Name: Fire shard button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,7 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5085da19767f3504eaa37274af761455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisType: 1
+  thisDamageType: 1
+  shardPrefab: {fileID: 3367599410326907121, guid: 3ad4e8f0534ede842b8ee1985c3d0ded, type: 3}
 --- !u!1 &304913052
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +225,7 @@ GameObject:
   - component: {fileID: 304913054}
   - component: {fileID: 304913056}
   m_Layer: 5
-  m_Name: Borax shard
+  m_Name: Borax shard button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,7 +300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5085da19767f3504eaa37274af761455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisType: 4
+  thisDamageType: 4
+  shardPrefab: {fileID: 4458491214981772177, guid: 65f37e8d6590a5f4195c56abfb034880, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +413,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &541486245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,7 +861,7 @@ GameObject:
   - component: {fileID: 820541647}
   - component: {fileID: 820541649}
   m_Layer: 5
-  m_Name: Moon shard
+  m_Name: Moon shard button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -934,7 +936,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5085da19767f3504eaa37274af761455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisType: 3
+  thisDamageType: 3
+  shardPrefab: {fileID: 1375398890334093588, guid: 66c9dca985e6efe4bb21367734f27405, type: 3}
 --- !u!1 &878032954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1463,7 +1466,7 @@ GameObject:
   - component: {fileID: 1798408034}
   - component: {fileID: 1798408036}
   m_Layer: 5
-  m_Name: Arsenic shard
+  m_Name: Arsenic shard button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1538,7 +1541,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5085da19767f3504eaa37274af761455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisType: 2
+  thisDamageType: 2
+  shardPrefab: {fileID: 8739330666409094246, guid: ec0d937f67ec67743aed60a1d10b1a99, type: 3}
 --- !u!1 &1929712534
 GameObject:
   m_ObjectHideFlags: 0
