@@ -1,25 +1,78 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 
-public class BaseObject : MonoBehaviour
+public abstract class BaseObject : MonoBehaviour
 {
     public float thisUnitHealth = 10;
-    public unitSide thisUnitSide = 0;
-    public unitType thisUnitType = 0;
+    public UnitSide thisUnitSide = 0;
+    public UnitType thisUnitType = 0;
     protected BaseObject closestTarget = null;
     protected float closestTargetDistance = 9999;
+    public float attackRange = 3;
+    protected float attackTimer = 0;
+    public float attackEveryX = 1;
+    public int baseDamage = 2;
 
-
-    public void TakeDamage(float damage, damageType typeOfDamage = 0)
+    // Add Box Collider if it doesn't have it whenever script is added to object
+    public void OnValidate()
     {
-        if (typeOfDamage == damageType.standard)
+        if (this.GetComponent<Collider2D>() == null)
+        {
+            this.AddComponent<BoxCollider2D>();
+        }
+    }
+    public void Update()
+    {
+        // If we have a target which should always be true
+        if (closestTarget != null)
+        {
+            // Is the enemy within attack range
+            if (IsTargetWithinRange())
+            {
+                HandleCombat();
+            }
+            else
+            {
+                MoveTowardsOppositeTower();
+            }
+        }
+    }
+
+    // Every physics frame, refresh the closest enemy
+    public void FixedUpdate()
+    {
+        if (GameMan.Instance != null)
+        {
+            closestTarget = GameMan.GetClosestEnemy(thisUnitSide);
+        }
+    }
+
+    // Abstract class/variable basically means we want this method in every inherited script down the line, or something
+    // Allows us to call the functions all the way from down here without having to run some checks twice etc
+    public abstract void HandleCombat();
+    // Towers will just do nothing in MoveTowardsOppositeTower, unless we get to some scary stuff I guess
+    public abstract void MoveTowardsOppositeTower();
+
+    // Check range to target
+    public bool IsTargetWithinRange()
+    {
+        var spriteOffsets = closestTarget.GetSpriteExtents() + this.GetSpriteExtents(); // we use sprite offsets to get true distance between units
+        closestTargetDistance = Mathf.Abs(closestTarget.transform.position.x - this.transform.position.x) - spriteOffsets;
+        return closestTargetDistance <= attackRange;
+    }
+
+    public void TakeDamage(float damage, DamageType typeOfDamage = 0)
+    {
+        if (typeOfDamage == DamageType.standard)
         {
             thisUnitHealth -= damage;
         }
-        else if (typeOfDamage == damageType.fire) { }
+        else if (typeOfDamage == DamageType.fire) { }
         else return; // ignore other damage types temporarily
 
         if (this.thisUnitHealth <= 0)
@@ -40,60 +93,43 @@ public class BaseObject : MonoBehaviour
         {
             // if it's the tower send a win/lose message
         }
+        else {
+            if(thisUnitSide == UnitSide.Alchemy)
+            {
+                GameMan.Alchemy.UnitDied();
+            }
+            else
+            {
+                GameMan.Shadow.UnitDied();
+            }
 
         // if enemy && (melee || ranged)
-        else if (thisUnitSide == unitSide.shadow  && (thisUnitType == unitType.melee || thisUnitType == unitType.ranged))
-        {
-            ItemDrop.DropItem();
+        if (thisUnitSide == UnitSide.shadow && (thisUnitType == UnitType.Melee || thisUnitType == UnitType.Ranged))
+            {
+                ItemDrop.DropItem();
+            }
         }
         Object.Destroy(this.gameObject);
     }
 
-    protected virtual void FixedUpdate()
+    public Vector3 GetDirection()
     {
-        FindClosestTarget();
-    }
+        // Small if/else statement to check for player direction
+        return thisUnitSide == UnitSide.Alchemy ? Vector3.right : Vector3.left;
+    }   
 
-    protected float GetSpriteHorizontalOffset()
+    public float GetSpriteExtents()
     {
-        Vector3 direction = (this.thisUnitSide == unitSide.player ? Vector3.right : Vector3.left);
-        float colliderSize = this.GetComponent<Collider2D>().bounds.extents.x;
-        return (direction * colliderSize).x;
+        return this.GetComponent<Collider2D>().bounds.extents.x;
     }
-
-    public void FindClosestTarget()
+    // Draw ray in editor to show distance
+    private void OnDrawGizmos()
     {
-        // Get all objects of BaseObject class or inheriting BaseObject class
-        BaseObject[] allObjects = FindObjectsOfType<BaseObject>();
-        // Zoom through all these objects
-        foreach (BaseObject currentObject in allObjects)
-        {
-            // If the current-loop object exits, and it's not self, and it's not same side
-            if (currentObject != null && currentObject != this && currentObject.thisUnitSide != this.thisUnitSide)
-            {
-                // If we don't have a target yet, set whatever is found first, then loop again
-                if (this.closestTarget == null)
-                {
-                    this.closestTarget = currentObject;
-                    continue;
-                }
-                // Update the distance to current closest target for comparison
-                this.closestTargetDistance = Mathf.Abs((this.gameObject.transform.position.x + this.GetSpriteHorizontalOffset()) - (this.closestTarget.transform.position.x + this.closestTarget.GetSpriteHorizontalOffset()));
-                // Debug.Log(this.closestTargetDistance);
-                // If the closestTarget is the target of the loop, loop again
-                if (currentObject == this.closestTarget) continue;
-                // Get the distance to the target of the loop
-                float distanceToObject = Mathf.Abs((this.gameObject.transform.position.x + this.GetSpriteHorizontalOffset()) - (currentObject.gameObject.transform.position.x + currentObject.GetSpriteHorizontalOffset()));
-                // And compare it to distance of existing closest target, whichever's closest becomes the closestTarget
-                if (distanceToObject < this.closestTargetDistance)
-                {
-                    this.closestTarget = currentObject;
-                }
-            }
-        }
+        Gizmos.color = Color.red;
+        var offset = GetDirection() * this.GetSpriteExtents();
+        Gizmos.DrawRay(transform.position + offset, GetDirection() * attackRange);
     }
 }
-
-public enum damageType { standard, fire, arsenic, moon, borax }
-public enum unitSide { player, shadow }
-public enum unitType { tower, melee, ranged, siege }
+public enum DamageType { standard, fire, arsenic, moon, borax }
+public enum UnitSide { Alchemy, shadow }
+public enum UnitType { tower, Melee, Ranged, siege }

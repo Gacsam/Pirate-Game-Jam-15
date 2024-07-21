@@ -39,12 +39,12 @@ public class UpgradeMinion : MonoBehaviour
     }
 
     // pointer released when ready to upgrade (UPGADE TIME !!!)
-    public void Upgrade(damageType upgradeType){
+    public void Upgrade(DamageType upgradeType){
 
-        if(upgradeType==damageType.fire){Instantiate(fireGuy,transform.position,Quaternion.identity);}
-        else if(upgradeType==damageType.borax){Instantiate(boraxGuy,transform.position,Quaternion.identity);}
-        else if(upgradeType==damageType.arsenic){Instantiate(arsenicGuy,transform.position,Quaternion.identity);}
-        else if(upgradeType==damageType.moon){Instantiate(moonGuy,transform.position,Quaternion.identity);}
+        if(upgradeType==DamageType.fire){Instantiate(fireGuy,transform.position,Quaternion.identity);}
+        else if(upgradeType==DamageType.borax){Instantiate(boraxGuy,transform.position,Quaternion.identity);}
+        else if(upgradeType==DamageType.arsenic){Instantiate(arsenicGuy,transform.position,Quaternion.identity);}
+        else if(upgradeType==DamageType.moon){Instantiate(moonGuy,transform.position,Quaternion.identity);}
 
         Destroy(gameObject);
     }

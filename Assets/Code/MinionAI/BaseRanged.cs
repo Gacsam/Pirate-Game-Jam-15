@@ -9,7 +9,8 @@ public class BaseRanged : BaseUnit
     {
         // Ranged unit so range is equal to range
         attackRange = distanceForRangeCombat;
-        this.thisUnitType = unitType.ranged;
+        this.thisUnitType = UnitType.Ranged;
+        attackRange = attackRange * this.transform.localScale.x;
     }
 
     public override void FightMelee()

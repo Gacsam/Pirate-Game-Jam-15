@@ -6,7 +6,7 @@ public class Shard : MonoBehaviour
 {
 
     private bool released = false;
-    public damageType thisDamageType;
+    public DamageType thisDamageType;
 
     private void Update() {
 

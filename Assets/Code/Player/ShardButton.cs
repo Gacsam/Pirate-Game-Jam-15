@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class ShardButton : MonoBehaviour, IPointerDownHandler
 {
     // Drag and drop shards to upgrade minions
-    public damageType thisDamageType;
+    public DamageType thisDamageType;
     public GameObject shardPrefab;
     private GameObject shard;
 
