@@ -46,7 +46,8 @@ public abstract class BaseUnit : BaseObject
         Gizmos.DrawRay(transform.position + offset, GetDirection() * attackRange);
     }
 
-    // Abstract class/variable basically means we want this method in every inherited script down the line but can call it from here, or something
+    // Abstract class/variable basically means we want this method in every inherited script down the line, or something
+    // This means we can still call them from here, and implement different methods for individual units
     public abstract void FightMelee();
     public abstract void FightRanged();
 
