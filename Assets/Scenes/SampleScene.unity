@@ -398,7 +398,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -423,7 +423,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.29, z: -10}
+  m_LocalPosition: {x: 0, y: 4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -510,7 +510,7 @@ Transform:
   m_GameObject: {fileID: 541486244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: -3.6, z: 0}
+  m_LocalPosition: {x: 17.5, y: 1.11, z: 0}
   m_LocalScale: {x: 2.9219, y: 2.9219, z: 2.9219}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -575,7 +575,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitSide: 1
   thisUnitType: 3
-  thisUnitHealth: 10
   thisUnitMaxHealth: 100
   sliderOffset: 2
   minion: {fileID: 671950485613101716, guid: 724fe529b1951e34e8f24423928f0130, type: 3}
@@ -617,7 +616,7 @@ Transform:
   m_GameObject: {fileID: 696226418}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.610967, y: -16.375866, z: -0.15659319}
+  m_LocalPosition: {x: 44.460968, y: 17.004135, z: -0.15659319}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -839,8 +838,8 @@ Transform:
   m_GameObject: {fileID: 723057969}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.32, y: -8.1317, z: 0}
-  m_LocalScale: {x: 21.555368, y: 6.821975, z: 1}
+  m_LocalPosition: {x: -0.021799117, y: -3, z: 0}
+  m_LocalScale: {x: 45, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1203,7 +1202,7 @@ Transform:
   m_GameObject: {fileID: 892758430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 30.85, y: 33.38, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1335,7 +1334,7 @@ Transform:
   m_GameObject: {fileID: 983030124}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: -3.6, z: 0}
+  m_LocalPosition: {x: -17.5, y: 1.11, z: 0}
   m_LocalScale: {x: 2.9219, y: 2.9219, z: 2.9219}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1355,13 +1354,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitSide: 0
   thisUnitType: 3
-  thisUnitHealth: 10
   thisUnitMaxHealth: 100
   sliderOffset: 2
   melePrefab: {fileID: 3845107297105011719, guid: ca5f827c85555c947bfa4f95c7a0435d, type: 3}
   minionCost: 30
   CD: 2
-  rangedPrefab: {fileID: 2240471047643682909, guid: 79bd77125c0af9740b5a59aea91b91dd, type: 3}
 --- !u!114 &983030131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1500,6 +1497,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1013661158}
   m_CullTransparentMesh: 1
+--- !u!1 &1090579156
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1090579157}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1090579157
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090579156}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1798408032
 GameObject:
   m_ObjectHideFlags: 0
@@ -1751,9 +1779,10 @@ RectTransform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 696226420}
+  - {fileID: 892758433}
   - {fileID: 519420032}
   - {fileID: 541486249}
   - {fileID: 983030129}
-  - {fileID: 892758433}
   - {fileID: 723057971}
-  - {fileID: 696226420}
+  - {fileID: 1090579157}

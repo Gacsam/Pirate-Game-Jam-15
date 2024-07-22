@@ -29,7 +29,7 @@ public class ShadowTowerAI : BaseObject
     }
 
     void Update() {
-        if (canSpawnMele && gold > minionCost){
+        if (canSpawnMele && gold > minionCost && spawnAreaClear){
             var spawnedMinion = Instantiate(minion,transform.position, Quaternion.identity);
             GameMan.Shadow.AddUnit(spawnedMinion.GetComponent<BaseMovingUnit>());
             gold -= minionCost;
@@ -59,5 +59,21 @@ public class ShadowTowerAI : BaseObject
         // destroy this unit at the very end
         GameMan.TowerDestroyed(thisUnitSide);
         Object.Destroy(this.gameObject);
+    }
+
+    private bool spawnAreaClear = true;
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Make sure it's a unit blocking the exit
+        if (collision.GetComponent<BaseUnit>() != null)
+        {
+            spawnAreaClear = false;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        spawnAreaClear = true;
     }
 }

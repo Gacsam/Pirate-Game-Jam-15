@@ -109,7 +109,7 @@ public class OpposingSide
         spawnedUnits.Add(newUnit);
     }
 
-    internal void UnitSwapped(BaseObject replacedUnit, BaseObject newUnit)
+    internal void UnitUpgraded(BaseObject replacedUnit, BaseObject newUnit)
     {
         var index = spawnedUnits.FindIndex(unit => unit.gameObject == replacedUnit.gameObject);
         spawnedUnits[index] = newUnit;

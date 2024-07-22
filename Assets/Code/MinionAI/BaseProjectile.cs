@@ -8,8 +8,7 @@ namespace Assets.Code.MinionAI
         [SerializeField]
         bool isPiercing = false;
         [SerializeField]
-        float rotationSpeed = 300, flightSpeed = 2;
-        float damage;
+        float rotationSpeed = 300, flightSpeed = 2, damage = 1;
         Vector3 enemyDirection;
         UnitSide allySide;
 

@@ -29,17 +29,17 @@ public class MinionTransformer : BaseMovingUnit, IMelee
         else if (upgradeType == DamageType.Arsenic) { newUnit = Instantiate(arsenicGuy, transform.position, Quaternion.identity); }
         else if (upgradeType == DamageType.Moon) { newUnit = Instantiate(moonGuy, transform.position, Quaternion.identity); }
         // Set the health to be same as before
-        newUnit.GetComponent<BaseUnit>().thisUnitHealth = replacedUnit.thisUnitHealth;
+        newUnit.GetComponent<BaseUnit>().ModifyHealth(-replacedUnit.GetComponent<BaseUnit>().GetInjuryPoints());
         var oldSize = replacedUnit.GetComponent<SpriteRenderer>().sprite.bounds.extents.y;
         var newSize = newUnit.GetComponent<SpriteRenderer>().sprite.bounds.extents.y;
         newUnit.transform.position += Vector3.up * Mathf.Abs(oldSize - newSize);
         if (GetComponent<BaseObject>().thisUnitSide == UnitSide.Alchemy)
         {
-            GameMan.Alchemy.UnitSwapped(replacedUnit, newUnit.GetComponent<BaseObject>());
+            GameMan.Alchemy.UnitUpgraded(replacedUnit, newUnit.GetComponent<BaseObject>());
         }
         else
         {
-            GameMan.Shadow.UnitSwapped(replacedUnit, newUnit.GetComponent<BaseObject>());
+            GameMan.Shadow.UnitUpgraded(replacedUnit, newUnit.GetComponent<BaseObject>());
         }
         Destroy(unitHealthSlider.gameObject);
         Destroy(replacedUnit.gameObject);

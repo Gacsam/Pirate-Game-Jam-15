@@ -59,9 +59,6 @@ public class Tower_Spawner : BaseObject
     {
         spawnAreaClear = true;
     }
-
-    [SerializeField]
-    GameObject rangedPrefab;
     /// <summary>
     /// function name for GameMan to call. Checks if the tower doesn't already have a sprite on top of it.
     /// </summary>
@@ -74,9 +71,9 @@ public class Tower_Spawner : BaseObject
             if(unitType == UnitType.Melee)
                 return SpawnMeleeMinion();
             else if (unitType == UnitType.Ranged){
-                var newChar = Instantiate(rangedPrefab, transform.position, Quaternion.identity);
-                GameMan.ModifyGold(thisUnitSide, newChar.GetComponent<BaseMovingUnit>().unitCost);
-                return true;
+                // var newChar = Instantiate(rangedPrefab, transform.position, Quaternion.identity);
+                // GameMan.ModifyGold(thisUnitSide, newChar.GetComponent<BaseMovingUnit>().unitCost);
+                return false;
             }
             // spawn units and all that stuff based on type
             // such as type == melee then SpawnMeleeMinion()

@@ -17,10 +17,9 @@ public abstract class BaseObject : MonoBehaviour
 {
     public UnitSide thisUnitSide = 0;
     public UnitType thisUnitType = 0;
-    [HideInInspector]
-    public float thisUnitHealth = 10;
+    protected float thisUnitHealth = 10;
     [SerializeField]
-    private float thisUnitMaxHealth = 10;
+    protected float thisUnitMaxHealth = 10;
     [SerializeField]
     protected float sliderOffset = 2.0f;
     protected Slider unitHealthSlider;
@@ -31,7 +30,7 @@ public abstract class BaseObject : MonoBehaviour
 
 
     // Add Box Collider if it doesn't have it
-   protected void Awake()
+    protected void Awake()
     {
         if (this.GetComponent<Collider2D>() == null)
         {
@@ -47,7 +46,7 @@ public abstract class BaseObject : MonoBehaviour
         this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = thisUnitHealth + " / " + thisUnitMaxHealth;
 
         // If it's a tower, hook up to GameMan
-        if(this.thisUnitType == UnitType.Tower)
+        if (this.thisUnitType == UnitType.Tower)
         {
             if (this.thisUnitSide == UnitSide.Alchemy)
             {
@@ -57,11 +56,18 @@ public abstract class BaseObject : MonoBehaviour
             {
                 GameMan.Shadow.Tower = this.GetComponent<BaseObject>();
             }
+            // Make Tower bar slightly longer
+            this.unitHealthSlider.GetComponent<RectTransform>().sizeDelta = this.unitHealthSlider.GetComponent<RectTransform>().sizeDelta + Vector2.right * 50;
         }
         else
         {
             this.unitHealthSlider.transform.localScale = Vector3.one * 0.5f;
         }
+    }
+
+    public float GetInjuryPoints()
+    {
+        return thisUnitMaxHealth - thisUnitHealth;
     }
 
     protected Vector3 GetEnemyTowerDirection()
@@ -88,26 +94,18 @@ public abstract class BaseObject : MonoBehaviour
 
         // apply damage
         thisUnitHealth += modifier;
-        Mathf.Clamp(thisUnitHealth, 0, thisUnitMaxHealth);
+        thisUnitHealth = Mathf.Clamp(thisUnitHealth, 0, thisUnitMaxHealth);
 
-        // special attacks
-        if(typeOfDamage == DamageType.Fire){
-            // apply knockback ? I dunno
-        if (typeOfDamage == DamageType.Standard)
+        switch (typeOfDamage)
         {
-            this.thisUnitHealth += modifier;
-            Mathf.Clamp(this.thisUnitHealth, 0, this.thisUnitMaxHealth);
+            case DamageType.Standard:
+                break;
+            case DamageType.Arsenic:
+                poisoned = true;
+                break;
+            default:
+                break;
         }
-
-        // damage over time
-        else if(typeOfDamage == DamageType.Arsenic){
-            poisoned = true;
-        }
-
-        // else if(typeOfDamage == DamageType.Borax){
-        //     // nothing happens rly :/
-        // }
-
         if (this.thisUnitHealth <= 0)
         {
             // Make sure unit is not set to Tower by accident
@@ -138,11 +136,10 @@ public abstract class BaseObject : MonoBehaviour
         }
         else
         {
-            unitHealthSlider.value = thisUnitHealth/thisUnitMaxHealth;
-            this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = thisUnitHealth + " / " +  thisUnitMaxHealth;
+            unitHealthSlider.value = thisUnitHealth / thisUnitMaxHealth;
+            this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Round(thisUnitHealth) + " / " + thisUnitMaxHealth;
         }
     }
-        }
     /// <summary>
     /// Called by TakeDamage if the unit's health reaches 0.
     /// </summary>
@@ -178,6 +175,10 @@ public abstract class BaseUnit : BaseObject
 
     public void Update()
     {
+        // Continously update position just in case there's knockback, falling or anything
+        Vector3 healthHeight = new Vector3(this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
+        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.down * sliderOffset));
+
         // If GameMan exists and if we have a target which should always be true
         if (GameMan.Instance != null && GameMan.GetClosestEnemy(thisUnitSide) != null)
         {
@@ -271,14 +272,12 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
     /// </summary>
     public void MoveTowardsOppositeTower()
     {
+        // Force all health bars to be on Tower's health bar height
         var checkPath = UnitInPath();
         // Check if ally unit isn't blocking the path
         if (checkPath == null)
         {
             this.gameObject.transform.position += MovementSpeed * Time.deltaTime * GetEnemyTowerDirection();
-            // Force all health bars to be on Tower's health bar height
-            Vector3 healthHeight = new Vector3(this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
-            this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.down * sliderOffset));
 
         }
         else if(this is IHealing healer)

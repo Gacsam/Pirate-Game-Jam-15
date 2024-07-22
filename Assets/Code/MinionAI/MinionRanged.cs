@@ -7,6 +7,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class MinionRanged : BaseMovingUnit, IRanged
 {
+    // This will allow us to decide what projectile the ranged minion uses, perhaps shadow uses a bolt instead?
+    [SerializeField]
+    private GameObject projectileToSpawn;
     private float attackRange = 3;
     public float AttackRange { get => attackRange; set => attackRange = value; }
 
@@ -34,7 +37,7 @@ public class MinionRanged : BaseMovingUnit, IRanged
         }
         if (attackTimer == 0)
         {
-            var projectile = Instantiate(Resources.Load<GameObject>("Prefabs/Projectiles/Shuriken"), transform.position + GetEnemyTowerDirection(), Quaternion.identity);
+            var projectile = Instantiate(projectileToSpawn, transform.position + GetEnemyTowerDirection(), Quaternion.identity);
             var isPiercing = true; // we can do some checks here later
             // create a baseprojectile component if it doesn't exist
             if (projectile.GetComponent<BaseProjectile>() == null) projectile.AddComponent<BaseProjectile>().Setup(GetEnemyTowerDirection(), thisUnitSide, baseDamage, isPiercing);

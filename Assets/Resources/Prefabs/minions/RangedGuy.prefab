@@ -127,12 +127,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitSide: 0
   thisUnitType: 2
-  thisUnitDamageType: 3
   thisUnitHealth: 100
   thisUnitMaxHealth: 100
-  thisUnitMaxHealth: 10
   sliderOffset: 2
   unitCost: 45
   baseDamage: 2
   attackCooldown: 1
-  attackCooldown: 3
+  thisUnitDamageType: 3
+  projectileToSpawn: {fileID: 5858485933882119005, guid: 0573d90e92c953f428b11306ce650fa6, type: 3}
