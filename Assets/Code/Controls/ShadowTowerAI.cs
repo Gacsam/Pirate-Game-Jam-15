@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShadowTowerAI : MonoBehaviour
+public class ShadowTowerAI : BaseObject
 {
     // simulate gold etc...
     private int gold;
@@ -30,7 +30,8 @@ public class ShadowTowerAI : MonoBehaviour
 
     void Update() {
         if (canSpawnMele && gold > minionCost){
-            Instantiate(minion,transform.position, Quaternion.identity);
+            var spawnedMinion = Instantiate(minion,transform.position, Quaternion.identity);
+            GameMan.Shadow.AddUnit(spawnedMinion.GetComponent<BaseMovingUnit>());
             gold -= minionCost;
         }
     }
@@ -48,5 +49,15 @@ public class ShadowTowerAI : MonoBehaviour
         canSpawnMele = false;
         yield return new WaitForSeconds(CD);
         canSpawnMele = true;
+    }
+
+    protected override void HandleDestruction()
+    {
+        // play sounds
+        // play animations
+        // instantiate vfx
+        // destroy this unit at the very end
+        GameMan.TowerDestroyed(thisUnitSide);
+        Object.Destroy(this.gameObject);
     }
 }

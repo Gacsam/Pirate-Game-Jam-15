@@ -40,12 +40,19 @@ public class UpgradeMinion : MonoBehaviour
 
     // pointer released when ready to upgrade (UPGADE TIME !!!)
     public void Upgrade(DamageType upgradeType){
-
-        if(upgradeType==DamageType.fire){Instantiate(fireGuy,transform.position,Quaternion.identity);}
-        else if(upgradeType==DamageType.borax){Instantiate(boraxGuy,transform.position,Quaternion.identity);}
-        else if(upgradeType==DamageType.arsenic){Instantiate(arsenicGuy,transform.position,Quaternion.identity);}
-        else if(upgradeType==DamageType.moon){Instantiate(moonGuy,transform.position,Quaternion.identity);}
-
+        GameObject temp = GetComponent<GameObject>();
+        if(upgradeType==DamageType.Fire){Instantiate(temp = fireGuy, transform.position,Quaternion.identity);}
+        else if(upgradeType==DamageType.Borax){Instantiate(temp = boraxGuy, transform.position,Quaternion.identity);}
+        else if(upgradeType==DamageType.Arsenic){Instantiate(temp = arsenicGuy, transform.position,Quaternion.identity);}
+        else if(upgradeType==DamageType.Moon){Instantiate(temp = moonGuy,transform.position,Quaternion.identity);}
+        if(GetComponent<BaseObject>().thisUnitSide == UnitSide.Alchemy)
+        {
+            GameMan.Alchemy.ClosestUnit = temp.GetComponent<BaseObject>();
+        }
+        else
+        {
+            GameMan.Alchemy.ClosestUnit = temp.GetComponent<BaseObject>();
+        }
         Destroy(gameObject);
     }
 }

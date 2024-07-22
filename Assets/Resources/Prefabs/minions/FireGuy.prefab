@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7245664703861783088}
   - component: {fileID: 7823774864544965686}
   - component: {fileID: 684284777120558980}
-  - component: {fileID: 7500209217979573547}
-  - component: {fileID: 3696769243803668392}
+  - component: {fileID: 9070706063303827305}
+  - component: {fileID: -3752368218612630997}
   m_Layer: 0
   m_Name: FireGuy
   m_TagString: Untagged
@@ -114,7 +114,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &7500209217979573547
+--- !u!61 &9070706063303827305
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,16 +150,16 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.2, y: 2.22}
+    oldSize: {x: 1.2, y: 2.21}
     newSize: {x: 1.2, y: 2.22}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2, y: 2.22}
+  m_Size: {x: 1.2, y: 2.21}
   m_EdgeRadius: 0
---- !u!114 &3696769243803668392
+--- !u!114 &-3752368218612630997
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,14 +168,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5486058711663460684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f98ff0bb1cbb574999924ac0cb710cf, type: 3}
+  m_Script: {fileID: 11500000, guid: ead9c60236705ab4eb7ed40f8804e18f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisUnitHealth: 10
   thisUnitSide: 0
   thisUnitType: 0
-  attackRange: 1
+  thisUnitHealth: 10
+  thisUnitMaxHealth: 10
+  sliderOffset: 2
+  unitCost: 30
   baseDamage: 2
-  walkSpeed: 1
-  attackEveryX: 1
-  currencyReward: 1
+  attackCooldown: 1

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,8 @@ using UnityEngine;
 public class OpposingSide
 {
     // By creating a class with specific getters and setters for values, we can call get/set GameMan.Alchemy.Tower
-    private TestTower tower;
-    public TestTower Tower
+    private BaseObject tower;
+    public BaseObject Tower
     {
         get
         {
@@ -51,6 +52,11 @@ public class OpposingSide
                 return Tower.GetComponent<BaseObject>();
             }
         }
+
+        set
+        {
+            spawnedUnits[0] = value;
+        }
     }
 
     // Remove the earliest unit spawned, closest to opposite side
@@ -60,20 +66,14 @@ public class OpposingSide
     }
 
     // Add newest unit to end of list
-    public void AddUnit(BaseUnit newUnit)
+    public void AddUnit(BaseMovingUnit newUnit)
     {
         spawnedUnits.Add(newUnit);
     }
 
-    // Add unit to the end of the stack
-    public bool CreateNewUnit(UnitType type)
+    internal void UnitSwapped(BaseObject replacedUnit, BaseObject newUnit)
     {
-        // call tower to create an instance of unitType
-        // something like Tower.CreateUnit(type)
-
-        // return the gameobject spawned here
-        // if gameobject is null, return false for UI stuff / can't spawn
-        //if not null, add it to and return true
-        return false;
+        var index = spawnedUnits.FindIndex(unit => unit.gameObject == replacedUnit.gameObject);
+        spawnedUnits[index] = newUnit;
     }
 }

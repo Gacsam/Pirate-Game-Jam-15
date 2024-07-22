@@ -27,7 +27,7 @@ public class Shard : MonoBehaviour
 
         // if released on a normal minion then upgrade
         if (other.gameObject.tag == "player normal minion"){
-            other.gameObject.GetComponent<UpgradeMinion>().Upgrade(thisDamageType);
+            other.gameObject.GetComponent<MinionTransformer>().Upgrade(thisDamageType);
         }
 
     }
