@@ -16,7 +16,9 @@ public class OpposingSide
         }
         set
         {
-            tower = value;
+            if (value is BaseObject baseObjectData && baseObjectData.thisUnitType == UnitType.Tower) {
+                tower = value;
+            }else Debug.Log("Apparently not a tower");
         }
     }
 
