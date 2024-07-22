@@ -28,3 +28,4 @@ public interface IHealing
 public enum DamageType { Standard, Fire, Arsenic, Moon, Borax }
 public enum UnitSide { Alchemy, Shadow }
 public enum UnitType { Melee, Ranged, Both, Tower }
+public enum GameSpeed { Normal, Fast, Superfast, Stop }

@@ -5,8 +5,10 @@ using UnityEngine;
 public class MinionHealer : BaseMovingUnit, IHealing, IMelee
 {
     [SerializeField]
-    private float healPerSecond = 1.0f;
-    public float HealPerSecond { get => healPerSecond; set => healPerSecond = value; }
+    private float healthPerSecond = 1.0f;
+    [SerializeField]
+    bool healEverySecond = false;
+    public float HealPerSecond { get => healthPerSecond; set => healthPerSecond = value; }
 
 
 
@@ -19,9 +21,16 @@ public class MinionHealer : BaseMovingUnit, IHealing, IMelee
         Object.Destroy(this.gameObject);
     }
 
+    float healTimer = 0;
     void IHealing.HealAllyInFront(BaseObject healTarget)
     {
-        healTarget.ModifyHealth(healPerSecond * Time.deltaTime);
+        if (healEverySecond)
+        {
+            if (healTimer == 0) healTarget.ModifyHealth(healthPerSecond);
+            healTimer += Time.deltaTime;
+            if (healTimer >= 1) healTimer = 0;
+        }
+        else healTarget.ModifyHealth(healthPerSecond * Time.deltaTime);
     }
     void IMelee.Attack()
     {

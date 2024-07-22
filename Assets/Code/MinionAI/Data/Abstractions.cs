@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -43,6 +44,7 @@ public abstract class BaseObject : MonoBehaviour
         Vector3 healthHeight = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
         // if (GameMan.Alchemy.Tower != null) { healthHeight.y = GameMan.Alchemy.Tower.gameObject.transform.position.y; }
         this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.down * sliderOffset));
+        this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = thisUnitHealth + " / " + thisUnitMaxHealth;
 
         // If it's a tower, hook up to GameMan
         if(this.thisUnitType == UnitType.Tower)
@@ -91,6 +93,10 @@ public abstract class BaseObject : MonoBehaviour
         // special attacks
         if(typeOfDamage == DamageType.Fire){
             // apply knockback ? I dunno
+        if (typeOfDamage == DamageType.Standard)
+        {
+            this.thisUnitHealth += modifier;
+            Mathf.Clamp(this.thisUnitHealth, 0, this.thisUnitMaxHealth);
         }
 
         // damage over time
@@ -133,6 +139,7 @@ public abstract class BaseObject : MonoBehaviour
         else
         {
             unitHealthSlider.value = thisUnitHealth/thisUnitMaxHealth;
+            this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = thisUnitHealth + " / " +  thisUnitMaxHealth;
         }
     }
 

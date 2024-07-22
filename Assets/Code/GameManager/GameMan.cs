@@ -11,8 +11,6 @@ public class GameMan : MonoBehaviour
     /// Global value for melee range. Additionally, represents the minimum distance between units.
     /// </summary>
     public static float globalMeleeRange = 0.5f;
-    // GameMananager singleton to track all the variables that we need accessible
-    private static GameMan instance;
     // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
     public static GameMan Instance
     {
@@ -30,7 +28,8 @@ public class GameMan : MonoBehaviour
             return instance;
         }
     }
-
+    // GameMananager singleton to track all the variables that we need accessible
+    private static GameMan instance;
     private void Awake()
     {
         if (instance == null)
@@ -67,7 +66,45 @@ public class GameMan : MonoBehaviour
         }
     }
 
-    
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(GameSpeed == GameSpeed.Normal)
+            {
+                GameSpeed = GameSpeed.Stop;
+            }else if (GameSpeed == GameSpeed.Stop)
+            {
+                GameSpeed = GameSpeed.Normal;
+            }
+        }
+    }
+
+    static GameSpeed currentWorldSpeed = GameSpeed.Normal;
+
+    public static GameSpeed GameSpeed { get { return currentWorldSpeed; } set {
+            switch (value)
+            {
+                case GameSpeed.Stop:
+                    Time.timeScale = 0;
+                    break;
+                case GameSpeed.Normal:
+                    Time.timeScale = 1;
+                    break;
+                case GameSpeed.Fast:
+                    Time.timeScale = 2;
+                    break;
+                case GameSpeed.Superfast:
+                    Time.timeScale = 3;
+                    break;
+                default:
+                    break;
+            }
+            currentWorldSpeed = value;
+        } 
+    }
+
     private void InteractedWithButton(Button interactedButton)
     {
         bool unitSpawned = false;
@@ -106,9 +143,7 @@ public class GameMan : MonoBehaviour
         }
         yield return null;
     }
-
-
-        
+            
     // Similarly, by creating an OppositeSide class, we can refer to these sides outside the GameMan
     // From inside Alchemy Side tower's code, we can call "GameMan.Alchemy.Tower = this" to add it to the manager
     // This will allow things like Player and AI managers to get their specific information
