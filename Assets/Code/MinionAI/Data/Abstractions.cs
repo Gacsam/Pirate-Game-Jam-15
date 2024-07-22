@@ -142,7 +142,7 @@ public abstract class BaseObject : MonoBehaviour
             this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = thisUnitHealth + " / " +  thisUnitMaxHealth;
         }
     }
-
+        }
     /// <summary>
     /// Called by TakeDamage if the unit's health reaches 0.
     /// </summary>
