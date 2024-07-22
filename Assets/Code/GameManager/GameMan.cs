@@ -133,6 +133,13 @@ public class GameMan : MonoBehaviour
             return Alchemy.ClosestUnit;
         }
     }
+
+    // used by borax to heal close allies
+    public static void HealCloseAllies(UnitSide side,BaseObject targetUnit){
+        if(side == UnitSide.Alchemy){Alchemy.HealCloseAllies(targetUnit);}
+        else{Shadow.HealCloseAllies(targetUnit);}
+    }
+
     /// <summary>
     /// Get the gold value from a specific side
     /// </summary>

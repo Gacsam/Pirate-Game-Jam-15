@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitSide: 0
   thisUnitType: 2
+  thisUnitDamageType: 3
   thisUnitHealth: 100
   thisUnitMaxHealth: 100
   sliderOffset: 2

@@ -59,6 +59,42 @@ public class OpposingSide
         }
     }
 
+    // Heal closest ally (infront and back)(used by borax)
+    public void HealCloseAllies(BaseObject targetUnit){
+
+        float healAmount = 0.5f;
+
+        if(spawnedUnits.Count == 0){return;}
+
+
+        int index = spawnedUnits.FindIndex(unit => unit.gameObject == targetUnit.gameObject);
+        if(spawnedUnits.Count == 1){spawnedUnits[0].ModifyHealth(healAmount);}
+
+        // unit at front, so only heal self and back
+        else if(index == 0){
+            spawnedUnits[0].ModifyHealth(healAmount);
+            spawnedUnits[1].ModifyHealth(healAmount);
+        
+        }
+
+        // unit at back, so heal self and front
+        else if(index == spawnedUnits.Count-1){
+            spawnedUnits[index].ModifyHealth(healAmount);
+            spawnedUnits[index-1].ModifyHealth(healAmount);
+            
+        }
+
+        // unit at middle, so heal self, front and back
+        else if(index == spawnedUnits.Count-1){
+            spawnedUnits[index].ModifyHealth(healAmount);
+            spawnedUnits[index-1].ModifyHealth(healAmount);
+            spawnedUnits[index+1].ModifyHealth(healAmount);
+
+        }
+    }
+
+
+
     // Remove the earliest unit spawned, closest to opposite side
     public void UnitDied()
     {

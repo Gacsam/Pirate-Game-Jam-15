@@ -24,6 +24,10 @@ public abstract class BaseObject : MonoBehaviour
     protected float sliderOffset = 2.0f;
     protected Slider unitHealthSlider;
 
+    // honestly dunno how to go about implementing poison .... im cooked
+    protected bool poisoned = false;
+    protected float damagePerSecond = 1f;
+
 
     // Add Box Collider if it doesn't have it
    protected void Awake()
@@ -79,13 +83,24 @@ public abstract class BaseObject : MonoBehaviour
     /// <param name="typeOfDamage"></param>
     public void ModifyHealth(float modifier, DamageType typeOfDamage = DamageType.Standard)
     {
-        if (typeOfDamage == DamageType.Standard)
-        {
-            thisUnitHealth += modifier;
-            Mathf.Clamp(thisUnitHealth, 0, thisUnitMaxHealth);
+
+        // apply damage
+        thisUnitHealth += modifier;
+        Mathf.Clamp(thisUnitHealth, 0, thisUnitMaxHealth);
+
+        // special attacks
+        if(typeOfDamage == DamageType.Fire){
+            // apply knockback ? I dunno
         }
-        else if (typeOfDamage == DamageType.Fire) { }
-        else return; // ignore other damage types temporarily
+
+        // damage over time
+        else if(typeOfDamage == DamageType.Arsenic){
+            poisoned = true;
+        }
+
+        // else if(typeOfDamage == DamageType.Borax){
+        //     // nothing happens rly :/
+        // }
 
         if (this.thisUnitHealth <= 0)
         {
@@ -135,6 +150,8 @@ public abstract class BaseUnit : BaseObject
     public int unitCost = 30;
     public int baseDamage = 2;
     public float attackCooldown = 1;
+    public DamageType thisUnitDamageType = 0;
+
 
     // Draw ray in editor to show distance
     private void OnDrawGizmos()
@@ -191,6 +208,10 @@ public abstract class BaseUnit : BaseObject
                 Debug.Log("Enemy not within range. Turret(?) waiting.");
             }
         }
+
+        if(poisoned){
+            ModifyHealth(-damagePerSecond*Time.deltaTime);
+        }
     }
 
     /// <summary>
@@ -205,7 +226,7 @@ public abstract class BaseUnit : BaseObject
 
     protected void DamageClosestEnemy()
     {
-        GameMan.GetClosestEnemy(thisUnitSide).ModifyHealth(-this.baseDamage);
+        GameMan.GetClosestEnemy(thisUnitSide).ModifyHealth(-this.baseDamage,thisUnitDamageType);
     }
 
     protected void MockAttack()
@@ -221,6 +242,14 @@ public abstract class BaseUnit : BaseObject
                 // Reset the timer and damage closest enemy unit
                 this.attackTimer = 0;
                 DamageClosestEnemy();
+
+                // just realised youve done it .... bruh moment where i waste my time. Thats what i get for forgetting your discord message lol, you literally SAID YOUVE DONE IT
+                // // special effects (borax)
+                // if(thisUnitDamageType == DamageType.Borax){
+                //     GameMan.HealCloseAllies(thisUnitSide,gameObject.GetComponent<BaseObject>());
+                // }
+
+
             }
         }
     }
