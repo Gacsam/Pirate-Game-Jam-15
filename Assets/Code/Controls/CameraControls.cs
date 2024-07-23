@@ -22,12 +22,14 @@ public class CameraControls : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             Vector3 newPosition = Camera.main.transform.position;
             newPosition.x -= scrollSpeed*Time.deltaTime;
             Camera.main.transform.position = newPosition;
+            GameMan.MoveCloud(Vector2.left);
         }
         else{
             if(Camera.main.transform.position.x > maxScroll){return;}
             Vector3 newPosition = Camera.main.transform.position;
             newPosition.x += scrollSpeed*Time.deltaTime;
             Camera.main.transform.position = newPosition;
+            GameMan.MoveCloud(Vector2.right);
         }
 
     }

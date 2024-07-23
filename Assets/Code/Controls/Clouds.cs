@@ -6,6 +6,7 @@ public class Clouds : MonoBehaviour
 {
     // Cloud movements
     // slow ----> fast
+    // small ---> BIG
     private enum CloudDepth{none,far,medium,close}
     private enum CloudInitialDirection{left,right}
 
@@ -24,6 +25,7 @@ public class Clouds : MonoBehaviour
     private float swayAmount = 5f;
     
     void Start() {
+        GameMan.clouds.Add(this);
         startPosition = transform.position.x;
         if(cloudInitialDirection == CloudInitialDirection.left){sin=180f;}
 
@@ -44,16 +46,22 @@ public class Clouds : MonoBehaviour
         if (cloudDepth == CloudDepth.none){return;}
 
         // calculate sin (/20 = x20 slower)
+        // we are looking for differences between current wave and previous wave (we dont care where we start at)
         sin = (sin + (GetEnumIndex(cloudDepth)*Time.deltaTime/20)) % 360;
+        float tempWave = wave;
         wave = Mathf.Sin(sin)*swayAmount;
 
         // "upload" to cloud :D
-        transform.position = new Vector3(startPosition + wave,transform.position.y,10);
+        transform.position = new Vector3(transform.position.x + (tempWave-wave),transform.position.y,10);
 
     }
 
     private int GetEnumIndex(CloudDepth depth)
     {
         return System.Array.IndexOf(System.Enum.GetValues(depth.GetType()), depth);
+    }
+
+    public void MoveCloud(Vector2 direction){
+        transform.position = new Vector3(transform.position.x + (direction.x*GetEnumIndex(cloudDepth)*Time.deltaTime),transform.position.y,10);
     }
 }

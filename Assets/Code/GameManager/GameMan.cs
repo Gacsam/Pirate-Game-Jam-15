@@ -250,4 +250,14 @@ public class GameMan : MonoBehaviour
     {
 
     }
+
+    // <summary>
+    // Cloud controll when moving camera to show depth
+    // <summary>
+    public static List<Clouds> clouds = new List<Clouds>();
+    public static void MoveCloud(Vector2 direction){
+        foreach (Clouds cloud in clouds){
+            cloud.MoveCloud(direction);
+        }
+    }
 }
