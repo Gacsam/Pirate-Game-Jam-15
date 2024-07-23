@@ -282,6 +282,7 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
         }
         else if(this is IHealing healer)
         {
+            if(gameObject == null){return;} // had this error accessing gameobject when healer dies, can't say this will fix it ¯\(ツ)/¯
             if(checkPath.gameObject.GetComponent<BaseObject>().thisUnitSide == thisUnitSide)
             {
                 healer.HealAllyInFront(checkPath.gameObject.GetComponent<BaseObject>());
