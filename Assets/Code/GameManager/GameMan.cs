@@ -11,23 +11,6 @@ public class GameMan : MonoBehaviour
     /// Global value for melee range. Additionally, represents the minimum distance between units.
     /// </summary>
     public static float globalMeleeRange = 0.5f;
-    // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
-    public static GameMan Instance
-    {
-        get
-        {
-            // Find self and set as instance, if the "spot" is already taken throw a log
-            if (instance == null)
-            {
-                instance = FindObjectOfType<GameMan>();
-            }
-            else
-            {                
-                // idk go boom
-            }
-            return instance;
-        }
-    }
     // GameMananager singleton to track all the variables that we need accessible
     private static GameMan instance;
     private void Awake()
@@ -50,22 +33,24 @@ public class GameMan : MonoBehaviour
             shadow = new OpposingSide();
             shadow.Inventory = new Inventory();
         }
-
-        foreach (var button in Camera.main.GetComponentsInChildren<Button>())
+    }
+    // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
+    public static GameMan Instance
+    {
+        get
         {
-            switch (button.name)
+            // Find self and set as instance, if the "spot" is already taken throw a log
+            if (instance == null)
             {
-                // INCLUDE only these specific buttons
-                // We can reverse 'break' and 'continue' to EXCLUDE instead
-                case "Melee Spawn Button": break;
-                case "Ranged Spawn Button": break;
-                default: continue;
+                instance = FindObjectOfType<GameMan>();
             }
-            // LAMBDA FUNCTIONS OP
-            button.onClick.AddListener(() => InteractedWithButton(button));
+            else
+            {
+                // idk go boom
+            }
+            return instance;
         }
     }
-
 
     public void Update()
     {
@@ -103,45 +88,6 @@ public class GameMan : MonoBehaviour
             }
             currentWorldSpeed = value;
         } 
-    }
-
-    private void InteractedWithButton(Button interactedButton)
-    {
-        bool unitSpawned = false;
-        switch (interactedButton.name)
-        {
-            case "Melee Spawn Button":
-                unitSpawned = SpawnUnit(UnitSide.Alchemy, UnitType.Melee);
-                if (unitSpawned)
-                {
-                    // Do stuff like take coins away
-                }
-                break;
-            case "Ranged Spawn Button":
-                unitSpawned = SpawnUnit(UnitSide.Alchemy, UnitType.Ranged);
-                if (unitSpawned)
-                {
-                    // Do stuff like take coins away
-                }
-                break;
-            default: 
-                Debug.Log("No interaction found with \"" + name + "\"");
-                break;
-        }
-        if(!unitSpawned)
-            StartCoroutine(ButtonFlashColour(interactedButton, Color.red));
-    }
-
-    IEnumerator ButtonFlashColour(Button buttonToFlash, Color colourToSet){
-        // Check if it's not red already
-        if (buttonToFlash.image.color != colourToSet)
-        {
-        var defaultColor = buttonToFlash.image.color;
-        buttonToFlash.image.color = colourToSet;
-        yield return new WaitForSeconds(0.1f);
-            buttonToFlash.image.color = defaultColor;
-        }
-        yield return null;
     }
             
     // Similarly, by creating an OppositeSide class, we can refer to these sides outside the GameMan
@@ -231,7 +177,7 @@ public class GameMan : MonoBehaviour
     /// <param name="side">the side of the unit, represented by this.thisUnitSide</param>
     /// <param name="type">the unit type, represented by this.thisUnitType</param>
     /// <returns>true if unit successfully spawned</returns>
-    public bool SpawnUnit(UnitSide side, UnitType type) 
+    public static bool SpawnUnit(UnitSide side, UnitType type) 
     {
         if(side == UnitSide.Alchemy)
         {
