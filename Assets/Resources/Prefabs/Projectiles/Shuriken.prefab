@@ -163,4 +163,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPiercing: 0
   rotationSpeed: 1000
-  flightSpeed: 2
+  flightSpeed: 3
+  damage: 10
+  isSpinning: 1
