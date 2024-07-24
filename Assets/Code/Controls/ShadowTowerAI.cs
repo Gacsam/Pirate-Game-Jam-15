@@ -38,13 +38,13 @@ public class ShadowTowerAI : BaseObject
             if (randomNumber < percentageChanceToSpawnSpecial)
             {
                 // Remainder of random number / amount of special minions is sorta random index
-                newUnit = Instantiate(specialMinions[randomNumber % specialMinions.Length], transform.position, Quaternion.identity);
+                var theUnitToSpawn = specialMinions[randomNumber % specialMinions.Length];
+                newUnit = Instantiate(specialMinions[randomNumber % specialMinions.Length], GameMan.CalculateSpawnPosition(gameObject.transform, theUnitToSpawn), Quaternion.identity);
             }
             else
             {
-                newUnit = Instantiate(baseMinion, transform.position, Quaternion.identity);
+                newUnit = Instantiate(baseMinion, GameMan.CalculateSpawnPosition(this.gameObject.transform, baseMinion), Quaternion.identity);
             }
-            GameMan.CalculateSpawnPosition(ref newUnit);
             GameMan.Shadow.AddUnit(newUnit.GetComponent<BaseMovingUnit>());
             gold -= minionCost;
         }
