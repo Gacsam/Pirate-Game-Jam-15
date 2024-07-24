@@ -27,15 +27,15 @@ public class OpposingSide
     {
         get
         {
+            if (inventory == null)
+            {
+                inventory = new();
+            }
             return inventory;
-        }
-        set
-        {
-            inventory = value;
         }
     }
 
-    public List<BaseObject> spawnedUnits = new List<BaseObject>();
+    public List<BaseObject> spawnedUnits = new ();
     // Always return the top unit of the stack (closest), if none exist, return tower
     // 
     public BaseObject ClosestUnit

@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
+
 public class GameMan : MonoBehaviour
 {
     /// <summary>
@@ -23,16 +23,8 @@ public class GameMan : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if(alchemy == null)
-        {
-            alchemy = new OpposingSide();
-            alchemy.Inventory = new Inventory();
-        }
-        if (shadow == null)
-        {
-            shadow = new OpposingSide();
-            shadow.Inventory = new Inventory();
-        }
+        alchemy ??= new();
+        shadow ??= new();
     }
     // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
     public static GameMan Instance
@@ -196,7 +188,6 @@ public class GameMan : MonoBehaviour
     {
 
     }
-
     public static void CalculateSpawnPosition(ref GameObject unit)
     {
         var offset = unit.GetComponent<Collider2D>().bounds.extents.y;
@@ -213,7 +204,7 @@ public class GameMan : MonoBehaviour
     // <summary>
     // Cloud control when moving camera to show depth
     // <summary>
-    public static List<Clouds> clouds = new List<Clouds>();
+    public static List<Clouds> clouds = new ();
     public static void MoveCloud(Vector2 direction)
     {
         foreach (Clouds cloud in clouds)

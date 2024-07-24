@@ -42,7 +42,7 @@ public abstract class BaseObject : MonoBehaviour
         if (Camera.main.GetComponentInChildren<Canvas>() == null) { throw new System.NotImplementedException(); } // parent UI_Canvas to Camera
         this.unitHealthSlider = Instantiate(sliderPrefab, Camera.main.GetComponentInChildren<Canvas>().transform.Find("Health UI"));
 
-        Vector3 healthHeight = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+        Vector3 healthHeight = new(this.transform.position.x, this.transform.position.y, this.transform.position.z);
 
         // tower's health slider should be pushed to the centre a bit since camera does not go past half of the tower
         if(thisUnitType==UnitType.Tower){
@@ -164,14 +164,13 @@ public abstract class BaseObject : MonoBehaviour
     /// </summary>
     
     public void UpdateHealthSlider(){
-        Vector3 healthHeight = new Vector3(this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
+        Vector3 healthHeight = new (this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
 
         // tower's health slider should be pushed to the centre a bit since camera does not go past half of the tower
         if(thisUnitType==UnitType.Tower){
             if(thisUnitSide==UnitSide.Alchemy){healthHeight.x += 1f;}
             else{healthHeight.x -= 1f;}
         }
-
         this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
     }
 
@@ -206,7 +205,7 @@ public abstract class BaseUnit : BaseObject
     public void Update()
     {
         // Continously update position just in case there's knockback, falling or anything
-        Vector3 healthHeight = new Vector3(this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
+        Vector3 healthHeight = new (this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
         this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
 
         // If GameMan exists and if we have a target which should always be true
@@ -308,9 +307,7 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
     public void MoveTowardsOppositeTower()
     {
         if (isPushed)
-        {
-            var rb = GetComponent<Rigidbody2D>();
-            if (rb != null)
+        {   if(TryGetComponent<Rigidbody2D>(out var rb))
             {
                 rb.velocity *= Vector2.one * 0.9f;
                 if(Mathf.Abs(rb.velocity.x) <= 0.1f)
