@@ -22,14 +22,6 @@ public class UI_Manager : MonoBehaviour
 
         foreach (var button in Camera.main.GetComponentsInChildren<Button>())
         {
-            switch (button.name)
-            {
-                // INCLUDE only these specific buttons
-                // We can reverse 'break' and 'continue' to EXCLUDE instead
-                case "Melee Spawn Button": break;
-                case "Ranged Spawn Button": break;
-                default: continue;
-            }
             // LAMBDA FUNCTIONS OP
             button.onClick.AddListener(() => InteractedWithButton(button));
         }
@@ -59,22 +51,29 @@ public class UI_Manager : MonoBehaviour
 
     void InteractedWithButton(Button interactedButton)
     {
-        bool unitSpawned = false;
+        bool buttonSuccess = false;
         switch (interactedButton.name)
         {
             case "Melee Spawn Button":
-                unitSpawned = GameMan.SpawnUnit(UnitSide.Alchemy);
-                if (unitSpawned)
-                {
-                    // Do stuff like take coins away
-                }
+                buttonSuccess = SpawnButton();
                 break;
             default:
                 Debug.Log("No interaction found with \"" + name + "\"");
                 break;
         }
-        if (!unitSpawned)
+        if (!buttonSuccess)
             StartCoroutine(ButtonFlashColour(interactedButton, Color.red));
+    }
+
+    bool SpawnButton()
+    {
+        if (GameMan.SpawnUnit(UnitSide.Alchemy))
+        {
+            // Do stuff like take coins away
+            GameMan.ModifyGold(UnitSide.Alchemy, -30);
+            return true;
+        }
+        else return false;
     }
     
     IEnumerator ButtonFlashColour(Button buttonToFlash, Color colourToSet)
