@@ -25,7 +25,8 @@ public class RangedMinion : BaseMovingUnit, IRanged
         // destroy this unit at the very end
         if (thisUnitSide == UnitSide.Shadow)
         {
-            Instantiate(Resources.Load("Prefabs/Items/Alchemy/Moon shard"));
+            var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Moon shard"), this.transform.position, Quaternion.identity);
+            shard.transform.SetParent(null, false);
         }
         Object.Destroy(this.gameObject);
     }
@@ -41,10 +42,14 @@ public class RangedMinion : BaseMovingUnit, IRanged
         }
         if (attackTimer == 0)
         {
-            var projectile = Instantiate(projectileToSpawn, transform.position + GetEnemyTowerDirection(), Quaternion.identity);
+            var offset = GetSpriteExtents();
+            offset.x *= GetEnemyTowerDirection().x;
+            var projectile = Instantiate(projectileToSpawn, transform.position + offset, Quaternion.identity);
             // create a baseprojectile component if it doesn't exist
-            if (projectile.GetComponent<StraightProjectile>() == null) projectile.AddComponent<StraightProjectile>().Setup(GetEnemyTowerDirection(), thisUnitSide);
-            else projectile.GetComponent<StraightProjectile>().Setup(GetEnemyTowerDirection(), thisUnitSide);
+            if (projectile.TryGetComponent<StraightProjectile>(out var projectileComponent))
+                projectileComponent.Setup(GameMan.GetClosestEnemy(thisUnitSide).transform.position + offset, thisUnitSide);
+            else
+                projectile.AddComponent<StraightProjectile>().Setup(GameMan.GetClosestEnemy(thisUnitSide).transform.position + offset, thisUnitSide);
         }
 
         this.attackTimer += Time.deltaTime;

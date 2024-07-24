@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
@@ -11,7 +12,7 @@ public class GameMan : MonoBehaviour
     /// Global value for melee range. Additionally, represents the minimum distance between units.
     /// </summary>
     public static float globalMeleeRange = 0.5f;
-    // GameMananager singleton to track all the variables that we need accessible
+    // GameManager singleton to track all the variables that we need accessible
     private static GameMan instance;
     private void Awake()
     {
@@ -186,19 +187,20 @@ public class GameMan : MonoBehaviour
     /// </summary>
     public static void TowerDestroyed(UnitSide side)
     {
-
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentScene);
     }
-    public static void CalculateSpawnPosition(ref GameObject unit)
+    public static Vector3 CalculateSpawnPosition(Transform initialPosition, GameObject unit)
     {
         var offset = unit.GetComponent<Collider2D>().bounds.extents.y;
         // Create a raycast to see where ground is
-        RaycastHit2D hit = Physics2D.Raycast(unit.transform.position, Vector2.down, 100, ~LayerMask.GetMask("Ignore Raycast"));
-        var newMinionPosition = unit.transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(initialPosition.position, Vector2.down, 10, ~LayerMask.GetMask("Ignore Raycast"));
+        var newMinionPosition = initialPosition.position;
         if (hit)
         {
-            newMinionPosition.y = hit.point.y + offset - (0.01f * Random.Range(0,50));
+            newMinionPosition.y = hit.point.y + offset - (0.01f * Random.Range(0,40));
         }
-        unit.transform.position = newMinionPosition;
+        return newMinionPosition;
     }
 
     // <summary>
