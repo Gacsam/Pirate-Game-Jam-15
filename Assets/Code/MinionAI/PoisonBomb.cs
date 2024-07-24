@@ -21,7 +21,14 @@ public class PoisonBomb : BaseProjectile
     GameObject cloudEffect;
     protected override void ProjectileImpact(GameObject thingThatWasHit)
     {
-        var poisonSphere = Physics2D.OverlapCircleAll(transform.position + enemyTowerDirection, poisonRange);
+        if(thingThatWasHit.TryGetComponent<BaseObject>(out var hitObject)){
+            if (hitObject.thisUnitSide == allySide)
+            {
+                return;
+            }
+        }
+
+        var poisonSphere = Physics2D.OverlapCircleAll(transform.position + targetPosition, poisonRange);
         if (poisonSphere.Length > 0)
         {
             foreach (var hitUnit in poisonSphere)

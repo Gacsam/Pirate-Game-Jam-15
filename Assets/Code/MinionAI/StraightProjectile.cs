@@ -3,12 +3,17 @@ using UnityEngine;
 
 namespace Assets.Code.MinionAI
 {
-    public class StraightProjectile : BaseProjectile, IMoving
+    public class StraightProjectile : BaseProjectile
     {
-        float IMoving.MovementSpeed { get { return flightSpeed; } set { flightSpeed = value; } }
-        void IMoving.MoveTowardsOppositeTower()
+        [SerializeField]
+        private bool isSpinning = false;
+        void Update()
         {
-            transform.position += enemyTowerDirection * (flightSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, flightSpeed * Time.deltaTime);
+            if (isSpinning)
+            {
+                transform.Rotate(new Vector3(0,0,rotationSpeed * Time.deltaTime));
+            }
         }
 
         protected override void ProjectileImpact(GameObject objectThatWasHit)
