@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7903918705213114559}
   - component: {fileID: 2439533474966323824}
   - component: {fileID: 6788245540663968979}
-  - component: {fileID: 7586012593156456165}
+  - component: {fileID: 1494268185928569566}
   m_Layer: 0
   m_Name: PoisonGuy
   m_TagString: Untagged
@@ -112,8 +112,8 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
---- !u!114 &7586012593156456165
+  m_Constraints: 6
+--- !u!114 &1494268185928569566
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,15 +122,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5543116509087731950}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ead9c60236705ab4eb7ed40f8804e18f, type: 3}
+  m_Script: {fileID: 11500000, guid: aa3159b51bd21ad4580f0bf6b33b6ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   thisUnitSide: 0
   thisUnitType: 0
-  thisUnitDamageType: 2
-  thisUnitHealth: 10
   thisUnitMaxHealth: 10
-  sliderOffset: 2
+  sliderOffset: 3
   unitCost: 30
   baseDamage: 2
-  attackCooldown: 1
+  attackCooldown: 2
+  projectileToSpawn: {fileID: 2510135803557718899, guid: d473ffe5a4613af49b3027e56f468bdf, type: 3}
+  throwRange: 3
+  arcThrowHeight: 1

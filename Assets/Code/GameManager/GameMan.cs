@@ -177,11 +177,11 @@ public class GameMan : MonoBehaviour
     /// <param name="side">the side of the unit, represented by this.thisUnitSide</param>
     /// <param name="type">the unit type, represented by this.thisUnitType</param>
     /// <returns>true if unit successfully spawned</returns>
-    public static bool SpawnUnit(UnitSide side, UnitType type) 
+    public static bool SpawnUnit(UnitSide side) 
     {
         if(side == UnitSide.Alchemy)
         {
-            return GameMan.Alchemy.Tower.GetComponent<Tower_Spawner>().SpawnUnit(type);
+            return GameMan.Alchemy.Tower.GetComponent<Tower_Spawner>().SpawnUnit();
         }
         else
         {
@@ -195,5 +195,18 @@ public class GameMan : MonoBehaviour
     public static void TowerDestroyed(UnitSide side)
     {
 
+    }
+
+    public static void CalculateSpawnPosition(ref GameObject unit)
+    {
+        var offset = unit.GetComponent<Collider2D>().bounds.extents.y;
+        // Create a raycast to see where ground is
+        RaycastHit2D hit = Physics2D.Raycast(unit.transform.position, Vector2.down, 10, ~LayerMask.GetMask("Ignore Raycast"));
+        var newMinionPosition = unit.transform.position;
+        if (hit)
+        {
+            newMinionPosition.y = hit.point.y + offset;
+        }
+        unit.transform.position = newMinionPosition;
     }
 }

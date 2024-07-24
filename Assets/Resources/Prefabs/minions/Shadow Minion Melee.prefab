@@ -100,12 +100,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitSide: 1
   thisUnitType: 0
-  thisUnitHealth: 10
   thisUnitMaxHealth: 10
-  sliderOffset: 2
+  sliderOffset: 3
   unitCost: 30
   baseDamage: 2
   attackCooldown: 1
+  oddsOfDroppingElementsOutOfHundred: 1
   fireGuy: {fileID: 0}
   arsenicGuy: {fileID: 0}
   moonGuy: {fileID: 0}
@@ -121,9 +121,9 @@ Rigidbody2D:
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
+  m_UseAutoMass: 1
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
@@ -136,4 +136,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6

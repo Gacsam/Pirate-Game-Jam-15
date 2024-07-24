@@ -52,20 +52,18 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+    public static Transform GetMainCanvasTransform()
+    {
+        return Camera.main.GetComponentInChildren<Canvas>().transform;
+    }
+
     void InteractedWithButton(Button interactedButton)
     {
         bool unitSpawned = false;
         switch (interactedButton.name)
         {
             case "Melee Spawn Button":
-                unitSpawned = GameMan.SpawnUnit(UnitSide.Alchemy, UnitType.Melee);
-                if (unitSpawned)
-                {
-                    // Do stuff like take coins away
-                }
-                break;
-            case "Ranged Spawn Button":
-                unitSpawned = GameMan.SpawnUnit(UnitSide.Alchemy, UnitType.Ranged);
+                unitSpawned = GameMan.SpawnUnit(UnitSide.Alchemy);
                 if (unitSpawned)
                 {
                     // Do stuff like take coins away
@@ -98,14 +96,14 @@ public class UI_Manager : MonoBehaviour
 
     void Start() {
         // Get the number of children
-        int buttonCount = transform.childCount;
+        int buttonCount = GetMainCanvasTransform().Find("Shards").childCount;
 
         // Initialize the array to hold the children
         buttonArray = new GameObject[buttonCount];
 
         // Loop through the children and add them to the array
         for (int i = 0; i < buttonCount; i++){
-            buttonArray[i] = transform.GetChild(i).gameObject;
+            buttonArray[i] = GetMainCanvasTransform().Find("Shards").GetChild(i).gameObject;
         }
 
         int screenWidth = Screen.width;

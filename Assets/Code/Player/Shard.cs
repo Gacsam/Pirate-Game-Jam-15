@@ -6,13 +6,16 @@ public class Shard : MonoBehaviour
 {
 
     private bool released = false;
-    public DamageType thisDamageType;
+    public ElementType thisDamageType;
 
     private void Update() {
 
-        // shard follows mouse
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mousePosition;
+        if (Input.GetMouseButton(0))
+        {
+            // shard follows mouse
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = mousePosition;
+        }
         
         // wait for release
         if(Input.GetMouseButtonUp(0)){
@@ -27,7 +30,7 @@ public class Shard : MonoBehaviour
 
         // if released on a normal minion then upgrade
         if (other.gameObject.tag == "player normal minion"){
-            other.gameObject.GetComponent<MinionTransformer>().Upgrade(thisDamageType);
+            other.gameObject.GetComponent<TransformerMinion>().Upgrade(thisDamageType);
         }
 
     }

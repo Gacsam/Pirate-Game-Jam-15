@@ -112,7 +112,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!114 &-6518036159036007366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,12 +126,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisUnitSide: 0
-  thisUnitType: 1
-  thisUnitDamageType: 4
-  thisUnitHealth: 100
-  thisUnitMaxHealth: 15
-  sliderOffset: 2
+  thisUnitType: 0
+  thisUnitMaxHealth: 5
+  sliderOffset: 3
   unitCost: 30
   baseDamage: 1
   attackCooldown: 2
-  healPerSecond: 1
+  thisUnitDamageType: 4
+  healthPerSecond: 1
+  healEverySecond: 0

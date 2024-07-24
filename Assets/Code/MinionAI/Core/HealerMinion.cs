@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MinionHealer : BaseMovingUnit, IHealing, IMelee
+public class HealerMinion : BaseMovingUnit, IHealing, IMelee
 {
     [SerializeField]
     private float healthPerSecond = 1.0f;
@@ -18,6 +18,10 @@ public class MinionHealer : BaseMovingUnit, IHealing, IMelee
         // play animations
         // instantiate vfx
         // destroy this unit at the very end
+        if(thisUnitSide == UnitSide.Shadow)
+        {
+            Instantiate(Resources.Load("Prefabs/Items/Alchemy/Borax shard"));
+        }
         Object.Destroy(this.gameObject);
     }
 
