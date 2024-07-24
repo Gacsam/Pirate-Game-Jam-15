@@ -32,6 +32,9 @@ public class CameraControls : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             GameMan.MoveCloud(Vector2.right);
         }
 
+        // update health slider for tower
+        GameMan.UpdateHealthSlider();
+
     }
 
 

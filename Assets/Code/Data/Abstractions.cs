@@ -43,6 +43,13 @@ public abstract class BaseObject : MonoBehaviour
         this.unitHealthSlider = Instantiate(sliderPrefab, Camera.main.GetComponentInChildren<Canvas>().transform.Find("Health UI"));
 
         Vector3 healthHeight = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+
+        // tower's health slider should be pushed to the centre a bit since camera does not go past half of the tower
+        if(thisUnitType==UnitType.Tower){
+            if(thisUnitSide==UnitSide.Alchemy){healthHeight.x += 1f;}
+            else{healthHeight.x -= 1f;}
+        }
+        
         this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
         this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
 
@@ -135,9 +142,10 @@ public abstract class BaseObject : MonoBehaviour
         }
     }
     /// <summary>
-    /// 
-    /// </summary>
     /// <returns>Whether the unit was poisoned.</returns>
+    /// </summary>
+    public bool IsPoisoned(){return poisoned;}
+
     public bool ApplyPoison()
     {
         if (true)
@@ -150,6 +158,23 @@ public abstract class BaseObject : MonoBehaviour
     /// Called by TakeDamage if the unit's health reaches 0.
     /// </summary>
     protected abstract void HandleDestruction();
+
+    /// </summary>
+    /// Update healthbar relative to UI
+    /// </summary>
+    
+    public void UpdateHealthSlider(){
+        Vector3 healthHeight = new Vector3(this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
+
+        // tower's health slider should be pushed to the centre a bit since camera does not go past half of the tower
+        if(thisUnitType==UnitType.Tower){
+            if(thisUnitSide==UnitSide.Alchemy){healthHeight.x += 1f;}
+            else{healthHeight.x -= 1f;}
+        }
+
+        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
+    }
+
 }
 /// <summary>
 /// Keep movement separated for things like turrets or defenders

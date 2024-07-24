@@ -221,4 +221,12 @@ public class GameMan : MonoBehaviour
             cloud.MoveCloud(direction);
         }
     }
+
+    // <summary>
+    // Update health slider for towers
+    // <summary>
+    public static void UpdateHealthSlider(){
+        alchemy.Tower.UpdateHealthSlider();
+        shadow.Tower.UpdateHealthSlider();
+    }
 }
