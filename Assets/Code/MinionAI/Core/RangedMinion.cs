@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class MinionRanged : BaseMovingUnit, IRanged
+public class RangedMinion : BaseMovingUnit, IRanged
 {
     // This will allow us to decide what projectile the ranged minion uses, perhaps shadow uses a bolt instead?
     [SerializeField]
@@ -23,6 +23,10 @@ public class MinionRanged : BaseMovingUnit, IRanged
         // play animations
         // instantiate vfx
         // destroy this unit at the very end
+        if (thisUnitSide == UnitSide.Shadow)
+        {
+            Instantiate(Resources.Load("Prefabs/Items/Alchemy/Moon shard"));
+        }
         Object.Destroy(this.gameObject);
     }
 
@@ -38,21 +42,20 @@ public class MinionRanged : BaseMovingUnit, IRanged
         if (attackTimer == 0)
         {
             var projectile = Instantiate(projectileToSpawn, transform.position + GetEnemyTowerDirection(), Quaternion.identity);
-            var isPiercing = true; // we can do some checks here later
             // create a baseprojectile component if it doesn't exist
-            if (projectile.GetComponent<BaseProjectile>() == null) projectile.AddComponent<BaseProjectile>().Setup(GetEnemyTowerDirection(), thisUnitSide, baseDamage, isPiercing);
-            else projectile.GetComponent<BaseProjectile>().Setup(GetEnemyTowerDirection(), thisUnitSide);
+            if (projectile.GetComponent<StraightProjectile>() == null) projectile.AddComponent<StraightProjectile>().Setup(GetEnemyTowerDirection(), thisUnitSide);
+            else projectile.GetComponent<StraightProjectile>().Setup(GetEnemyTowerDirection(), thisUnitSide);
         }
 
         this.attackTimer += Time.deltaTime;
     }
 }
-[CustomEditor(typeof(MinionRanged))]
+[CustomEditor(typeof(RangedMinion))]
 public class RangedEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        MinionRanged myComponent = (MinionRanged)target;
+        RangedMinion myComponent = (RangedMinion)target;
 
         // Display specific variables
         myComponent.AttackRange = EditorGUILayout.FloatField("Attack Range", myComponent.AttackRange);

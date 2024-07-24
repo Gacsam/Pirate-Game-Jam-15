@@ -41,9 +41,8 @@ public abstract class BaseObject : MonoBehaviour
         var sliderPrefab = Resources.Load<Slider>("Prefabs/Sliders/HealthBar");
         this.unitHealthSlider = Instantiate(sliderPrefab, Camera.main.GetComponentInChildren<Canvas>().transform.Find("Health UI"));
         Vector3 healthHeight = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-        // if (GameMan.Alchemy.Tower != null) { healthHeight.y = GameMan.Alchemy.Tower.gameObject.transform.position.y; }
         this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.down * sliderOffset));
-        this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = thisUnitHealth + " / " + thisUnitMaxHealth;
+        this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
 
         // If it's a tower, hook up to GameMan
         if (this.thisUnitType == UnitType.Tower)
@@ -89,23 +88,14 @@ public abstract class BaseObject : MonoBehaviour
     /// </summary>
     /// <param name="modifier"></param>
     /// <param name="typeOfDamage"></param>
-    public void ModifyHealth(float modifier, DamageType typeOfDamage = DamageType.Standard)
+    /// <returns>Whether the unit died</returns>
+    public bool ModifyHealth(float modifier)
     {
 
         // apply damage
         thisUnitHealth += modifier;
         thisUnitHealth = Mathf.Clamp(thisUnitHealth, 0, thisUnitMaxHealth);
 
-        switch (typeOfDamage)
-        {
-            case DamageType.Standard:
-                break;
-            case DamageType.Arsenic:
-                poisoned = true;
-                break;
-            default:
-                break;
-        }
         if (this.thisUnitHealth <= 0)
         {
             // Make sure unit is not set to Tower by accident
@@ -133,12 +123,26 @@ public abstract class BaseObject : MonoBehaviour
             // Lets individual classes deal with destruction in their own way
             Destroy(unitHealthSlider.gameObject);
             HandleDestruction();
+            return true;
         }
         else
         {
             unitHealthSlider.value = thisUnitHealth / thisUnitMaxHealth;
-            this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Round(thisUnitHealth) + " / " + thisUnitMaxHealth;
+            this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
+            return false;
         }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>Whether the unit was poisoned.</returns>
+    public bool ApplyPoison()
+    {
+        if (true)
+        {   // Can put in some checks for immunity later on
+            poisoned = true;
+        }
+        return poisoned;
     }
     /// <summary>
     /// Called by TakeDamage if the unit's health reaches 0.
@@ -154,7 +158,6 @@ public abstract class BaseUnit : BaseObject
     public int unitCost = 30;
     public int baseDamage = 2;
     public float attackCooldown = 1;
-    public DamageType thisUnitDamageType = 0;
 
 
     // Draw ray in editor to show distance
@@ -188,7 +191,7 @@ public abstract class BaseUnit : BaseObject
             {
                 // First check if he's not in melee range
                 // If true AND the unit can melee, do melee
-                if (rangedAttack.AttackRange > GameMan.globalMeleeRange && this is IMelee meleeAttack)
+                if (GameMan.globalMeleeRange > enemyDistance && this is IMelee meleeAttack)
                 {
                     meleeAttack.Attack();
                     Debug.Log("Enemy within range, forced to engage melee.");
@@ -232,9 +235,13 @@ public abstract class BaseUnit : BaseObject
         return Mathf.Abs(GameMan.GetClosestEnemy(thisUnitSide).transform.position.x - this.transform.position.x) - spriteOffsets;
     }
 
-    protected void DamageClosestEnemy()
+    /// <summary>
+    /// Modify health by the base damage of this unit
+    /// </summary>
+    /// <returns>Whether the unit has died</returns>
+    protected bool DamageClosestEnemy()
     {
-        GameMan.GetClosestEnemy(thisUnitSide).ModifyHealth(-this.baseDamage,thisUnitDamageType);
+        return GameMan.GetClosestEnemy(thisUnitSide).ModifyHealth(-this.baseDamage);
     }
 
     protected void MockAttack()
@@ -267,26 +274,50 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
 {
     float movementSpeed = 1;
     public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; } }
+    private bool isPushed = false;
     /// <summary>
     /// Attempt to move towards enemy tower based on movement speed
     /// </summary>
     public void MoveTowardsOppositeTower()
     {
-        // Force all health bars to be on Tower's health bar height
-        var checkPath = UnitInPath();
-        // Check if ally unit isn't blocking the path
-        if (checkPath == null)
+        if (isPushed)
         {
-            this.gameObject.transform.position += MovementSpeed * Time.deltaTime * GetEnemyTowerDirection();
-
-        }
-        else if(this is IHealing healer)
-        {
-            if(gameObject == null){return;} // had this error accessing gameobject when healer dies, can't say this will fix it ¯\(ツ)/¯
-            if(checkPath.gameObject.GetComponent<BaseObject>().thisUnitSide == thisUnitSide)
+            var rb = GetComponent<Rigidbody2D>();
+            if (rb != null)
             {
-                healer.HealAllyInFront(checkPath.gameObject.GetComponent<BaseObject>());
+                rb.velocity *= Vector2.one * 0.9f;
+                if(Mathf.Abs(rb.velocity.x) <= 0.1f)
+                {
+                    rb.velocity = Vector2.zero;
+                    isPushed = false;
+                }
             }
+        }
+        else
+        {
+            // Force all health bars to be on Tower's health bar height
+            var checkPath = UnitInPath();
+            // Check if ally unit isn't blocking the path
+            if (checkPath == null)
+            {
+                this.gameObject.transform.position += MovementSpeed * Time.deltaTime * GetEnemyTowerDirection();
+            }
+            else if (this is IHealing healer)
+            {
+                if (checkPath.gameObject.GetComponent<BaseObject>().thisUnitSide == thisUnitSide)
+                {
+                    healer.HealAllyInFront(checkPath.gameObject.GetComponent<BaseObject>());
+                }
+            }
+        }
+    }
+
+    public void KnockbackEffect(Vector2 pushForce)
+    {
+        if (GetComponent<Rigidbody2D>() != null)
+        {
+            GetComponent<Rigidbody2D>().AddForce(pushForce, ForceMode2D.Impulse);
+            isPushed = true;    
         }
     }
 
@@ -304,4 +335,40 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
         // If there's nothing in front of us for X distance, say path blocked or nah
         return hit.collider;
     }
+}
+
+public abstract class BaseProjectile : MonoBehaviour
+{
+    [SerializeField]
+    protected bool isPiercing = false;
+    [SerializeField]
+    protected float rotationSpeed = 300, flightSpeed = 2, damage = 1;
+    protected Vector3 enemyTowerDirection;
+    protected UnitSide allySide;
+
+    public void Setup(Vector3 enemyDirection, UnitSide allySide)
+    {
+        this.enemyTowerDirection = enemyDirection;
+        this.allySide = allySide;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (this is IMoving move)
+        {
+            move.MoveTowardsOppositeTower();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Make sure collision occurred
+        if (collision != null)
+        {
+            ProjectileImpact(collision.gameObject);
+        }
+    }
+
+    protected abstract void ProjectileImpact(GameObject enemyThatWasHit);
 }

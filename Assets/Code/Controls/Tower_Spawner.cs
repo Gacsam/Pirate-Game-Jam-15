@@ -9,7 +9,7 @@ public class Tower_Spawner : BaseObject
 
     // cooldowns
     public float CD = 2f;
-    private bool canSpawnMele = true;
+    private bool canSpawnMelee = true;
 
     // player inventory reference
     private Inventory playerInventory;
@@ -19,12 +19,14 @@ public class Tower_Spawner : BaseObject
     }
 
     // used on button
-    public bool SpawnMeleeMinion(){
+    public bool SpawnUnit(){
         
-        if(!canSpawnMele){return false;}
+        if(!canSpawnMelee) {return false;}
         if(playerInventory.gold < minionCost){return false;}
+        if (!spawnAreaClear) return false;
 
         var newUnit = Instantiate(melePrefab, transform.position, Quaternion.identity);
+        GameMan.CalculateSpawnPosition(ref newUnit);
         if (newUnit.GetComponent<BaseMovingUnit>().thisUnitSide == UnitSide.Alchemy) {
             GameMan.Alchemy.AddUnit(newUnit.GetComponent<BaseMovingUnit>());
         }
@@ -42,15 +44,15 @@ public class Tower_Spawner : BaseObject
 
     // countdown
     IEnumerator MeleCountdown(){
-        canSpawnMele = false;
+        canSpawnMelee = false;
         yield return new WaitForSeconds(CD);
-        canSpawnMele = true;
+        canSpawnMelee = true;
     }
 
 
     private bool spawnAreaClear = true;
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
         spawnAreaClear = false;
     }
@@ -58,30 +60,6 @@ public class Tower_Spawner : BaseObject
     public void OnTriggerExit2D(Collider2D collision)
     {
         spawnAreaClear = true;
-    }
-    /// <summary>
-    /// function name for GameMan to call. Checks if the tower doesn't already have a sprite on top of it.
-    /// </summary>
-    /// <param name="unitType"></param>
-    /// <returns></returns>
-    public bool SpawnUnit(UnitType unitType)
-    {
-        if (spawnAreaClear)
-        {
-            if(unitType == UnitType.Melee)
-                return SpawnMeleeMinion();
-            else if (unitType == UnitType.Ranged){
-                // var newChar = Instantiate(rangedPrefab, transform.position, Quaternion.identity);
-                // GameMan.ModifyGold(thisUnitSide, newChar.GetComponent<BaseMovingUnit>().unitCost);
-                return false;
-            }
-            // spawn units and all that stuff based on type
-            // such as type == melee then SpawnMeleeMinion()
-
-            // can do a gold check with GameMan.GetGold(thisUnitSide)
-            // return false if cannot afford it etc
-        }
-        return false;
     }
 
     protected override void HandleDestruction()

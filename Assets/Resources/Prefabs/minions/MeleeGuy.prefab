@@ -114,7 +114,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!114 &8567723206674049780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,10 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a87111087010fc4c832d5fb5399b5ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireGuy: {fileID: 5486058711663460684, guid: 890bb8f1714cd574988630c570d4197b, type: 3}
-  arsenicGuy: {fileID: 5543116509087731950, guid: 31e955982593cc7498426c7b0ae83f99, type: 3}
-  moonGuy: {fileID: 2240471047643682909, guid: 79bd77125c0af9740b5a59aea91b91dd, type: 3}
-  boraxGuy: {fileID: 7707729058918033589, guid: 694346335797fb14badb1e4774be1111, type: 3}
 --- !u!114 &-6614278825202714510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +142,7 @@ MonoBehaviour:
   thisUnitSide: 0
   thisUnitType: 0
   thisUnitMaxHealth: 10
-  sliderOffset: 2
+  sliderOffset: 3
   unitCost: 30
   baseDamage: 2
   attackCooldown: 1
