@@ -6,7 +6,7 @@ using UnityEngine;
 public class TransformerMinion : BaseMovingUnit, IMelee
 {
     [SerializeField]
-    private int oddsOfDroppingElementsOutOfHundred = 1;
+    private int chanceOfDroppingElement = 1;
     void IMelee.Attack()
     {
         MockAttack();
@@ -22,7 +22,7 @@ public class TransformerMinion : BaseMovingUnit, IMelee
         {
             var allShards = Resources.LoadAll<GameObject>("Prefabs/Items/Alchemy/");
             var randomNumber = Random.Range(0, 100);
-            if (randomNumber < oddsOfDroppingElementsOutOfHundred * allShards.Length)
+            if (randomNumber < chanceOfDroppingElement * allShards.Length)
             {
                 var shardToPick = randomNumber % allShards.Length;
                 Instantiate(allShards[shardToPick]);
@@ -35,6 +35,8 @@ public class TransformerMinion : BaseMovingUnit, IMelee
     GameObject fireGuy, arsenicGuy, moonGuy, boraxGuy;
     public void Upgrade(ElementType upgradeType)
     {
+        if (thisUnitSide == UnitSide.Shadow) return;
+
         var replacedUnit = this.GetComponent<BaseUnit>();
         var newUnit = replacedUnit.gameObject;
         if (upgradeType == ElementType.Fire) { newUnit = Instantiate(fireGuy, transform.position, Quaternion.identity); }
@@ -42,8 +44,13 @@ public class TransformerMinion : BaseMovingUnit, IMelee
         else if (upgradeType == ElementType.Arsenic) { newUnit = Instantiate(arsenicGuy, transform.position, Quaternion.identity); }
         else if (upgradeType == ElementType.Moon) { newUnit = Instantiate(moonGuy, transform.position, Quaternion.identity); }
         // transfer all injuries
-        newUnit.GetComponent<BaseUnit>().ModifyHealth(-replacedUnit.GetComponent<BaseUnit>().GetInjuryPoints());
-        GameMan.CalculateSpawnPosition(ref newUnit);
+        if(newUnit.TryGetComponent<BaseUnit>(out var theUnitData))
+        {
+            theUnitData.ModifyHealth(-replacedUnit.GetComponent<BaseUnit>().GetInjuryPoints());
+            var difference = replacedUnit.GetComponent<SpriteRenderer>().sprite.bounds.size.y - theUnitData.GetComponent<SpriteRenderer>().sprite.bounds.size.y;
+            transform.position += difference / 2 * Vector3.up;
+        }
+        // GameMan.CalculateSpawnPosition(ref newUnit);
         if (GetComponent<BaseObject>().thisUnitSide == UnitSide.Alchemy)
         {
             GameMan.Alchemy.UnitUpgraded(replacedUnit, newUnit.GetComponent<BaseObject>());

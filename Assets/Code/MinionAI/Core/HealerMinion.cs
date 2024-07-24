@@ -20,7 +20,8 @@ public class HealerMinion : BaseMovingUnit, IHealing, IMelee
         // destroy this unit at the very end
         if(thisUnitSide == UnitSide.Shadow)
         {
-            Instantiate(Resources.Load("Prefabs/Items/Alchemy/Borax shard"));
+            var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Borax shard"), this.transform.position, Quaternion.identity);
+            shard.transform.SetParent(null, false);
         }
         Object.Destroy(this.gameObject);
     }
