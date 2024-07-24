@@ -201,11 +201,11 @@ public class GameMan : MonoBehaviour
     {
         var offset = unit.GetComponent<Collider2D>().bounds.extents.y;
         // Create a raycast to see where ground is
-        RaycastHit2D hit = Physics2D.Raycast(unit.transform.position, Vector2.down, 10, ~LayerMask.GetMask("Ignore Raycast"));
+        RaycastHit2D hit = Physics2D.Raycast(unit.transform.position, Vector2.down, 100, ~LayerMask.GetMask("Ignore Raycast"));
         var newMinionPosition = unit.transform.position;
         if (hit)
         {
-            newMinionPosition.y = hit.point.y + offset;
+            newMinionPosition.y = hit.point.y + offset - (0.01f * Random.Range(0,50));
         }
         unit.transform.position = newMinionPosition;
     }
