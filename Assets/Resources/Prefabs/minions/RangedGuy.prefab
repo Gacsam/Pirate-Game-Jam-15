@@ -128,9 +128,8 @@ MonoBehaviour:
   thisUnitSide: 0
   thisUnitType: 0
   thisUnitMaxHealth: 7
-  sliderOffset: 3
+  sliderOffset: 0.5
   unitCost: 45
   baseDamage: 2
   attackCooldown: 1
-  thisUnitDamageType: 3
   projectileToSpawn: {fileID: 5858485933882119005, guid: 0573d90e92c953f428b11306ce650fa6, type: 3}

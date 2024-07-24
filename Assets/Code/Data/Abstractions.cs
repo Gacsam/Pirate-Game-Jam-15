@@ -39,9 +39,11 @@ public abstract class BaseObject : MonoBehaviour
         thisUnitHealth = thisUnitMaxHealth;
 
         var sliderPrefab = Resources.Load<Slider>("Prefabs/Sliders/HealthBar");
+        if (Camera.main.GetComponentInChildren<Canvas>() == null) { throw new System.NotImplementedException(); } // parent UI_Canvas to Camera
         this.unitHealthSlider = Instantiate(sliderPrefab, Camera.main.GetComponentInChildren<Canvas>().transform.Find("Health UI"));
+
         Vector3 healthHeight = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.down * sliderOffset));
+        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
         this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
 
         // If it's a tower, hook up to GameMan
@@ -180,7 +182,7 @@ public abstract class BaseUnit : BaseObject
     {
         // Continously update position just in case there's knockback, falling or anything
         Vector3 healthHeight = new Vector3(this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
-        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.down * sliderOffset));
+        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
 
         // If GameMan exists and if we have a target which should always be true
         if (GameMan.Instance != null && GameMan.GetClosestEnemy(thisUnitSide) != null)

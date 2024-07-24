@@ -128,10 +128,9 @@ MonoBehaviour:
   thisUnitSide: 0
   thisUnitType: 0
   thisUnitMaxHealth: 5
-  sliderOffset: 3
+  sliderOffset: 0.5
   unitCost: 30
   baseDamage: 1
   attackCooldown: 2
-  thisUnitDamageType: 4
   healthPerSecond: 1
   healEverySecond: 0

@@ -101,7 +101,7 @@ MonoBehaviour:
   thisUnitSide: 1
   thisUnitType: 0
   thisUnitMaxHealth: 10
-  sliderOffset: 3
+  sliderOffset: 0.5
   unitCost: 30
   baseDamage: 2
   attackCooldown: 1
