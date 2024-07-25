@@ -25,6 +25,8 @@ public class UI_Manager : MonoBehaviour
             // LAMBDA FUNCTIONS OP
             button.onClick.AddListener(() => InteractedWithButton(button));
         }
+        GameSpeed = GameSpeed.Stop;
+        mainMenuObject = Camera.main.transform.Find("UI_Canvas/MainMenu").gameObject;
     }
     // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
     public static UI_Manager Instance
@@ -57,6 +59,10 @@ public class UI_Manager : MonoBehaviour
             case "Melee Spawn Button":
                 buttonSuccess = SpawnButton();
                 break;
+            case "StartButton":
+                GameSpeed = GameSpeed.Normal;
+                mainMenuObject.SetActive(false);
+                break;
             default:
                 Debug.Log("No interaction found with \"" + name + "\"");
                 break;
@@ -75,6 +81,8 @@ public class UI_Manager : MonoBehaviour
         }
         else return false;
     }
+
+    private static GameObject mainMenuObject;
     
     IEnumerator ButtonFlashColour(Button buttonToFlash, Color colourToSet)
     {
@@ -114,6 +122,52 @@ public class UI_Manager : MonoBehaviour
         {
             buttonArray[i].transform.position = new Vector3((spacing*i)+spacing,transform.position.y,0);
         }
-
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (GameSpeed == GameSpeed.Normal)
+            {
+                GameSpeed = GameSpeed.Stop;
+                mainMenuObject.SetActive(true);
+            }
+            else if (GameSpeed == GameSpeed.Stop)
+            {
+                GameSpeed = GameSpeed.Normal;
+                mainMenuObject.SetActive(false);
+            }
+        }
+    }
+
+    static GameSpeed currentWorldSpeed = GameSpeed.Normal;
+
+    public static GameSpeed GameSpeed
+    {
+        get { return currentWorldSpeed; }
+        set
+        {
+            switch (value)
+            {
+                case GameSpeed.Stop:
+                    Time.timeScale = 0;
+
+                    break;
+                case GameSpeed.Normal:
+                    Time.timeScale = 1;
+                    break;
+                case GameSpeed.Fast:
+                    Time.timeScale = 2;
+                    break;
+                case GameSpeed.Superfast:
+                    Time.timeScale = 3;
+                    break;
+                default:
+                    break;
+            }
+            currentWorldSpeed = value;
+        }
+    }
+
+
 }

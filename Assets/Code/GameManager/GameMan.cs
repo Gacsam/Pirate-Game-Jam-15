@@ -23,7 +23,6 @@ public class GameMan : MonoBehaviour
         }else if(instance != this){
             Destroy(this.gameObject);
         }
-
         alchemy ??= new();
         shadow ??= new();
     }
@@ -43,44 +42,6 @@ public class GameMan : MonoBehaviour
             }
             return instance;
         }
-    }
-
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if(GameSpeed == GameSpeed.Normal)
-            {
-                GameSpeed = GameSpeed.Stop;
-            }else if (GameSpeed == GameSpeed.Stop)
-            {
-                GameSpeed = GameSpeed.Normal;
-            }
-        }
-    }
-
-    static GameSpeed currentWorldSpeed = GameSpeed.Normal;
-
-    public static GameSpeed GameSpeed { get { return currentWorldSpeed; } set {
-            switch (value)
-            {
-                case GameSpeed.Stop:
-                    Time.timeScale = 0;
-                    break;
-                case GameSpeed.Normal:
-                    Time.timeScale = 1;
-                    break;
-                case GameSpeed.Fast:
-                    Time.timeScale = 2;
-                    break;
-                case GameSpeed.Superfast:
-                    Time.timeScale = 3;
-                    break;
-                default:
-                    break;
-            }
-            currentWorldSpeed = value;
-        } 
     }
             
     // Similarly, by creating an OppositeSide class, we can refer to these sides outside the GameMan
@@ -187,6 +148,9 @@ public class GameMan : MonoBehaviour
     /// </summary>
     public static void TowerDestroyed(UnitSide side)
     {
+        // re-creates opposing sides so that previous data gets removed, then reloads scene
+        alchemy = new();
+        shadow = new();
         string currentScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentScene);
     }
