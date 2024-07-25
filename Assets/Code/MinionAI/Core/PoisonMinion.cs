@@ -11,7 +11,8 @@ public class PoisonMinion : BaseMovingUnit, IRanged, IMelee
     {
         if (thisUnitSide == UnitSide.Shadow)
         {
-            Instantiate(Resources.Load("Prefabs/Items/Alchemy/Arsenic shard"));
+            var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Arsenic shard"), this.transform.position, Quaternion.identity);
+            shard.transform.SetParent(null, false);
         }
         Destroy(gameObject);
     }
@@ -25,11 +26,18 @@ public class PoisonMinion : BaseMovingUnit, IRanged, IMelee
     {
         if (this.attackTimer == 0)
         {
-            var projectile = Instantiate(projectileToSpawn, transform.position + GetEnemyTowerDirection(), Quaternion.identity);
+            this.attackTimer += Time.deltaTime;
+            if (GameMan.GetClosestEnemy(thisUnitSide).thisUnitType == UnitType.Tower)
+            {
+                MoveTowardsOppositeTower();
+            }else{
+            var offset = GetSpriteExtents() * GetEnemyTowerDirection().x * 2;
+            var projectile = Instantiate(projectileToSpawn, transform.position + offset, Quaternion.identity);
             if (projectile.GetComponent<PoisonBomb>() == null) projectile.AddComponent<PoisonBomb>().Setup(GetEnemyTowerDirection(), thisUnitSide);
             else projectile.GetComponent<PoisonBomb>().Setup(GetEnemyTowerDirection(), thisUnitSide);
             ThrowProjectile(ref projectile);
-            this.attackTimer += Time.deltaTime;
+                this.attackTimer += Time.deltaTime;
+            }
         }
         else if (this.attackTimer >= 2)
         {

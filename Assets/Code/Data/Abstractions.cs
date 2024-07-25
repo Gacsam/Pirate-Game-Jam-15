@@ -21,7 +21,7 @@ public abstract class BaseObject : MonoBehaviour
     [SerializeField]
     protected float thisUnitMaxHealth = 10;
     [SerializeField]
-    protected float sliderOffset = 2.0f;
+    protected Vector3 sliderOffset = Vector3.up;
     protected Slider unitHealthSlider;
 
     // honestly dunno how to go about implementing poison .... im cooked
@@ -32,7 +32,7 @@ public abstract class BaseObject : MonoBehaviour
     // Add Box Collider if it doesn't have it
     protected void Awake()
     {
-        if (this.GetComponent<Collider2D>() == null)
+        if (GetComponent<Collider2D>() == null)
         {
             this.AddComponent<BoxCollider2D>();
         }
@@ -40,36 +40,30 @@ public abstract class BaseObject : MonoBehaviour
 
         var sliderPrefab = Resources.Load<Slider>("Prefabs/Sliders/HealthBar");
         if (Camera.main.GetComponentInChildren<Canvas>() == null) { throw new System.NotImplementedException(); } // parent UI_Canvas to Camera
-        this.unitHealthSlider = Instantiate(sliderPrefab, Camera.main.GetComponentInChildren<Canvas>().transform.Find("Health UI"));
+        unitHealthSlider = Instantiate(sliderPrefab, Camera.main.GetComponentInChildren<Canvas>().transform.Find("Health UI"));
 
-        Vector3 healthHeight = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-
-        // tower's health slider should be pushed to the centre a bit since camera does not go past half of the tower
-        if(thisUnitType==UnitType.Tower){
-            if(thisUnitSide==UnitSide.Alchemy){healthHeight.x += 1f;}
-            else{healthHeight.x -= 1f;}
-        }
+        Vector3 healthHeight = new(transform.position.x, transform.position.y, transform.position.z);
         
-        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
-        this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
+        unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + sliderOffset);
+        unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
 
         // If it's a tower, hook up to GameMan
-        if (this.thisUnitType == UnitType.Tower)
+        if (thisUnitType == UnitType.Tower)
         {
-            if (this.thisUnitSide == UnitSide.Alchemy)
+            if (thisUnitSide == UnitSide.Alchemy)
             {
-                GameMan.Alchemy.Tower = this.GetComponent<BaseObject>();
+                GameMan.Alchemy.Tower = GetComponent<BaseObject>();
             }
             else
             {
-                GameMan.Shadow.Tower = this.GetComponent<BaseObject>();
+                GameMan.Shadow.Tower = GetComponent<BaseObject>();
             }
             // Make Tower bar slightly longer
-            this.unitHealthSlider.GetComponent<RectTransform>().sizeDelta = this.unitHealthSlider.GetComponent<RectTransform>().sizeDelta + Vector2.right * 50;
+            unitHealthSlider.GetComponent<RectTransform>().sizeDelta = unitHealthSlider.GetComponent<RectTransform>().sizeDelta + Vector2.right * 50;
         }
         else
         {
-            this.unitHealthSlider.transform.localScale = Vector3.one * 0.5f;
+            unitHealthSlider.transform.localScale = Vector3.one * 0.5f;
         }
     }
 
@@ -88,9 +82,9 @@ public abstract class BaseObject : MonoBehaviour
     /// Gets the sprite's X extents, equal to half the size.
     /// </summary>
     /// <returns>This specific unit's Collider2D.extents.x</returns>
-    public float GetSpriteExtents()
+    public Vector3 GetSpriteExtents()
     {
-        return this.GetComponent<Collider2D>().bounds.extents.x;
+        return GetComponent<SpriteRenderer>().sprite.bounds.extents;
     }
     /// <summary>
     /// Take damage function, will allow for modifications based on damage type dealt
@@ -105,10 +99,10 @@ public abstract class BaseObject : MonoBehaviour
         thisUnitHealth += modifier;
         thisUnitHealth = Mathf.Clamp(thisUnitHealth, 0, thisUnitMaxHealth);
 
-        if (this.thisUnitHealth <= 0)
+        if (thisUnitHealth <= 0)
         {
             // Make sure unit is not set to Tower by accident
-            if (this.thisUnitType != UnitType.Tower)
+            if (thisUnitType != UnitType.Tower)
             {
                 if (thisUnitSide == UnitSide.Alchemy)
                 {
@@ -137,7 +131,7 @@ public abstract class BaseObject : MonoBehaviour
         else
         {
             unitHealthSlider.value = thisUnitHealth / thisUnitMaxHealth;
-            this.unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
+            unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
             return false;
         }
     }
@@ -164,15 +158,14 @@ public abstract class BaseObject : MonoBehaviour
     /// </summary>
     
     public void UpdateHealthSlider(){
-        Vector3 healthHeight = new Vector3(this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
+        Vector3 healthHeight = new (transform.position.x, GameMan.Alchemy.Tower.transform.position.y, transform.position.z);
 
         // tower's health slider should be pushed to the centre a bit since camera does not go past half of the tower
         if(thisUnitType==UnitType.Tower){
             if(thisUnitSide==UnitSide.Alchemy){healthHeight.x += 1f;}
             else{healthHeight.x -= 1f;}
         }
-
-        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
+        unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + sliderOffset);
     }
 
 }
@@ -182,7 +175,6 @@ public abstract class BaseObject : MonoBehaviour
 public abstract class BaseUnit : BaseObject
 {
     protected float attackTimer = 0;
-    public int unitCost = 30;
     public int baseDamage = 2;
     public float attackCooldown = 1;
 
@@ -192,22 +184,23 @@ public abstract class BaseUnit : BaseObject
     {
         Gizmos.color = Color.red;
         // Offset half a sprite towards enemy   
-        var offset = GetEnemyTowerDirection() * this.GetSpriteExtents();
+        var offset = GetEnemyTowerDirection() * GetSpriteExtents().x;
+        offset.y = 0;
+        offset += Vector3.up * GetSpriteExtents().y;
         if (this is IRanged r)
         {
             Gizmos.DrawRay(transform.position + offset, GetEnemyTowerDirection() * r.AttackRange);
         }
-        else 
+        else
         {
             Gizmos.DrawRay(transform.position + offset, GetEnemyTowerDirection() * GameMan.globalMeleeRange);
         }
     }
 
     public void Update()
-    {
-        // Continously update position just in case there's knockback, falling or anything
-        Vector3 healthHeight = new Vector3(this.transform.position.x, GameMan.Alchemy.Tower.transform.position.y, this.transform.position.z);
-        this.unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(healthHeight + (Vector3.up * sliderOffset));
+    {         
+        // Continuously update position just in case there's knockback, falling or anything
+        unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + sliderOffset);
 
         // If GameMan exists and if we have a target which should always be true
         if (GameMan.Instance != null && GameMan.GetClosestEnemy(thisUnitSide) != null)
@@ -258,8 +251,20 @@ public abstract class BaseUnit : BaseObject
     /// <returns>Closest enemy unit or tower</returns>
     public float GetClosestTargetDistance()
     {
-        var spriteOffsets = GameMan.GetClosestEnemy(thisUnitSide).GetSpriteExtents() + this.GetSpriteExtents(); // we use sprite offsets to get true distance between units' edges
-        return Mathf.Abs(GameMan.GetClosestEnemy(thisUnitSide).transform.position.x - this.transform.position.x) - spriteOffsets;
+        Bounds myBounds = this.GetComponent<Renderer>().bounds;
+        Bounds enemyBounds = GameMan.GetClosestEnemy(thisUnitSide).GetComponent<Renderer>().bounds;
+        if (enemyBounds.max.x < myBounds.min.x)
+        {
+            return myBounds.min.x - enemyBounds.max.x;
+        }
+        else if (myBounds.max.x < enemyBounds.min.x)
+        {
+            return enemyBounds.min.x - myBounds.max.x;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     /// <summary>
@@ -268,21 +273,21 @@ public abstract class BaseUnit : BaseObject
     /// <returns>Whether the unit has died</returns>
     protected bool DamageClosestEnemy()
     {
-        return GameMan.GetClosestEnemy(thisUnitSide).ModifyHealth(-this.baseDamage);
+        return GameMan.GetClosestEnemy(thisUnitSide).ModifyHealth(-baseDamage);
     }
 
     protected void MockAttack()
     {
         // Timer represents animations n all        
-        this.attackTimer += Time.deltaTime;
+        attackTimer += Time.deltaTime;
         // When the attack animation is done
-        if (this.attackTimer > this.attackCooldown)
+        if (attackTimer > attackCooldown)
         {
             // Double check the enemy unit still exist
             if (GameMan.GetClosestEnemy(thisUnitSide) != null)
             {
                 // Reset the timer and damage closest enemy unit
-                this.attackTimer = 0;
+                attackTimer = 0;
                 DamageClosestEnemy();
 
                 // just realised youve done it .... bruh moment where i waste my time. Thats what i get for forgetting your discord message lol, you literally SAID YOUVE DONE IT
@@ -301,50 +306,49 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
 {
     float movementSpeed = 1;
     public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; } }
-    private bool isPushed = false;
     /// <summary>
     /// Attempt to move towards enemy tower based on movement speed
     /// </summary>
     public void MoveTowardsOppositeTower()
     {
-        if (isPushed)
+        if (TryGetComponent<Rigidbody2D>(out var rb))
         {
-            var rb = GetComponent<Rigidbody2D>();
-            if (rb != null)
+            if (rb.velocity != Vector2.zero)
             {
-                rb.velocity *= Vector2.one * 0.9f;
-                if(Mathf.Abs(rb.velocity.x) <= 0.1f)
-                {
-                    rb.velocity = Vector2.zero;
-                    isPushed = false;
-                }
+                StartCoroutine(ResetRB());
             }
         }
-        else
+
+        // Force all health bars to be on Tower's health bar height
+        var checkPath = UnitInPath();
+        // Check if ally unit isn't blocking the path
+        if (checkPath == null)
         {
-            // Force all health bars to be on Tower's health bar height
-            var checkPath = UnitInPath();
-            // Check if ally unit isn't blocking the path
-            if (checkPath == null)
+            gameObject.transform.position += MovementSpeed * Time.deltaTime * GetEnemyTowerDirection();
+        }
+        else if (this is IHealing healer)
+        {
+            if (checkPath.gameObject.GetComponent<BaseObject>().thisUnitSide == thisUnitSide)
             {
-                this.gameObject.transform.position += MovementSpeed * Time.deltaTime * GetEnemyTowerDirection();
-            }
-            else if (this is IHealing healer)
-            {
-                if (checkPath.gameObject.GetComponent<BaseObject>().thisUnitSide == thisUnitSide)
-                {
-                    healer.HealAllyInFront(checkPath.gameObject.GetComponent<BaseObject>());
-                }
+                healer.HealAllyInFront(checkPath.gameObject.GetComponent<BaseObject>());
             }
         }
     }
 
     public void KnockbackEffect(Vector2 pushForce)
     {
-        if (GetComponent<Rigidbody2D>() != null)
+        if (TryGetComponent<Rigidbody2D>(out var rb))
         {
-            GetComponent<Rigidbody2D>().AddForce(pushForce, ForceMode2D.Impulse);
-            isPushed = true;    
+            rb.AddForce(pushForce, ForceMode2D.Impulse);
+        }
+    }
+
+    private IEnumerator ResetRB()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (TryGetComponent<Rigidbody2D>(out var rb))
+        {
+            rb.velocity = Vector2.zero;
         }
     }
 
@@ -355,12 +359,17 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
     /// <returns>Whether there is no collider in front of the unit within globalMeleeRange</returns>
     protected Collider2D UnitInPath()
     {
-        // Multiply direction by horizontal offset to create a ray right at edge of character
-        Vector3 offset = GetEnemyTowerDirection() * this.GetComponent<Collider2D>().bounds.extents.x;
+        var offset = GetEnemyTowerDirection() * GetSpriteExtents().x;
+        offset.y = 0;
+        offset += Vector3.up * GetSpriteExtents().y;
         // Create a raycast of X steps where you can't move further
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + offset, GetEnemyTowerDirection(), GameMan.globalMeleeRange, ~LayerMask.GetMask("Ignore Raycast"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + offset, GetEnemyTowerDirection(), GameMan.globalMeleeRange, ~LayerMask.GetMask("Ignore Raycast", "Ground"));
         // If there's nothing in front of us for X distance, say path blocked or nah
-        return hit.collider;
+        if (hit)
+        {
+            if (hit.transform.gameObject.GetComponent<BaseMovingUnit>() != null) return hit.collider;
+        }
+        return null;
     }
 }
 
@@ -370,22 +379,13 @@ public abstract class BaseProjectile : MonoBehaviour
     protected bool isPiercing = false;
     [SerializeField]
     protected float rotationSpeed = 300, flightSpeed = 2, damage = 1;
-    protected Vector3 enemyTowerDirection;
+    protected Vector3 targetPosition;
     protected UnitSide allySide;
 
     public void Setup(Vector3 enemyDirection, UnitSide allySide)
     {
-        this.enemyTowerDirection = enemyDirection;
+        targetPosition = enemyDirection;
         this.allySide = allySide;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (this is IMoving move)
-        {
-            move.MoveTowardsOppositeTower();
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

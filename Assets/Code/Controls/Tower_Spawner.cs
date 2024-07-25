@@ -25,8 +25,8 @@ public class Tower_Spawner : BaseObject
         if(playerInventory.gold < minionCost){return false;}
         if (!spawnAreaClear) return false;
 
-        var newUnit = Instantiate(melePrefab, transform.position, Quaternion.identity);
-        GameMan.CalculateSpawnPosition(ref newUnit);
+        var newUnit = Instantiate(melePrefab, GameMan.CalculateSpawnPosition(gameObject.transform, melePrefab), Quaternion.identity);
+        
         if (newUnit.GetComponent<BaseMovingUnit>().thisUnitSide == UnitSide.Alchemy) {
             GameMan.Alchemy.AddUnit(newUnit.GetComponent<BaseMovingUnit>());
         }

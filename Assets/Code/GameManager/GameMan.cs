@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[System.Serializable]
+
 public class GameMan : MonoBehaviour
 {
     /// <summary>
     /// Global value for melee range. Additionally, represents the minimum distance between units.
     /// </summary>
     public static float globalMeleeRange = 0.5f;
-    // GameMananager singleton to track all the variables that we need accessible
+    // GameManager singleton to track all the variables that we need accessible
     private static GameMan instance;
     private void Awake()
     {
@@ -23,16 +24,8 @@ public class GameMan : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if(alchemy == null)
-        {
-            alchemy = new OpposingSide();
-            alchemy.Inventory = new Inventory();
-        }
-        if (shadow == null)
-        {
-            shadow = new OpposingSide();
-            shadow.Inventory = new Inventory();
-        }
+        alchemy ??= new();
+        shadow ??= new();
     }
     // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
     public static GameMan Instance
@@ -194,26 +187,26 @@ public class GameMan : MonoBehaviour
     /// </summary>
     public static void TowerDestroyed(UnitSide side)
     {
-
+        string currentScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentScene);
     }
-
-    public static void CalculateSpawnPosition(ref GameObject unit)
+    public static Vector3 CalculateSpawnPosition(Transform initialPosition, GameObject unit)
     {
         var offset = unit.GetComponent<Collider2D>().bounds.extents.y;
         // Create a raycast to see where ground is
-        RaycastHit2D hit = Physics2D.Raycast(unit.transform.position, Vector2.down, 100, ~LayerMask.GetMask("Ignore Raycast"));
-        var newMinionPosition = unit.transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(initialPosition.position, Vector2.down, 10, ~LayerMask.GetMask("Ignore Raycast"));
+        var newMinionPosition = initialPosition.position;
         if (hit)
         {
-            newMinionPosition.y = hit.point.y + offset - (0.01f * Random.Range(0,50));
+            newMinionPosition.y = hit.point.y + offset - (0.01f * Random.Range(0,40));
         }
-        unit.transform.position = newMinionPosition;
+        return newMinionPosition;
     }
 
     // <summary>
     // Cloud control when moving camera to show depth
     // <summary>
-    public static List<Clouds> clouds = new List<Clouds>();
+    public static List<Clouds> clouds = new ();
     public static void MoveCloud(Vector2 direction)
     {
         foreach (Clouds cloud in clouds)

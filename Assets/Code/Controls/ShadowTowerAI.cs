@@ -9,10 +9,13 @@ public class ShadowTowerAI : BaseObject
     private int income;
     private int minionCost;
 
-    private bool canSpawnMele = true;
+    private bool canSpawnMelee = true;
     private float CD;
 
-    public GameObject minion;
+    public GameObject baseMinion;
+    [SerializeField]
+    private int percentageChanceToSpawnSpecial = 10;
+    public GameObject[] specialMinions;
 
     void Start() {
         // copy player stats
@@ -29,9 +32,19 @@ public class ShadowTowerAI : BaseObject
     }
 
     void Update() {
-        if (canSpawnMele && gold > minionCost && spawnAreaClear){
-            var newUnit = Instantiate(minion,transform.position, Quaternion.identity);
-            GameMan.CalculateSpawnPosition(ref newUnit);
+        if (canSpawnMelee && gold > minionCost && spawnAreaClear){
+            GameObject newUnit;
+            var randomNumber = Random.Range(0, 100);
+            if (randomNumber < percentageChanceToSpawnSpecial)
+            {
+                // Remainder of random number / amount of special minions is sorta random index
+                var theUnitToSpawn = specialMinions[randomNumber % specialMinions.Length];
+                newUnit = Instantiate(specialMinions[randomNumber % specialMinions.Length], GameMan.CalculateSpawnPosition(gameObject.transform, theUnitToSpawn), Quaternion.identity);
+            }
+            else
+            {
+                newUnit = Instantiate(baseMinion, GameMan.CalculateSpawnPosition(this.gameObject.transform, baseMinion), Quaternion.identity);
+            }
             GameMan.Shadow.AddUnit(newUnit.GetComponent<BaseMovingUnit>());
             gold -= minionCost;
         }
@@ -44,10 +57,10 @@ public class ShadowTowerAI : BaseObject
     }
 
     // countdown
-    IEnumerator MeleCountdown(){
-        canSpawnMele = false;
+    IEnumerator MeleeCountdown(){
+        canSpawnMelee = false;
         yield return new WaitForSeconds(CD);
-        canSpawnMele = true;
+        canSpawnMelee = true;
     }
 
     protected override void HandleDestruction()

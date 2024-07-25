@@ -10,11 +10,14 @@ public class FireMinion: BaseMovingUnit, IMelee
     {
         if (thisUnitSide == UnitSide.Shadow)
         {
-            Instantiate(Resources.Load("Prefabs/Items/Alchemy/Fire shard"));
+            var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Fire shard"), this.transform.position, Quaternion.identity);
+            shard.transform.SetParent(null, false);
         }
         Destroy(this.gameObject);
     }
 
+    [SerializeField]
+    int knockbackEveryHitX = 3;
     int hitCounter = 0;
     void IMelee.Attack()
     {
@@ -45,6 +48,11 @@ public class FireMinion: BaseMovingUnit, IMelee
                             enemyUnit.KnockbackEffect(GetEnemyTowerDirection() * pushForce / 2);
                         hitCounter++;
                     }
+                }
+
+                if(hitCounter >= knockbackEveryHitX)
+                {
+                    hitCounter = 0;
                 }
             }
         }
