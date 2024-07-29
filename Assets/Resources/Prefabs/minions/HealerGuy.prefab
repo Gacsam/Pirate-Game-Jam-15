@@ -217,6 +217,7 @@ MonoBehaviour:
   sliderOffset: {x: 0.05, y: 1.9, z: 0}
   baseDamage: 10
   attackCooldown: 2
+  thisElementType: 4
   healthPerSecond: 1
   healEverySecond: 0
 --- !u!61 &-7788178374049863993

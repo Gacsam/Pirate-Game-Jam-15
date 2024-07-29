@@ -6,15 +6,15 @@ public class FireMinion: BaseMovingUnit, IMelee
 {
     [SerializeField]
     private float pushForce = 10;
-    protected override void HandleDestruction()
-    {
-        if (thisUnitSide == UnitSide.Shadow)
-        {
-            var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Fire shard"), this.transform.position, Quaternion.identity);
-            shard.transform.SetParent(null, false);
-        }
-        Destroy(this.gameObject);
-    }
+    // protected override void HandleDestruction()
+    // {
+    //     if (thisUnitSide == UnitSide.Shadow)
+    //     {
+    //         var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Fire shard"), this.transform.position, Quaternion.identity);
+    //         shard.transform.SetParent(null, false);
+    //     }
+    //     Destroy(this.gameObject);
+    // }
 
     [SerializeField]
     int knockbackEveryHitX = 3;

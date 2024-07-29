@@ -7,15 +7,15 @@ public class PoisonMinion : BaseMovingUnit, IRanged, IMelee
 {
     [SerializeField]
     private GameObject projectileToSpawn;
-    protected override void HandleDestruction()
-    {
-        if (thisUnitSide == UnitSide.Shadow)
-        {
-            var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Arsenic shard"), this.transform.position, Quaternion.identity);
-            shard.transform.SetParent(null, false);
-        }
-        Destroy(gameObject);
-    }
+    // protected override void HandleDestruction()
+    // {
+    //     if (thisUnitSide == UnitSide.Shadow)
+    //     {
+    //         var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Arsenic shard"), this.transform.position, Quaternion.identity);
+    //         shard.transform.SetParent(null, false);
+    //     }
+    //     Destroy(gameObject);
+    // }
 
 
     [SerializeField]

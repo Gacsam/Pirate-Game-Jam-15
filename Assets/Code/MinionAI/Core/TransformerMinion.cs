@@ -20,7 +20,7 @@ public class TransformerMinion : BaseMovingUnit, IMelee
         // destroy this unit at the very end
         if (thisUnitSide == UnitSide.Shadow)
         {
-            var allShards = Resources.LoadAll<GameObject>("Prefabs/Items/Alchemy/");
+            var allShards = Resources.LoadAll<GameObject>("Prefabs/Items/Drop/");
             var randomNumber = Random.Range(0, 100);
             if (randomNumber < chanceOfDroppingElement * allShards.Length)
             {

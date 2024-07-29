@@ -133,7 +133,9 @@ MonoBehaviour:
   sliderOffset: {x: 0, y: 2.6, z: 0}
   baseDamage: 25
   attackCooldown: 1
+  thisElementType: 1
   pushForce: 10
+  knockbackEveryHitX: 3
 --- !u!61 &723757414663939367
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -25,8 +25,12 @@ public class UI_Manager : MonoBehaviour
             // LAMBDA FUNCTIONS OP
             button.onClick.AddListener(() => InteractedWithButton(button));
         }
-        GameSpeed = GameSpeed.Stop;
+
         mainMenuObject = Camera.main.transform.Find("UI_Canvas/MainMenu").gameObject;
+
+        GameSpeed = GameSpeed.Normal;
+        mainMenuObject.SetActive(false);
+
     }
     // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
     public static UI_Manager Instance

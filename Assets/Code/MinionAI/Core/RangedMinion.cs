@@ -17,19 +17,19 @@ public class RangedMinion : BaseMovingUnit, IRanged
     {
         Shoot();
     }
-    protected override void HandleDestruction()
-    {
-        // play sounds
-        // play animations
-        // instantiate vfx
-        // destroy this unit at the very end
-        if (thisUnitSide == UnitSide.Shadow)
-        {
-            var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Moon shard"), this.transform.position, Quaternion.identity);
-            shard.transform.SetParent(null, false);
-        }
-        Object.Destroy(this.gameObject);
-    }
+    // protected override void HandleDestruction()
+    // {
+    //     // play sounds
+    //     // play animations
+    //     // instantiate vfx
+    //     // destroy this unit at the very end
+    //     if (thisUnitSide == UnitSide.Shadow)
+    //     {
+    //         var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Alchemy/Moon shard"), this.transform.position, Quaternion.identity);
+    //         shard.transform.SetParent(null, false);
+    //     }
+    //     Object.Destroy(this.gameObject);
+    // }
 
     protected void Shoot()
     {

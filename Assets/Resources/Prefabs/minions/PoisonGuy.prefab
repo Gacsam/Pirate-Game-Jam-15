@@ -133,6 +133,7 @@ MonoBehaviour:
   sliderOffset: {x: 0, y: 1.6, z: 0}
   baseDamage: 15
   attackCooldown: 3
+  thisElementType: 2
   projectileToSpawn: {fileID: 2510135803557718899, guid: d473ffe5a4613af49b3027e56f468bdf, type: 3}
   throwRange: 2.5
   arcThrowHeight: 1.5

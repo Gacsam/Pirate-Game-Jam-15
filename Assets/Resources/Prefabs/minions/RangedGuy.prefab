@@ -133,6 +133,7 @@ MonoBehaviour:
   sliderOffset: {x: 0, y: 1.6, z: 0}
   baseDamage: 15
   attackCooldown: 1
+  thisElementType: 3
   projectileToSpawn: {fileID: 5858485933882119005, guid: 0573d90e92c953f428b11306ce650fa6, type: 3}
 --- !u!61 &-3258782795556719227
 BoxCollider2D:

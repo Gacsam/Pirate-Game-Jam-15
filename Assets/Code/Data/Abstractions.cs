@@ -304,8 +304,20 @@ public abstract class BaseUnit : BaseObject
 
 public abstract class BaseMovingUnit : BaseUnit, IMoving
 {
+    public ElementType thisElementType;
     float movementSpeed = 1;
     public float MovementSpeed { get { return movementSpeed; } set { movementSpeed = value; } }
+
+    // drop shards relative to the minions elemental type
+    protected override void HandleDestruction(){
+        if (thisUnitSide == UnitSide.Shadow)
+        {
+            var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Drop/" + thisElementType + " drop"), this.transform.position, Quaternion.identity);
+        }
+        Destroy(this.gameObject);
+    }
+
+
     /// <summary>
     /// Attempt to move towards enemy tower based on movement speed
     /// </summary>
