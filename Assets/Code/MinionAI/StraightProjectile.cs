@@ -9,6 +9,7 @@ namespace Assets.Code.MinionAI
         private bool isSpinning = false;
         void Update()
         {
+            if(targetPosition == null){Destroy(gameObject);}
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, flightSpeed * Time.deltaTime);
             if (isSpinning)
             {
