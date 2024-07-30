@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class ItemDrop : MonoBehaviour
 {
 
+    public static int goldDrop = 10;
     public static void DropItem(ElementType element){
 
         if(GameObject.Find("Player Tower") == null){return;}
@@ -14,7 +16,7 @@ public class ItemDrop : MonoBehaviour
         playerInventory.AddInventory(element);
 
         // gold drop
-        playerInventory.gold += 10;
+        playerInventory.gold += goldDrop;
         playerInventory.UpdateGold();
 
         // drop with custom amount

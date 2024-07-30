@@ -22,13 +22,18 @@ public class TransformerMinion : BaseMovingUnit, IMelee
         {
             var allShards = Resources.LoadAll<GameObject>("Prefabs/Items/Drop/");
             var randomNumber = Random.Range(0, 100);
-            if (randomNumber < chanceOfDroppingElement * allShards.Length)
+            if (randomNumber < chanceOfDroppingElement)
             {
                 var shardToPick = randomNumber % allShards.Length;
                 Instantiate(allShards[shardToPick]);
+                ItemDrop.DropItem(thisElementType); // just gonna drop gold
             }
         }
-        ItemDrop.DropItem(thisElementType);
+        // add gold for shadow
+        else if (thisUnitSide == UnitSide.Alchemy){
+            GameObject.Find("Shadow Tower").GetComponent<ShadowTowerAI>().gold += ItemDrop.goldDrop; 
+        }
+        
         Object.Destroy(this.gameObject);
     }
 

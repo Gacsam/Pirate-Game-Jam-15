@@ -300,9 +300,14 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
         if (thisUnitSide == UnitSide.Shadow)
         {
             var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Drop/" + thisElementType + " drop"), this.transform.position, Quaternion.identity);
+            ItemDrop.DropItem(thisElementType);
         }
 
-        ItemDrop.DropItem(thisElementType);
+        // add gold for shadow
+        else if (thisUnitSide == UnitSide.Alchemy){
+            GameObject.Find("Shadow Tower").GetComponent<ShadowTowerAI>().gold += ItemDrop.goldDrop; 
+        }
+
 
         Destroy(this.gameObject);
     }

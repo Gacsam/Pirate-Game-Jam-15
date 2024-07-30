@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShadowTowerAI : BaseObject
 {
     // simulate gold etc...
-    private int gold;
+    public int gold;
     private int income;
     private int minionCost;
 
@@ -48,6 +48,7 @@ public class ShadowTowerAI : BaseObject
             GameMan.Shadow.AddUnit(newUnit.GetComponent<BaseMovingUnit>());
             gold -= minionCost;
         }
+        spawnAreaClear = true;
     }
 
     IEnumerator IncomeOverTime(){
@@ -78,14 +79,9 @@ public class ShadowTowerAI : BaseObject
     public void OnTriggerStay2D(Collider2D collision)
     {
         // Make sure it's a unit blocking the exit
-        if (collision.GetComponent<BaseUnit>() != null)
+        if (collision.GetComponent<BaseUnit>() != null && collision.GetComponent<BaseUnit>().thisUnitSide == thisUnitSide)
         {
             spawnAreaClear = false;
         }
-    }
-
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        spawnAreaClear = true;
     }
 }

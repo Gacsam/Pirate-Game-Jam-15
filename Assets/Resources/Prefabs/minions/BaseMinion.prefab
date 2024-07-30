@@ -146,7 +146,8 @@ MonoBehaviour:
   sliderOffset: {x: 0, y: 1.5, z: 0}
   baseDamage: 20
   attackCooldown: 1
-  chanceOfDroppingElement: 1
+  thisElementType: 0
+  chanceOfDroppingElement: 30
   fireGuy: {fileID: 5486058711663460684, guid: 890bb8f1714cd574988630c570d4197b, type: 3}
   arsenicGuy: {fileID: 5543116509087731950, guid: 31e955982593cc7498426c7b0ae83f99, type: 3}
   moonGuy: {fileID: 2240471047643682909, guid: 79bd77125c0af9740b5a59aea91b91dd, type: 3}
