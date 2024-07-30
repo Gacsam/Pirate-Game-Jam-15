@@ -55,13 +55,26 @@ public class UI_Manager : MonoBehaviour
         return Camera.main.GetComponentInChildren<Canvas>().transform;
     }
 
+    // cache minion production
+    [HideInInspector]
+    bool[] productionArray = new bool[5];
+    [HideInInspector]
+    int productionIndex = 0;
+
     void InteractedWithButton(Button interactedButton)
     {
         bool buttonSuccess = false;
         switch (interactedButton.name)
         {
             case "Melee Spawn Button":
-                buttonSuccess = SpawnButton();
+                
+                if(productionIndex >= productionArray.Length){
+                    buttonSuccess = false;
+                    break;
+                }
+                productionArray[productionIndex++] = true;
+                productionSlider.value = productionIndex;
+                if(!onCooldown){StartCoroutine(ProductionQueue());}
                 break;
             case "StartButton":
                 GameSpeed = GameSpeed.Normal;
@@ -117,6 +130,8 @@ public class UI_Manager : MonoBehaviour
     // NOT USED CUZ WE ONLY HAVE 1 MINION TYPE WE CAN SPAWN WITH BUTTON
     private GameObject[] buttonArray;
 
+    private Slider productionSlider;
+
     void Start() {
         // Get the number of children
         int buttonCount = GetMainCanvasTransform().Find("Shards").childCount;
@@ -138,7 +153,14 @@ public class UI_Manager : MonoBehaviour
         {
             buttonArray[i].transform.position = new Vector3((spacing*i)+spacing,transform.position.y,0);
         }
+
+        productionSlider = GameObject.Find("Production Queue").GetComponent<Slider>();
+        productionSlider.maxValue = productionArray.Length;
+        productionSlider.value = 0;
     }
+
+    bool onCooldown = false;
+    
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -154,6 +176,8 @@ public class UI_Manager : MonoBehaviour
                 mainMenuObject.SetActive(false);
             }
         }
+
+        Debug.Log(string.Join(", ", productionArray));
     }
 
     static GameSpeed currentWorldSpeed = GameSpeed.Normal;
@@ -183,6 +207,23 @@ public class UI_Manager : MonoBehaviour
             }
             currentWorldSpeed = value;
         }
+    }
+
+    IEnumerator ProductionQueue(){
+        onCooldown = true;
+
+        yield return new WaitForSeconds(GameObject.Find("Player Tower").GetComponent<Tower_Spawner>().CD);
+
+        // try spawn minion untill success
+        while(!SpawnButton()){yield return new WaitForSeconds(0.5f);}
+
+        productionIndex--;
+        productionArray[productionIndex] = false;
+        productionSlider.value = productionIndex;
+        onCooldown = false;
+
+        // start next production
+        if(!onCooldown && productionIndex != 0 && productionArray[productionIndex-1] == true){StartCoroutine(ProductionQueue());}
     }
 
 

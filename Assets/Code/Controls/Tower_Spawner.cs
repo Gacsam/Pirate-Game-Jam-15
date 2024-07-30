@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class Tower_Spawner : BaseObject
@@ -21,7 +20,6 @@ public class Tower_Spawner : BaseObject
     // used on button
     public bool SpawnUnit(){
         
-        if(!canSpawnMelee) {return false;}
         if(playerInventory.gold < minionCost){return false;}
         if (!spawnAreaClear) return false;
 
@@ -39,15 +37,7 @@ public class Tower_Spawner : BaseObject
         playerInventory.gold -= minionCost;
         playerInventory.UpdateGold();
 
-        StartCoroutine(MeleCountdown());
         return true;
-    }
-
-    // countdown
-    IEnumerator MeleCountdown(){
-        canSpawnMelee = false;
-        yield return new WaitForSeconds(CD);
-        canSpawnMelee = true;
     }
 
 
