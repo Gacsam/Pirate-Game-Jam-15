@@ -2012,9 +2012,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gold: 50
   fire: 0
-  water: 0
-  air: 0
-  earth: 0
+  arsenic: 0
+  moon: 0
+  borax: 0
 --- !u!1 &1013661158
 GameObject:
   m_ObjectHideFlags: 0
