@@ -80,7 +80,7 @@ public class UI_Manager : MonoBehaviour
         if (GameMan.SpawnUnit(UnitSide.Alchemy))
         {
             // Do stuff like take coins away
-            GameMan.ModifyGold(UnitSide.Alchemy, -30);
+            // GameMan.ModifyGold(UnitSide.Alchemy, -30);
             return true;
         }
         else return false;

@@ -6,19 +6,21 @@ public class Inventory : MonoBehaviour
 {
     public int gold = 50;   // default starting amount
     public int fire = 0;
-    public int water = 0;
-    public int air = 0;
-    public int earth = 0;
+    public int arsenic = 0;
+    public int moon = 0;
+    public int borax = 0;
 
     // income player has over time (prevent stalemate)
-    private int income = 5;
+    private int income = 3;
 
 
     private TextMeshProUGUI goldTMP;
 
     void Start() {
+        GameMan.Alchemy.Inventory = this;
         goldTMP = GameObject.Find("Gold").GetComponent<TextMeshProUGUI>();
         StartCoroutine(IncomeOverTime());
+        UpdateButtonOpacity();
     }
 
     // update TMP (Gold)
@@ -28,48 +30,58 @@ public class Inventory : MonoBehaviour
     public int GetIncome(){return income;}
 
     // could just access the public variables but this allows you to pass in enums :D
-    public void AddInventory(itemType item){
-        if(item == itemType.gold){gold++;}
-        else if(item == itemType.fire){fire++;}
-        else if(item == itemType.water){water++;}
-        else if(item == itemType.air){air++;}
-        else if(item == itemType.earth){earth++;}
-        UpdateGold();
+    public void AddInventory(ElementType element){
+        if(element == ElementType.Fire){fire++;}
+        else if(element == ElementType.Arsenic){arsenic++;}
+        else if(element == ElementType.Moon){moon++;}
+        else if(element == ElementType.Borax){borax++;}
+        UpdateButtonOpacity();
 
     }
 
-    public void AddInventory(itemType item, int amount){
+    public void AddInventory(ElementType element, int amount){
         // only allow addition
         if(amount < 1){return;}
-        if(item == itemType.gold){gold+=amount;}
-        else if(item == itemType.fire){fire+=amount;}
-        else if(item == itemType.water){water+=amount;}
-        else if(item == itemType.air){air+=amount;}
-        else if(item == itemType.earth){earth+=amount;}
-        UpdateGold();
+        if(element == ElementType.Fire){fire+=amount;}
+        else if(element == ElementType.Arsenic){arsenic+=amount;}
+        else if(element == ElementType.Moon){moon+=amount;}
+        else if(element == ElementType.Borax){borax+=amount;}
+        UpdateButtonOpacity();
 
     }
 
-    public void DeductInventory(itemType item){
-        if(item == itemType.gold){gold++;}
-        else if(item == itemType.fire){fire++;}
-        else if(item == itemType.water){water++;}
-        else if(item == itemType.air){air++;}
-        else if(item == itemType.earth){earth++;}
-        UpdateGold();
+    public void DeductInventory(ElementType element){
+        if(element == ElementType.Fire){fire--;}
+        else if(element == ElementType.Arsenic){arsenic--;}
+        else if(element == ElementType.Moon){moon--;}
+        else if(element == ElementType.Borax){borax--;}
+        UpdateButtonOpacity();
 
     }
 
-    public void DeductInventory(itemType item, int amount){
+    public void DeductInventory(ElementType element, int amount){
         // only allow deduction
         if(amount > -1){return;}
-        if(item == itemType.gold){gold+=amount;}
-        else if(item == itemType.fire){fire+=amount;}
-        else if(item == itemType.water){water+=amount;}
-        else if(item == itemType.air){air+=amount;}
-        else if(item == itemType.earth){earth+=amount;}
-        UpdateGold();
+        if(element == ElementType.Fire){fire+=amount;}
+        else if(element == ElementType.Arsenic){arsenic+=amount;}
+        else if(element == ElementType.Moon){moon+=amount;}
+        else if(element == ElementType.Borax){borax+=amount;}
+        UpdateButtonOpacity();
 
+    }
+
+    public void UpdateButtonOpacity(){
+        if(fire <= 0){GameMan.fireButton.DisableShard();}
+        else{GameMan.fireButton.EnableShard();}
+
+        if(arsenic <= 0){GameMan.arsenicButton.DisableShard();}
+        else{GameMan.arsenicButton.EnableShard();}
+
+        if(moon <= 0){GameMan.moonButton.DisableShard();}
+        else{GameMan.moonButton.EnableShard();}
+
+        if(borax <= 0){GameMan.boraxButton.DisableShard();}
+        else{GameMan.boraxButton.EnableShard();}
     }
 
     // countdown

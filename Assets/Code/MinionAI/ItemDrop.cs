@@ -3,22 +3,19 @@ using UnityEngine;
 public class ItemDrop : MonoBehaviour
 {
 
-    public static void DropItem(){
+    public static void DropItem(ElementType element){
 
         if(GameObject.Find("Player Tower") == null){return;}
 
         // get player inventory
-        Inventory playerInventory = GameObject.Find("Player Tower").GetComponent<Inventory>();
+        Inventory playerInventory = GameMan.GetPlayerInventory();
 
-        // random drop
-        int amountOfItems = System.Enum.GetValues(typeof(itemType)).Length;
-        itemType dropedItem = (itemType)Random.Range(1,amountOfItems);  // random drop
-
-        // add to player inventory
-        playerInventory.AddInventory(dropedItem);
+        // drop shard relative to element type
+        playerInventory.AddInventory(element);
 
         // gold drop
-        playerInventory.AddInventory(itemType.gold,20);
+        playerInventory.gold += 10;
+        playerInventory.UpdateGold();
 
         // drop with custom amount
         // playerInventory.AddInventory(dropedItem,10);
@@ -26,7 +23,3 @@ public class ItemDrop : MonoBehaviour
     }
 
 }
-
-// add more items here
-// shards, gold coins, etc...
-public enum itemType { none, gold, fire, water, air, earth }

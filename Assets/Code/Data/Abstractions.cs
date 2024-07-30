@@ -113,11 +113,6 @@ public abstract class BaseObject : MonoBehaviour
                     GameMan.Shadow.UnitDied();
                 }
 
-                // if it's an enemy and not a tower
-                if (thisUnitSide == UnitSide.Shadow && (thisUnitType != UnitType.Tower))
-                {
-                    ItemDrop.DropItem();
-                }
             }
             else
             {
@@ -214,29 +209,29 @@ public abstract class BaseUnit : BaseObject
                 if (GameMan.globalMeleeRange > enemyDistance && this is IMelee meleeAttack)
                 {
                     meleeAttack.Attack();
-                    Debug.Log("Enemy within range, forced to engage melee.");
+                    // Debug.Log("Enemy within range, forced to engage melee.");
                 }
                 else
                 {
                     rangedAttack.Attack();
-                    Debug.Log("Enemy within range, engaging ranged.");
+                    // Debug.Log("Enemy within range, engaging ranged.");
                 }
             }
             // Else if it has a melee interface and enemy is within melee range
             else if (this is IMelee meleeAttack && GameMan.globalMeleeRange > enemyDistance)
             {
                 meleeAttack.Attack();
-                Debug.Log("Enemy within range, engaging melee.");
+                // Debug.Log("Enemy within range, engaging melee.");
             }
             // Otherwise assume enemy is just not within range
             else if (this is IMoving movingChar)
             {
                 movingChar.MoveTowardsOppositeTower();
-                Debug.Log("Enemy not within range. Advancing.");
+                // Debug.Log("Enemy not within range. Advancing.");
             }
             else
             {
-                Debug.Log("Enemy not within range. Turret(?) waiting.");
+                // Debug.Log("Enemy not within range. Turret(?) waiting.");
             }
         }
 
@@ -314,6 +309,9 @@ public abstract class BaseMovingUnit : BaseUnit, IMoving
         {
             var shard = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Drop/" + thisElementType + " drop"), this.transform.position, Quaternion.identity);
         }
+
+        ItemDrop.DropItem(thisElementType);
+
         Destroy(this.gameObject);
     }
 

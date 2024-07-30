@@ -28,6 +28,7 @@ public class TransformerMinion : BaseMovingUnit, IMelee
                 Instantiate(allShards[shardToPick]);
             }
         }
+        ItemDrop.DropItem(thisElementType);
         Object.Destroy(this.gameObject);
     }
 

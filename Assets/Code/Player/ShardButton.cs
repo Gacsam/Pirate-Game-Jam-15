@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ShardButton : MonoBehaviour, IPointerDownHandler
 {
@@ -11,7 +12,14 @@ public class ShardButton : MonoBehaviour, IPointerDownHandler
     private bool shardEquiped = false;
 
     public void OnPointerDown(PointerEventData eventData){
-        
+        Debug.Log(GameMan.GetPlayerInventory().fire);
+        Debug.Log(thisDamageType == ElementType.Fire);
+
+        if(GameMan.GetPlayerInventory().fire <= 0 && thisDamageType == ElementType.Fire){return;}
+        if(GameMan.GetPlayerInventory().arsenic <= 0 && thisDamageType == ElementType.Arsenic){return;}
+        if(GameMan.GetPlayerInventory().moon <= 0 && thisDamageType == ElementType.Moon){return;}
+        if(GameMan.GetPlayerInventory().borax <= 0 && thisDamageType == ElementType.Borax){return;}
+
         // highlight all minion that can be upgraded
         foreach(var minion in GameObject.FindGameObjectsWithTag("player normal minion")){
             minion.GetComponent<UpgradeMinion>().HighlightForUpgrade();
@@ -20,10 +28,17 @@ public class ShardButton : MonoBehaviour, IPointerDownHandler
         // raycast method not working for some reason so spawn in a prefab (shard) and use on trigger enter on that object to detect collision with minions
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         shard = Instantiate(shardPrefab,(Vector3)mousePosition,Quaternion.identity);
-        shard.GetComponent<Shard>().thisDamageType = thisDamageType;
+        // shard.GetComponent<Shard>().thisDamageType = thisDamageType;
 
         shardEquiped = true;
 
+    }
+
+    void Awake() {
+        if( thisDamageType == ElementType.Fire){GameMan.fireButton = this;}
+        else if(thisDamageType == ElementType.Arsenic){GameMan.arsenicButton = this;}
+        else if(thisDamageType == ElementType.Moon){GameMan.moonButton = this;}
+        else if(thisDamageType == ElementType.Borax){GameMan.boraxButton = this;}
     }
 
     private void Update() {
@@ -39,7 +54,21 @@ public class ShardButton : MonoBehaviour, IPointerDownHandler
             shardEquiped = false;
 
         }
+    }
 
+    // if 0 shards in inventory, decrease opacity
+    public void DisableShard(){
+        Image image = gameObject.GetComponent<Image>();
+        Color color = image.color;
+        color.a = 0.5f;
+        image.color = color;
+    }
+
+    public void EnableShard(){
+        Image image = gameObject.GetComponent<Image>();
+        Color color = image.color;
+        color.a = 1;
+        image.color = color;
     }
 
 

@@ -27,11 +27,11 @@ public class OpposingSide
     {
         get
         {
-            if (inventory == null)
-            {
-                inventory = new();
-            }
+            inventory ??= new();
             return inventory;
+        }
+        set {
+            inventory = value;
         }
     }
 

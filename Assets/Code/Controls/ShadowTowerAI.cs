@@ -19,7 +19,7 @@ public class ShadowTowerAI : BaseObject
 
     void Start() {
         // copy player stats
-        Inventory playerInventory = GameObject.Find("Player Tower").GetComponent<Inventory>();
+        Inventory playerInventory = GameMan.GetPlayerInventory();
         gold = playerInventory.gold;
         income = playerInventory.GetIncome();
 
@@ -35,7 +35,6 @@ public class ShadowTowerAI : BaseObject
         if (canSpawnMelee && gold > minionCost && spawnAreaClear){
             GameObject newUnit;
             var randomNumber = Random.Range(0, 100);
-            Debug.Log("rand num: " + randomNumber + ":" + randomNumber + "<" + percentageChanceToSpawnSpecial + ":" + (randomNumber < percentageChanceToSpawnSpecial));
             if (randomNumber < percentageChanceToSpawnSpecial)
             {
                 // Remainder of random number / amount of special minions is sorta random index

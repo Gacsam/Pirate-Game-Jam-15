@@ -15,7 +15,7 @@ public class Tower_Spawner : BaseObject
     private Inventory playerInventory;
 
     void Start() {
-        playerInventory = GetComponent<Inventory>();
+        playerInventory = GameMan.GetPlayerInventory();
     }
 
     // used on button
@@ -35,6 +35,7 @@ public class Tower_Spawner : BaseObject
             GameMan.Shadow.AddUnit(newUnit.GetComponent<BaseMovingUnit>());
         }
 
+        Debug.Log("deduct gold");
         playerInventory.gold -= minionCost;
         playerInventory.UpdateGold();
 

@@ -186,4 +186,13 @@ public class GameMan : MonoBehaviour
         alchemy.Tower.UpdateHealthSlider();
         shadow.Tower.UpdateHealthSlider();
     }
+
+    /// <summary>
+    /// return player inventory
+    /// <summary>
+    public static ShardButton fireButton;
+    public static ShardButton arsenicButton;
+    public static ShardButton moonButton;
+    public static ShardButton boraxButton;
+    public static Inventory GetPlayerInventory(){return alchemy.Inventory;}
 }
