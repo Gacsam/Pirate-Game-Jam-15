@@ -67,6 +67,18 @@ public class UI_Manager : MonoBehaviour
                 GameSpeed = GameSpeed.Normal;
                 mainMenuObject.SetActive(false);
                 break;
+            case "0x":
+                GameSpeed = GameSpeed.Stop;
+                break;
+            case "1x":
+                GameSpeed = GameSpeed.Normal;
+                break;
+            case "2x":
+                GameSpeed = GameSpeed.Fast;
+                break;
+            case "3x":
+                GameSpeed = GameSpeed.Superfast;
+                break;
             default:
                 Debug.Log("No interaction found with \"" + name + "\"");
                 break;
