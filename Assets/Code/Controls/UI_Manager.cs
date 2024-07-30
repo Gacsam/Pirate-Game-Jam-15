@@ -177,7 +177,6 @@ public class UI_Manager : MonoBehaviour
             }
         }
 
-        Debug.Log(string.Join(", ", productionArray));
     }
 
     static GameSpeed currentWorldSpeed = GameSpeed.Normal;

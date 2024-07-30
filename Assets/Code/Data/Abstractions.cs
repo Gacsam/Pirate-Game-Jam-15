@@ -42,8 +42,6 @@ public abstract class BaseObject : MonoBehaviour
         if (Camera.main.GetComponentInChildren<Canvas>() == null) { throw new System.NotImplementedException(); } // parent UI_Canvas to Camera
         unitHealthSlider = Instantiate(sliderPrefab, Camera.main.GetComponentInChildren<Canvas>().transform.Find("Health UI"));
 
-        Vector3 healthHeight = new(transform.position.x, transform.position.y, transform.position.z);
-        
         unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + sliderOffset);
         unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
 
@@ -153,13 +151,7 @@ public abstract class BaseObject : MonoBehaviour
     /// </summary>
     
     public void UpdateHealthSlider(){
-        Vector3 healthHeight = new (transform.position.x, GameMan.Alchemy.Tower.transform.position.y, transform.position.z);
-
         // tower's health slider should be pushed to the centre a bit since camera does not go past half of the tower
-        if(thisUnitType==UnitType.Tower){
-            if(thisUnitSide==UnitSide.Alchemy){healthHeight.x += 1f;}
-            else{healthHeight.x -= 1f;}
-        }
         unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + sliderOffset);
     }
 

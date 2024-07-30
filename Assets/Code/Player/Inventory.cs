@@ -16,8 +16,11 @@ public class Inventory : MonoBehaviour
 
     private TextMeshProUGUI goldTMP;
 
-    void Start() {
+    private void Awake() {
         GameMan.Alchemy.Inventory = this;
+    }
+
+    void Start() {
         goldTMP = GameObject.Find("Gold").GetComponent<TextMeshProUGUI>();
         StartCoroutine(IncomeOverTime());
         UpdateButtonOpacity();

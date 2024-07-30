@@ -33,7 +33,6 @@ public class Tower_Spawner : BaseObject
             GameMan.Shadow.AddUnit(newUnit.GetComponent<BaseMovingUnit>());
         }
 
-        Debug.Log("deduct gold");
         playerInventory.gold -= minionCost;
         playerInventory.UpdateGold();
 

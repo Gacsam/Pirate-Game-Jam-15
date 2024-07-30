@@ -12,8 +12,6 @@ public class ShardButton : MonoBehaviour, IPointerDownHandler
     private bool shardEquiped = false;
 
     public void OnPointerDown(PointerEventData eventData){
-        Debug.Log(GameMan.GetPlayerInventory().fire);
-        Debug.Log(thisDamageType == ElementType.Fire);
 
         if(GameMan.GetPlayerInventory().fire <= 0 && thisDamageType == ElementType.Fire){return;}
         if(GameMan.GetPlayerInventory().arsenic <= 0 && thisDamageType == ElementType.Arsenic){return;}
