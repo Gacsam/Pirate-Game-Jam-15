@@ -15,8 +15,6 @@ public class Clouds : MonoBehaviour
     [SerializeField]
     private CloudInitialDirection cloudInitialDirection;
 
-    private float startPosition;
-
     // Sin waves again !!! wohooo
     private float sin = 0f;
     private float wave;
@@ -26,15 +24,19 @@ public class Clouds : MonoBehaviour
     
     void Start() {
         GameMan.clouds.Add(this);
-        startPosition = transform.position.x;
         if(cloudInitialDirection == CloudInitialDirection.left){sin=180f;}
 
         // further = smaller
         switch(GetEnumIndex(cloudDepth)){
             case 1:
                 transform.localScale = new Vector3(0.5f,0.5f,1);
+                GetComponent<SpriteRenderer>().sortingOrder = 1;
+                break;
+            case 2:
+                GetComponent<SpriteRenderer>().sortingOrder = 2;
                 break;
             case 3:
+                GetComponent<SpriteRenderer>().sortingOrder = 3;
                 transform.localScale = new Vector3(1.3f,1.3f,1);
                 break;
             default:
