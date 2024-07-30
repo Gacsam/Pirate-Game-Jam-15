@@ -30,13 +30,13 @@ public class Clouds : MonoBehaviour
         switch(GetEnumIndex(cloudDepth)){
             case 1:
                 transform.localScale = new Vector3(0.5f,0.5f,1);
-                GetComponent<SpriteRenderer>().sortingOrder = 1;
+                GetComponent<SpriteRenderer>().sortingOrder = -3;
                 break;
             case 2:
-                GetComponent<SpriteRenderer>().sortingOrder = 2;
+                GetComponent<SpriteRenderer>().sortingOrder = -2;
                 break;
             case 3:
-                GetComponent<SpriteRenderer>().sortingOrder = 3;
+                GetComponent<SpriteRenderer>().sortingOrder = -1;
                 transform.localScale = new Vector3(1.3f,1.3f,1);
                 break;
             default:

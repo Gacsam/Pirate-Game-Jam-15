@@ -580,7 +580,7 @@ Transform:
   m_GameObject: {fileID: 105785782}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.7121186, y: 4.5908556, z: 10}
+  m_LocalPosition: {x: 1.7121186, y: 5.06, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1340,7 +1340,7 @@ MonoBehaviour:
   thisUnitSide: 1
   thisUnitType: 1
   thisUnitMaxHealth: 100
-  sliderOffset: {x: -1, y: 2, z: 0}
+  sliderOffset: {x: -1.8, y: 0.7, z: 0}
   baseMinion: {fileID: 8143926726562188783, guid: 72314acfa87fb4748a8d0fe50a4880a8, type: 3}
   percentageChanceToSpawnSpecial: 20
   specialMinions:
@@ -1427,7 +1427,7 @@ Transform:
   m_GameObject: {fileID: 551329074}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.78, y: 7.474231, z: 10}
+  m_LocalPosition: {x: -9.78, y: 7.29, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2737,7 +2737,7 @@ MonoBehaviour:
   thisUnitSide: 0
   thisUnitType: 1
   thisUnitMaxHealth: 100
-  sliderOffset: {x: 1, y: 2, z: 0}
+  sliderOffset: {x: 1.8, y: 0.7, z: 0}
   melePrefab: {fileID: 3845107297105011719, guid: ca5f827c85555c947bfa4f95c7a0435d, type: 3}
   minionCost: 30
   CD: 2
