@@ -15,13 +15,11 @@ public class Inventory : MonoBehaviour
 
     private void Start() {
         if(GameMan.Alchemy.Inventory == null){
-            Debug.Log("inventory null");
             GameMan.Alchemy.Inventory = this;
         }
 
         if(GameMan.temp != null){
             // Copy previous game data
-            Debug.Log("fire: " + GameMan.temp.fire);
             gold = GameMan.temp.gold;
             fire = GameMan.temp.fire;
             arsenic = GameMan.temp.arsenic;

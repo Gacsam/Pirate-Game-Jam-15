@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -60,6 +61,12 @@ public class ShardButton : MonoBehaviour, IPointerDownHandler
         Color color = image.color;
         color.a = 0.5f;
         image.color = color;
+        if(thisDamageType == ElementType.Fire){transform.Find("count").GetComponent<TextMeshProUGUI>().text = GameMan.Alchemy.Inventory.fire.ToString();}
+        if(thisDamageType == ElementType.Arsenic){transform.Find("count").GetComponent<TextMeshProUGUI>().text = GameMan.Alchemy.Inventory.arsenic.ToString();}
+        if(thisDamageType == ElementType.Moon){transform.Find("count").GetComponent<TextMeshProUGUI>().text = GameMan.Alchemy.Inventory.moon.ToString();}
+        if(thisDamageType == ElementType.Borax){transform.Find("count").GetComponent<TextMeshProUGUI>().text = GameMan.Alchemy.Inventory.borax.ToString();}
+
+        
     }
 
     public void EnableShard(){
@@ -67,6 +74,11 @@ public class ShardButton : MonoBehaviour, IPointerDownHandler
         Color color = image.color;
         color.a = 1;
         image.color = color;
+        if(thisDamageType == ElementType.Fire){transform.Find("count").GetComponent<TextMeshProUGUI>().text = GameMan.Alchemy.Inventory.fire.ToString();}
+        if(thisDamageType == ElementType.Arsenic){transform.Find("count").GetComponent<TextMeshProUGUI>().text = GameMan.Alchemy.Inventory.arsenic.ToString();}
+        if(thisDamageType == ElementType.Moon){transform.Find("count").GetComponent<TextMeshProUGUI>().text = GameMan.Alchemy.Inventory.moon.ToString();}
+        if(thisDamageType == ElementType.Borax){transform.Find("count").GetComponent<TextMeshProUGUI>().text = GameMan.Alchemy.Inventory.borax.ToString();}
+
     }
 
 

@@ -31,21 +31,13 @@ public class GameMan : MonoBehaviour
 
         if(alchemy == null){
             alchemy = new();
-            Debug.Log("alchemy null");
-        }
-        else{
-            Debug.Log("fire: " + alchemy.Inventory.fire);
         }
         
         if(shadow == null){shadow ??= new();}
 
-        Debug.Log(temp == null);
-
         clouds = new();
         text = GameObject.Find("Level").GetComponent<TextMeshProUGUI>();
         text.text = "Level: " + currentLevel;
-
-        StartCoroutine(FadeText(text));
 
     }
     // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
@@ -193,7 +185,6 @@ public class GameMan : MonoBehaviour
             temp = alchemy.Inventory;
             alchemy = new();
             alchemy.Inventory = temp;
-            Debug.Log(temp == null);
 
             SceneManage.GameStart();
         }
@@ -246,9 +237,4 @@ public class GameMan : MonoBehaviour
     public static ShardButton boraxButton;
     public static Inventory GetPlayerInventory(){return alchemy.Inventory;}
 
-    IEnumerator FadeText(TextMeshProUGUI text){
-        text.color = new Color(1,1,1,text.color.a - (Time.deltaTime/2));
-        yield return null;
-        if(text.color.a > 0){StartCoroutine(FadeText(text));}
-    }
 }
