@@ -8,19 +8,14 @@ public class Tower_Spawner : BaseObject
 
     // cooldowns
     public float CD = 2f;
-    private bool canSpawnMelee = true;
-
-    // player inventory reference
-    private Inventory playerInventory;
-
+    
     void Start() {
-        playerInventory = GameMan.GetPlayerInventory();
+        GameMan.Alchemy.Tower = this;
     }
 
     // used on button
     public bool SpawnUnit(){
-        
-        if(playerInventory.gold < minionCost){return false;}
+        if(GameMan.Alchemy.Inventory.gold < minionCost){return false;}
         if (!spawnAreaClear) return false;
 
         var newUnit = Instantiate(melePrefab, GameMan.CalculateSpawnPosition(gameObject.transform, melePrefab), Quaternion.identity);
@@ -33,23 +28,25 @@ public class Tower_Spawner : BaseObject
             GameMan.Shadow.AddUnit(newUnit.GetComponent<BaseMovingUnit>());
         }
 
-        playerInventory.gold -= minionCost;
-        playerInventory.UpdateGold();
+        GameMan.Alchemy.Inventory.gold -= minionCost;
+        GameMan.Alchemy.Inventory.UpdateGold();
 
         return true;
+    }
+
+    private void Update() {
+        spawnAreaClear = true;
     }
 
 
     private bool spawnAreaClear = true;
 
-    public void OnTriggerStay2D(Collider2D collision)
-    {
-        spawnAreaClear = false;
-    }
-
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        spawnAreaClear = true;
+    public void OnTriggerStay2D(Collider2D collision){
+        // Make sure it's a unit blocking the exit
+        if (collision.GetComponent<BaseUnit>() != null && collision.GetComponent<BaseUnit>().thisUnitSide == thisUnitSide)
+        {
+            spawnAreaClear = false;
+        }
     }
 
     protected override void HandleDestruction()

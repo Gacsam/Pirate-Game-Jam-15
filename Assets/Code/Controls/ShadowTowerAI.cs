@@ -18,10 +18,14 @@ public class ShadowTowerAI : BaseObject
     public GameObject[] specialMinions;
 
     void Start() {
+
+        GameMan.Shadow.Tower = this;
+        
         // copy player stats
-        Inventory playerInventory = GameMan.GetPlayerInventory();
-        gold = playerInventory.gold;
-        income = playerInventory.GetIncome();
+
+        // Inventory playerInventory = GameMan.GetPlayerInventory();
+        // gold = playerInventory.gold;
+        // income = playerInventory.GetIncome();
 
         Tower_Spawner playerTower = GameObject.Find("Player Tower").GetComponent<Tower_Spawner>();
         minionCost = playerTower.minionCost;
@@ -29,8 +33,9 @@ public class ShadowTowerAI : BaseObject
 
         // scale with level
         percentageChanceToSpawnSpecial *= GameMan.currentLevel;
-        gold *= GameMan.currentLevel;
-        income += GameMan.currentLevel; // scaling with seconds is kinda OP
+        gold = GameMan.currentLevel * 10;
+        // income = GameMan.currentLevel; // scaling with seconds is kinda OP
+        income = 2; // if income is 3 then the game is literally un-winnable
 
         StartCoroutine(IncomeOverTime());
 
@@ -38,6 +43,9 @@ public class ShadowTowerAI : BaseObject
 
     void Update() {
         if (canSpawnMelee && gold > minionCost && spawnAreaClear){
+            
+            StartCoroutine(MeleeCountdown());
+
             GameObject newUnit;
             var randomNumber = Random.Range(0, 100);
             if (randomNumber < percentageChanceToSpawnSpecial)
@@ -57,9 +65,10 @@ public class ShadowTowerAI : BaseObject
     }
 
     IEnumerator IncomeOverTime(){
+        while(true){
         gold+=income;
         yield return new WaitForSeconds(1);
-        StartCoroutine(IncomeOverTime());
+        }
     }
 
     // countdown

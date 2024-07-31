@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class TransformerMinion : BaseMovingUnit, IMelee
@@ -31,7 +28,7 @@ public class TransformerMinion : BaseMovingUnit, IMelee
         }
         // add gold for shadow
         else if (thisUnitSide == UnitSide.Alchemy){
-            GameObject.Find("Shadow Tower").GetComponent<ShadowTowerAI>().gold += ItemDrop.goldDrop; 
+            GameObject.Find("Shadow Tower").GetComponent<ShadowTowerAI>().gold += ItemDrop.goldDrop/2;  // too hard to win if it scales the same with player 
         }
         
         Object.Destroy(this.gameObject);
@@ -65,6 +62,8 @@ public class TransformerMinion : BaseMovingUnit, IMelee
         {
             GameMan.Shadow.UnitUpgraded(replacedUnit, newUnit.GetComponent<BaseObject>());
         }
+
+        GameMan.Alchemy.Inventory.DeductInventory(upgradeType);
         Destroy(this.unitHealthSlider.gameObject);
         Destroy(this.gameObject);
     }

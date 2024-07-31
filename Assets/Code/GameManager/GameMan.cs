@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 
 public class GameMan : MonoBehaviour
@@ -19,17 +16,30 @@ public class GameMan : MonoBehaviour
 
     // GameManager singleton to track all the variables that we need accessible
     private static GameMan instance;
-    private void Awake()
+    private void Start()
     {
+
+
         if (instance == null)
         {
             instance = this;
-            // DontDestroyOnLoad(this.gameObject);
-        }else if(instance != this){
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else if(instance != this){
             Destroy(this.gameObject);
         }
-        alchemy ??= new();
-        shadow ??= new();
+
+        if(alchemy == null){
+            alchemy = new();
+            Debug.Log("alchemy null");
+        }
+        else{
+            Debug.Log("fire: " + alchemy.Inventory.fire);
+        }
+        
+        if(shadow == null){shadow ??= new();}
+
+        Debug.Log(temp == null);
 
         clouds = new();
         text = GameObject.Find("Level").GetComponent<TextMeshProUGUI>();
@@ -60,7 +70,17 @@ public class GameMan : MonoBehaviour
     // From inside Alchemy Side tower's code, we can call "GameMan.Alchemy.Tower = this" to add it to the manager
     // This will allow things like Player and AI managers to get their specific information
     private static OpposingSide alchemy;
-    public static OpposingSide Alchemy { get => alchemy; }
+
+    public static OpposingSide Alchemy {
+        set{
+            alchemy = value;
+        }
+
+        get{
+            return alchemy;
+        }
+    }
+
     private static OpposingSide shadow;
     public static OpposingSide Shadow { get => shadow; }
 
@@ -160,18 +180,27 @@ public class GameMan : MonoBehaviour
     /// </summary>
     
     public static int currentLevel = 1;
+    public static Inventory temp;
 
     public static void TowerDestroyed(UnitSide side)
     {
         // re-creates opposing sides so that previous data gets removed, then reloads scene
-        // we just restart game man, cuz we reseting everything either way
-        // alchemy = new();
-        // shadow = new();
+
         if(side == UnitSide.Shadow){
+            currentLevel ++;
+            shadow = new();
+
+            temp = alchemy.Inventory;
+            alchemy = new();
+            alchemy.Inventory = temp;
+            Debug.Log(temp == null);
 
             SceneManage.GameStart();
         }
         else{
+            currentLevel = 1;
+            shadow = new();
+            alchemy = new();
             SceneManage.GameStop();
         }
 

@@ -13,21 +13,31 @@ public class Inventory : MonoBehaviour
     // income player has over time (prevent stalemate)
     private int income = 3;
 
+    private void Start() {
+        if(GameMan.Alchemy.Inventory == null){
+            Debug.Log("inventory null");
+            GameMan.Alchemy.Inventory = this;
+        }
 
-    private TextMeshProUGUI goldTMP;
-
-    private void Awake() {
-        GameMan.Alchemy.Inventory = this;
-    }
-
-    void Start() {
-        goldTMP = GameObject.Find("Gold").GetComponent<TextMeshProUGUI>();
+        if(GameMan.temp != null){
+            // Copy previous game data
+            Debug.Log("fire: " + GameMan.temp.fire);
+            gold = GameMan.temp.gold;
+            fire = GameMan.temp.fire;
+            arsenic = GameMan.temp.arsenic;
+            moon = GameMan.temp.moon;
+            borax = GameMan.temp.borax;
+        }
+        
         StartCoroutine(IncomeOverTime());
         UpdateButtonOpacity();
     }
 
     // update TMP (Gold)
-    public void UpdateGold(){goldTMP.text = "Gold: " + gold.ToString();}
+    public void UpdateGold(){
+    
+        GameObject.Find("Gold").GetComponent<TextMeshProUGUI>().text = "Gold: " + gold.ToString();
+    }
 
     // used by shadow tower (we want same income)
     public int GetIncome(){return income;}

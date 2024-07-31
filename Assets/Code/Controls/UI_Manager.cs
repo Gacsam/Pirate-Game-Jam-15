@@ -13,7 +13,7 @@ public class UI_Manager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            // DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(this.gameObject);
         }
         else if (instance != this)
         {
@@ -211,10 +211,13 @@ public class UI_Manager : MonoBehaviour
     IEnumerator ProductionQueue(){
         onCooldown = true;
 
+
         yield return new WaitForSeconds(GameObject.Find("Player Tower").GetComponent<Tower_Spawner>().CD);
 
         // try spawn minion untill success
-        while(!SpawnButton()){yield return new WaitForSeconds(0.5f);}
+        while(!SpawnButton()){
+            yield return new WaitForSeconds(0.5f);
+        }
 
         productionIndex--;
         productionArray[productionIndex] = false;

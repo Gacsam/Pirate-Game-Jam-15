@@ -55,17 +55,18 @@ public class RangedMinion : BaseMovingUnit, IRanged
         this.attackTimer += Time.deltaTime;
     }
 }
-[CustomEditor(typeof(RangedMinion))]
-public class RangedEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        RangedMinion myComponent = (RangedMinion)target;
 
-        // Display specific variables
-        myComponent.AttackRange = EditorGUILayout.FloatField("Attack Range", myComponent.AttackRange);
+// [CustomEditor(typeof(RangedMinion))]
+// public class RangedEditor : Editor
+// {
+//     public override void OnInspectorGUI()
+//     {
+//         RangedMinion myComponent = (RangedMinion)target;
 
-        // Draw the default inspector for other properties
-        DrawDefaultInspector();
-    }
-}
+//         // Display specific variables
+//         myComponent.AttackRange = EditorGUILayout.FloatField("Attack Range", myComponent.AttackRange);
+
+//         // Draw the default inspector for other properties
+//         DrawDefaultInspector();
+//     }
+// }

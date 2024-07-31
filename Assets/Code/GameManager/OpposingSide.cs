@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using UnityEngine;
 
 [System.Serializable]
@@ -28,7 +25,6 @@ public class OpposingSide
     {
         get
         {
-            inventory ??= new();    // should not initiate class of MonoBehaviour like this but ok, will override
             return inventory;
         }
         set {

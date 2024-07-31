@@ -43,6 +43,9 @@ public abstract class BaseObject : MonoBehaviour
         unitHealthSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + sliderOffset);
         unitHealthSlider.GetComponentInChildren<TextMeshProUGUI>().text = Mathf.Ceil(thisUnitHealth) + " / " + thisUnitMaxHealth;
 
+    }
+
+    void Start() {
         // If it's a tower, hook up to GameMan
         if (thisUnitType == UnitType.Tower)
         {
@@ -112,7 +115,7 @@ public abstract class BaseObject : MonoBehaviour
             }
             else
             {
-                Debug.Log("LUKE, I AM YOUR TOWER");
+                // Debug.Log("LUKE, I AM YOUR TOWER");
             }
             // Lets individual classes deal with destruction in their own way
             Destroy(unitHealthSlider.gameObject);
