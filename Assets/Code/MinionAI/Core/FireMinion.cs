@@ -21,6 +21,7 @@ public class FireMinion: BaseMovingUnit, IMelee
     int hitCounter = 0;
     void IMelee.Attack()
     {
+        Debug.Log("fire attack");
         // Timer represents animations n all        
         this.attackTimer += Time.deltaTime;
         // When the attack animation is done

@@ -30,12 +30,13 @@ public class PoisonMinion : BaseMovingUnit, IRanged, IMelee
             if (GameMan.GetClosestEnemy(thisUnitSide).thisUnitType == UnitType.Tower)
             {
                 MoveTowardsOppositeTower();
-            }else{
-            var offset = GetSpriteExtents() * GetEnemyTowerDirection().x * 2;
-            var projectile = Instantiate(projectileToSpawn, transform.position + offset, Quaternion.identity);
-            if (projectile.GetComponent<PoisonBomb>() == null) projectile.AddComponent<PoisonBomb>().Setup(GetEnemyTowerDirection(), thisUnitSide);
-            else projectile.GetComponent<PoisonBomb>().Setup(GetEnemyTowerDirection(), thisUnitSide);
-            ThrowProjectile(ref projectile);
+            }
+            else{
+                var offset = GetSpriteExtents() * GetEnemyTowerDirection().x * 2;
+                var projectile = Instantiate(projectileToSpawn, transform.position + offset, Quaternion.identity);
+                if (projectile.GetComponent<PoisonBomb>() == null) projectile.AddComponent<PoisonBomb>().Setup(GetEnemyTowerDirection(), thisUnitSide);
+                else projectile.GetComponent<PoisonBomb>().Setup(GetEnemyTowerDirection(), thisUnitSide);
+                ThrowProjectile(ref projectile);
                 this.attackTimer += Time.deltaTime;
             }
         }

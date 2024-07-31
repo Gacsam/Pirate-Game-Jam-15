@@ -27,17 +27,17 @@ public class BaseMeleeRanged : BaseMovingUnit, IMelee, IRanged
     }
 }
 
-// [CustomEditor(typeof(BaseMeleeRanged))]
-// public class MeleeRangedEditor : Editor
-// {
-//     public override void OnInspectorGUI()
-//     {
-//         BaseMeleeRanged myComponent = (BaseMeleeRanged)target;
+[CustomEditor(typeof(BaseMeleeRanged))]
+public class MeleeRangedEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        BaseMeleeRanged myComponent = (BaseMeleeRanged)target;
 
-//         // Display specific variables
-//         myComponent.AttackRange = EditorGUILayout.FloatField("Attack Range", myComponent.AttackRange);
+        // Display specific variables
+        myComponent.AttackRange = EditorGUILayout.FloatField("Attack Range", myComponent.AttackRange);
 
-//         // Draw the default inspector for other properties
-//         DrawDefaultInspector();
-//     }
-// }
+        // Draw the default inspector for other properties
+        DrawDefaultInspector();
+    }
+}

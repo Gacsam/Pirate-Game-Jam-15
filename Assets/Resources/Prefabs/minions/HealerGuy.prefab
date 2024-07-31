@@ -213,12 +213,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitSide: 0
   thisUnitType: 0
-  thisUnitMaxHealth: 50
+  thisUnitMaxHealth: 150
   sliderOffset: {x: 0.05, y: 1.9, z: 0}
   baseDamage: 10
   attackCooldown: 2
   thisElementType: 4
-  healthPerSecond: 5
+  healthPerSecond: 7
   healEverySecond: 0
 --- !u!61 &-7788178374049863993
 BoxCollider2D:
@@ -252,7 +252,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.765}
+  m_Offset: {x: 0, y: 0.56}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -263,5 +263,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.22, y: 1.53}
+  m_Size: {x: 1.2, y: 1.12}
   m_EdgeRadius: 0

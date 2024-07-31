@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Code.MinionAI
 {
@@ -7,10 +6,15 @@ namespace Assets.Code.MinionAI
     {
         [SerializeField]
         private bool isSpinning = false;
+        private Vector3 direction;
+        
+        void Start() {
+            direction = targetPosition - transform.position;
+        }
+
         void Update()
         {
-            if(targetPosition == null){Destroy(gameObject);}
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, flightSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, transform.position+direction, flightSpeed * Time.deltaTime);
             if (isSpinning)
             {
                 transform.Rotate(new Vector3(0,0,rotationSpeed * Time.deltaTime));

@@ -1341,8 +1341,9 @@ MonoBehaviour:
   thisUnitType: 1
   thisUnitMaxHealth: 100
   sliderOffset: {x: -1.8, y: 0.7, z: 0}
+  gold: 0
   baseMinion: {fileID: 8143926726562188783, guid: 72314acfa87fb4748a8d0fe50a4880a8, type: 3}
-  percentageChanceToSpawnSpecial: 20
+  percentageChanceToSpawnSpecial: 35
   specialMinions:
   - {fileID: 1263999826076910508, guid: 2d9968d64294a5a4a83add92836d85e5, type: 3}
   - {fileID: 6486897018873228535, guid: 6527dd7f4f2c977498821078949dfa03, type: 3}
@@ -2754,10 +2755,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gold: 30
-  fire: 0
-  arsenic: 0
-  moon: 0
-  borax: 0
+  fire: 1
+  arsenic: 1
+  moon: 1
+  borax: 1
 --- !u!1 &1013661158
 GameObject:
   m_ObjectHideFlags: 0

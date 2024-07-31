@@ -1,10 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class PoisonBomb : BaseProjectile
 {
+
+    // there is a lot of variables inherited by Base Projectile
+    // but this value is ultimately the actual damage of poison bombs
+    public static float poisonDamagePerSecond = 5f;
+
     private void Awake()
     {
         if(cloudEffect == null)

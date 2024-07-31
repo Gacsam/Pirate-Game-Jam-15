@@ -26,8 +26,6 @@ public abstract class BaseObject : MonoBehaviour
 
     // honestly dunno how to go about implementing poison .... im cooked
     protected bool poisoned = false;
-    protected float damagePerSecond = 1f;
-
 
     // Add Box Collider if it doesn't have it
     protected void Awake()
@@ -82,7 +80,7 @@ public abstract class BaseObject : MonoBehaviour
     /// <returns>This specific unit's Collider2D.extents.x</returns>
     public Vector3 GetSpriteExtents()
     {
-        return GetComponent<SpriteRenderer>().sprite.bounds.extents;
+        return GetComponent<BoxCollider2D>().bounds.extents;
     }
     /// <summary>
     /// Take damage function, will allow for modifications based on damage type dealt
@@ -170,7 +168,7 @@ public abstract class BaseUnit : BaseObject
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        // Offset half a sprite towards enemy   
+        // Offset half a box collider towards enemy   
         var offset = GetEnemyTowerDirection() * GetSpriteExtents().x;
         offset.y = 0;
         offset += Vector3.up * GetSpriteExtents().y;
@@ -210,7 +208,7 @@ public abstract class BaseUnit : BaseObject
                 }
             }
             // Else if it has a melee interface and enemy is within melee range
-            else if (this is IMelee meleeAttack && GameMan.globalMeleeRange > enemyDistance)
+            else if (this is IMelee meleeAttack && GameMan.globalMeleeRange >= enemyDistance)
             {
                 meleeAttack.Attack();
                 // Debug.Log("Enemy within range, engaging melee.");
@@ -225,10 +223,11 @@ public abstract class BaseUnit : BaseObject
             {
                 // Debug.Log("Enemy not within range. Turret(?) waiting.");
             }
+
         }
 
         if(poisoned){
-            ModifyHealth(-damagePerSecond*Time.deltaTime);
+            ModifyHealth(-PoisonBomb.poisonDamagePerSecond*Time.deltaTime);
         }
     }
 
@@ -238,8 +237,18 @@ public abstract class BaseUnit : BaseObject
     /// <returns>Closest enemy unit or tower</returns>
     public float GetClosestTargetDistance()
     {
-        Bounds myBounds = this.GetComponent<Renderer>().bounds;
-        Bounds enemyBounds = GameMan.GetClosestEnemy(thisUnitSide).GetComponent<Renderer>().bounds;
+        // Get the BoxCollider bounds for the current object
+        BoxCollider2D myCollider = this.GetComponent<BoxCollider2D>();
+
+        Bounds myBounds = myCollider.bounds;
+
+        // Get the BoxCollider bounds for the closest enemy
+        BoxCollider2D enemyCollider = GameMan.GetClosestEnemy(thisUnitSide).gameObject.GetComponent<BoxCollider2D>();
+
+
+        Bounds enemyBounds = enemyCollider.bounds;
+
+        // Calculate the distance based on the x-axis extents
         if (enemyBounds.max.x < myBounds.min.x)
         {
             return myBounds.min.x - enemyBounds.max.x;

@@ -129,7 +129,7 @@ MonoBehaviour:
   isPiercing: 0
   rotationSpeed: 300
   flightSpeed: 2
-  damage: 1
+  damage: 10
   poisonRange: 4
   cloudEffect: {fileID: 8306573671277483271, guid: 49c3e2733962df4499bbcef1c7b97efb, type: 3}
   cloudTimer: 3

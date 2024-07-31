@@ -12,6 +12,9 @@ public class GameMan : MonoBehaviour
     /// Global value for melee range. Additionally, represents the minimum distance between units.
     /// </summary>
     public static float globalMeleeRange = 0.5f;
+
+    public static List<Clouds> clouds;
+
     // GameManager singleton to track all the variables that we need accessible
     private static GameMan instance;
     private void Awake()
@@ -19,12 +22,14 @@ public class GameMan : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            // DontDestroyOnLoad(this.gameObject);
         }else if(instance != this){
             Destroy(this.gameObject);
         }
         alchemy ??= new();
         shadow ??= new();
+
+        clouds = new();
     }
     // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
     public static GameMan Instance
@@ -149,8 +154,9 @@ public class GameMan : MonoBehaviour
     public static void TowerDestroyed(UnitSide side)
     {
         // re-creates opposing sides so that previous data gets removed, then reloads scene
-        alchemy = new();
-        shadow = new();
+        // we just restart game man, cuz we reseting everything either way
+        // alchemy = new();
+        // shadow = new();
         string currentScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene(currentScene);
     }
@@ -170,7 +176,6 @@ public class GameMan : MonoBehaviour
     // <summary>
     // Cloud control when moving camera to show depth
     // <summary>
-    public static List<Clouds> clouds = new ();
     public static void MoveCloud(Vector2 direction)
     {
         foreach (Clouds cloud in clouds)

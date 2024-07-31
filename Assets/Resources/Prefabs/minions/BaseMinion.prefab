@@ -144,7 +144,7 @@ MonoBehaviour:
   thisUnitType: 0
   thisUnitMaxHealth: 100
   sliderOffset: {x: 0, y: 1.5, z: 0}
-  baseDamage: 20
+  baseDamage: 15
   attackCooldown: 1
   thisElementType: 0
   chanceOfDroppingElement: 30

@@ -129,7 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUnitSide: 0
   thisUnitType: 0
-  thisUnitMaxHealth: 60
+  thisUnitMaxHealth: 50
   sliderOffset: {x: 0, y: 1.6, z: 0}
   baseDamage: 15
   attackCooldown: 3
@@ -169,7 +169,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.58}
+  m_Offset: {x: 0, y: 0.56}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -180,7 +180,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.25, y: 1.16}
+  m_Size: {x: 1.2, y: 1.12}
   m_EdgeRadius: 0
 --- !u!1 &7579155537629148850
 GameObject:
