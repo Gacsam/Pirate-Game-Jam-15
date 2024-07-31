@@ -27,6 +27,11 @@ public class ShadowTowerAI : BaseObject
         minionCost = playerTower.minionCost;
         CD = playerTower.CD;
 
+        // scale with level
+        percentageChanceToSpawnSpecial *= GameMan.currentLevel;
+        gold *= GameMan.currentLevel;
+        income += GameMan.currentLevel; // scaling with seconds is kinda OP
+
         StartCoroutine(IncomeOverTime());
 
     }

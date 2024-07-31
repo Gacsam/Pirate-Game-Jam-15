@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,6 +15,7 @@ public class GameMan : MonoBehaviour
     public static float globalMeleeRange = 0.5f;
 
     public static List<Clouds> clouds;
+    private TextMeshProUGUI text;
 
     // GameManager singleton to track all the variables that we need accessible
     private static GameMan instance;
@@ -30,6 +32,11 @@ public class GameMan : MonoBehaviour
         shadow ??= new();
 
         clouds = new();
+        text = GameObject.Find("Level").GetComponent<TextMeshProUGUI>();
+        text.text = "Level: " + currentLevel;
+
+        StartCoroutine(FadeText(text));
+
     }
     // Having a public static "Instance" allows us to call GameMan.X rather than GameMan.instance.X
     public static GameMan Instance
@@ -151,14 +158,23 @@ public class GameMan : MonoBehaviour
     /// <summary>
     /// Function called by either tower once they're destroyed, start a win/lose screen and stuff.
     /// </summary>
+    
+    public static int currentLevel = 1;
+
     public static void TowerDestroyed(UnitSide side)
     {
         // re-creates opposing sides so that previous data gets removed, then reloads scene
         // we just restart game man, cuz we reseting everything either way
         // alchemy = new();
         // shadow = new();
-        string currentScene = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentScene);
+        if(side == UnitSide.Shadow){
+
+            SceneManage.GameStart();
+        }
+        else{
+            SceneManage.GameStop();
+        }
+
     }
     public static Vector3 CalculateSpawnPosition(Transform initialPosition, GameObject unit)
     {
@@ -200,4 +216,10 @@ public class GameMan : MonoBehaviour
     public static ShardButton moonButton;
     public static ShardButton boraxButton;
     public static Inventory GetPlayerInventory(){return alchemy.Inventory;}
+
+    IEnumerator FadeText(TextMeshProUGUI text){
+        text.color = new Color(1,1,1,text.color.a - (Time.deltaTime/2));
+        yield return null;
+        if(text.color.a > 0){StartCoroutine(FadeText(text));}
+    }
 }
